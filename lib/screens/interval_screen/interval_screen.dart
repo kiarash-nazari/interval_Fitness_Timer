@@ -135,28 +135,27 @@ class IntervalScreen extends StatelessWidget {
                         children: [
                           BlocBuilder<TimersCubit, TimersState>(
                             builder: (context, state) {
-                              if (state is StartOfActiviti) {
+                              if (state is EndOfProgressing) {
                                 return IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    BlocProvider.of<TimersCubit>(context)
+                                        .startActiviti(
+                                            activi: _activitiController.text,
+                                            rest: _restController.text);
+                                    BlocProvider.of<TimersCubit>(context)
+                                        .getLoops(_repsController.text);
+                                  },
                                   icon: Icon(
-                                    MdiIcons.pause,
+                                    MdiIcons.play,
                                     size: 50,
                                     color: Colors.amber,
                                   ),
                                 );
                               }
                               return IconButton(
-                                onPressed: () {
-                                  BlocProvider.of<TimersCubit>(context)
-                                      .startActiviti(
-                                          activi: _activitiController.text,
-                                          reps: _repsController.text,
-                                          rest: _restController.text);
-                                  BlocProvider.of<TimersCubit>(context)
-                                      .getLoops(_repsController.text);
-                                },
+                                onPressed: () {},
                                 icon: Icon(
-                                  MdiIcons.play,
+                                  MdiIcons.pause,
                                   size: 50,
                                   color: Colors.amber,
                                 ),
