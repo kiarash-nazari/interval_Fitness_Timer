@@ -153,7 +153,9 @@ class IntervalScreen extends StatelessWidget {
                                 );
                               }
                               return IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  BlocProvider.of<TimersCubit>(context).pause();
+                                },
                                 icon: Icon(
                                   MdiIcons.pause,
                                   size: 50,

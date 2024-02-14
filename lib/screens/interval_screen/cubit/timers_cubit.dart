@@ -7,7 +7,7 @@ part 'timers_state.dart';
 
 class TimersCubit extends Cubit<TimersState> {
   TimersCubit() : super(EndOfProgressing());
-  int cuntableActiviti = 0;
+  int cuntableActiviti = 1;
   int? _loops;
   Timer? activitiTimer;
   Timer? restTimer;
@@ -33,12 +33,12 @@ class TimersCubit extends Cubit<TimersState> {
             rest: rest,
             activi: activi,
           );
-          cuntableActiviti = 0;
+          cuntableActiviti = 1;
           activitiTimer?.cancel();
         } else {
           emit(EndOfProgressing());
           activitiTimer?.cancel();
-          cuntableActiviti = 0;
+          cuntableActiviti = 1;
           restTimer?.cancel();
         }
       }
@@ -56,10 +56,16 @@ class TimersCubit extends Cubit<TimersState> {
         cuntableActiviti++;
       } else {
         emit(EndOfRest());
-        cuntableActiviti = 0;
+        cuntableActiviti = 1;
         restTimer?.cancel();
         startActiviti(activi: activi, rest: rest);
       }
     });
+  }
+
+  void pause() {
+    emit(EndOfProgressing());
+    activitiTimer?.cancel();
+    restTimer?.cancel();
   }
 }
