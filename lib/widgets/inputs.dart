@@ -17,6 +17,7 @@ class Inputs extends StatelessWidget {
     required this.hintText,
     required this.textColor,
     required this.icon,
+    required this.controller,
   });
 
   final Size size;
@@ -30,6 +31,7 @@ class Inputs extends StatelessWidget {
   final String suffixText; //"-> rep"
   final String hintText; //"loop"
   final IconData icon; //"loop"
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +40,7 @@ class Inputs extends StatelessWidget {
       child: SizedBox(
         width: size.width / 3,
         child: TextField(
+            controller: controller,
             keyboardType: TextInputType.number,
             style: TextStyle(color: textColor),
             decoration: myinputDecorations(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:interval_timer/screens/interval_screen.dart';
+import 'package:interval_timer/screens/interval_screen/interval_screen.dart';
 
 void main() {
   runApp(const MainApp());
@@ -10,8 +10,6 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: IntervalScreen()
-    );
+    return MaterialApp(home: IntervalScreen());
   }
 }
