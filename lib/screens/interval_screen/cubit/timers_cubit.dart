@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:just_audio/just_audio.dart';
 
 part 'timers_state.dart';
 
@@ -16,7 +17,7 @@ class TimersCubit extends Cubit<TimersState> {
     _loops = int.parse(loops);
   }
 
-  void startActiviti({required String activi, required String rest}) {
+  void startActiviti({required String activi, required String rest}) async {
     activitiTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       double calculatedActiviti = cuntableActiviti / int.parse(activi);
       if (calculatedActiviti <= 1) {
