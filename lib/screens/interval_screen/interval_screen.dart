@@ -140,7 +140,18 @@ class IntervalScreen extends StatelessWidget {
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            BlocBuilder<TimersCubit, TimersState>(
+                            BlocConsumer<TimersCubit, TimersState>(
+                              listener:
+                                  (BuildContext context, TimersState state) {
+                                if (state is ThreeSecondsBeforeStop) {
+                                  BlocProvider.of<PlayersCubit>(context)
+                                      .startActiviti("assets/audio/Stop.m4a");
+                                }
+                                if (state is ThreeSecondsBeforeStart) {
+                                  BlocProvider.of<PlayersCubit>(context)
+                                      .startActiviti("assets/audio/Star.wav");
+                                }
+                              },
                               builder: (context, state) {
                                 if (state is EndOfProgressing ||
                                     state is StartActivitiAudio) {

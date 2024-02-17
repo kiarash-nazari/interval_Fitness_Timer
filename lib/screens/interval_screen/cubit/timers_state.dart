@@ -40,3 +40,7 @@ final class EndOfRest extends TimersState {}
 final class IntervalProgressing extends TimersState {}
 
 final class EndOfProgressing extends TimersState {}
+
+final class ThreeSecondsBeforeStop extends TimersState {}
+
+final class ThreeSecondsBeforeStart extends TimersState {}
