@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:just_audio/just_audio.dart';
 
 part 'timers_state.dart';
 
@@ -42,6 +41,7 @@ class TimersCubit extends Cubit<TimersState> {
             rest: rest,
             activi: activi,
           );
+
           cuntableActiviti = 1;
           activitiTimer?.cancel();
         } else {
@@ -79,7 +79,12 @@ class TimersCubit extends Cubit<TimersState> {
   }
 
   void pause() {
-    emit(EndOfProgressing());
+    if (state is StartOfActiviti) {
+      emit(PauseInActiviti());
+    }
+    if (state is StartOfRest) {
+      emit(PauseInRest());
+    }
     activitiTimer?.cancel();
     restTimer?.cancel();
   }

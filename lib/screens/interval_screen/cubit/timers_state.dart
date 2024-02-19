@@ -44,3 +44,7 @@ final class EndOfProgressing extends TimersState {}
 final class ThreeSecondsBeforeStop extends TimersState {}
 
 final class ThreeSecondsBeforeStart extends TimersState {}
+
+final class PauseInActiviti extends TimersState {}
+
+final class PauseInRest extends TimersState {}

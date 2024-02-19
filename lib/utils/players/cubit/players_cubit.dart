@@ -7,11 +7,17 @@ part 'players_state.dart';
 class PlayersCubit extends Cubit<PlayersState> {
   PlayersCubit() : super(PlayersInitial());
 
-  final _player = AudioPlayer();
+  final _alertPlayer = AudioPlayer();
+  final _musicPlayer = AudioPlayer();
 
   void startActiviti(String audio) async {
     emit(StartActivitiAudio(audio));
-    await _player.setAsset(audio);
-    await _player.play();
+    await _alertPlayer.setAsset(audio);
+    await _alertPlayer.play();
+  }
+
+  void startMusic({required String audioLink}) async {
+    await _musicPlayer.setAudioSource(AudioSource.uri(Uri.parse(audioLink)));
+    await _musicPlayer.play();
   }
 }
