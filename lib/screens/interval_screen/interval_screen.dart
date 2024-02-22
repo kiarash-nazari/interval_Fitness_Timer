@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:interval_timer/components/extentions.dart';
 import 'package:interval_timer/res/colors.dart';
 import 'package:interval_timer/screens/interval_screen/cubit/timers_cubit.dart';
+import 'package:interval_timer/utils/downloads/cubit/downloads_cubit.dart';
 import 'package:interval_timer/utils/players/cubit/players_cubit.dart';
 import 'package:interval_timer/widgets/my_carousel.dart';
 import 'package:interval_timer/widgets/my_circular_percent.dart';
@@ -28,7 +29,9 @@ class IntervalScreen extends StatelessWidget {
               BlocProvider<TimersCubit>(
                 create: (context) => TimersCubit(),
               ),
-              BlocProvider<PlayersCubit>(create: (context) => PlayersCubit())
+              BlocProvider<PlayersCubit>(create: (context) => PlayersCubit()),
+              BlocProvider<DownloadsCubit>(
+                  create: (context) => DownloadsCubit()),
             ],
             child: SingleChildScrollView(
               child: Column(

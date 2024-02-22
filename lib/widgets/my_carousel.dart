@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interval_timer/data/model/remix_music_model.dart';
 import 'package:interval_timer/data/repo/remix_music_internal_data.dart';
+import 'package:interval_timer/utils/downloads/cubit/downloads_cubit.dart';
 import 'package:interval_timer/utils/players/cubit/players_cubit.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
@@ -49,25 +50,37 @@ class MyCarousel extends StatelessWidget {
           ),
           child: Stack(
             children: [
-              CircularPercentIndicator(
-                  linearGradient: const LinearGradient(
-                      colors: [
-                        Color(0xFF3366FF),
-                        Color(0xFF00CCFF),
-                      ],
-                      begin: FractionalOffset(0.0, 0.0),
-                      end: FractionalOffset(1.0, 0.0),
-                      stops: [0.0, 1.0],
-                      tileMode: TileMode.clamp),
-                  radius: size.width / 15,
-                  backgroundColor: Colors.grey.shade700,
-                  lineWidth: 5,
-                  circularStrokeCap: CircularStrokeCap.round,
-                  percent: 0.1,
-                  center: const Icon(
-                    Icons.download,
-                    color: Colors.amber,
-                  )),
+              BlocConsumer<DownloadsCubit, DownloadsState>(
+                listener: (context, state) {
+                  // TODO: implement listener
+                },
+                builder: (context, state) {
+                  return CircularPercentIndicator(
+                      linearGradient: const LinearGradient(
+                          colors: [
+                            Color(0xFF3366FF),
+                            Color(0xFF00CCFF),
+                          ],
+                          begin: FractionalOffset(0.0, 0.0),
+                          end: FractionalOffset(1.0, 0.0),
+                          stops: [0.0, 1.0],
+                          tileMode: TileMode.clamp),
+                      radius: size.width / 15,
+                      backgroundColor: Colors.grey.shade700,
+                      lineWidth: 5,
+                      circularStrokeCap: CircularStrokeCap.round,
+                      percent: 0.1,
+                      center: IconButton(
+                        color: Colors.amber,
+                        onPressed: () {
+                          BlocProvider.of<DownloadsCubit>(context).downloadFile(
+                              url: myList[index].musicLink,
+                              name: myList[index].name);
+                        },
+                        icon: const Icon(Icons.download),
+                      ));
+                },
+              ),
             ],
           ),
         ),
