@@ -48,6 +48,9 @@ class PlayerController extends StatelessWidget {
                   onPressed: () async {
                     BlocProvider.of<PlayersCubit>(context)
                         .startActiviti("assets/audio/Star.wav");
+                    BlocProvider.of<PlayersCubit>(context).startMusic(
+                        audioLink:
+                            "https://luxafarin.com/wp-content/uploads/2024/02/mix1.mp3");
                     await Future.delayed(const Duration(seconds: 3));
 
                     BlocProvider.of<TimersCubit>(context).startActiviti(
@@ -55,10 +58,6 @@ class PlayerController extends StatelessWidget {
                         rest: _restController.text);
                     BlocProvider.of<TimersCubit>(context)
                         .getLoops(_repsController.text);
-
-                    BlocProvider.of<PlayersCubit>(context).startMusic(
-                        audioLink:
-                            "https://luxafarin.com/wp-content/uploads/2024/02/mix1.mp3");
                   },
                   icon: Icon(
                     MdiIcons.play,
@@ -72,6 +71,7 @@ class PlayerController extends StatelessWidget {
                   onPressed: () async {
                     BlocProvider.of<PlayersCubit>(context)
                         .startActiviti("assets/audio/Star.wav");
+                    BlocProvider.of<PlayersCubit>(context).resumeMusic();
                     await Future.delayed(const Duration(seconds: 3));
 
                     BlocProvider.of<TimersCubit>(context).startActiviti(
@@ -88,6 +88,8 @@ class PlayerController extends StatelessWidget {
               if (state is PauseInRest) {
                 return IconButton(
                   onPressed: () async {
+                    BlocProvider.of<PlayersCubit>(context).resumeMusic();
+
                     BlocProvider.of<TimersCubit>(context).startRest(
                         activi: _activitiController.text,
                         rest: _restController.text);
@@ -102,6 +104,7 @@ class PlayerController extends StatelessWidget {
               return IconButton(
                 onPressed: () {
                   BlocProvider.of<TimersCubit>(context).pause();
+                  BlocProvider.of<PlayersCubit>(context).pauseMusic();
                 },
                 icon: Icon(
                   MdiIcons.pause,

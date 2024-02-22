@@ -20,4 +20,12 @@ class PlayersCubit extends Cubit<PlayersState> {
     await _musicPlayer.setAudioSource(AudioSource.uri(Uri.parse(audioLink)));
     await _musicPlayer.play();
   }
+
+  Future<void> pauseMusic() async {
+    await _musicPlayer.pause();
+  }
+
+  Future<void> resumeMusic() async {
+    await _musicPlayer.play();
+  }
 }

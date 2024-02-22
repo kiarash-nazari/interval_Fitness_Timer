@@ -46,6 +46,7 @@ class IntervalScreen extends StatelessWidget {
                       activitiController: _activitiController,
                       restController: _restController,
                       repsController: _repsController),
+                  50.heightBox,
                   MyCarousel(size: size)
                 ],
               ),
