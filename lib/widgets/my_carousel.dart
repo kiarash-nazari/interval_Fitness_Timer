@@ -52,7 +52,9 @@ class MyCarousel extends StatelessWidget {
             children: [
               BlocConsumer<DownloadsCubit, DownloadsState>(
                 listener: (context, state) {
-                  // TODO: implement listener
+                  if (state is DownloadingState) {
+                    myList[state.id].downloadPercent = state.percentage;
+                  }
                 },
                 builder: (context, state) {
                   return CircularPercentIndicator(
@@ -69,13 +71,14 @@ class MyCarousel extends StatelessWidget {
                       backgroundColor: Colors.grey.shade700,
                       lineWidth: 5,
                       circularStrokeCap: CircularStrokeCap.round,
-                      percent: 0.1,
+                      percent: myList[index].downloadPercent,
                       center: IconButton(
                         color: Colors.amber,
                         onPressed: () {
                           BlocProvider.of<DownloadsCubit>(context).downloadFile(
                               url: myList[index].musicLink,
-                              name: myList[index].name);
+                              name: myList[index].name,
+                              id: index);
                         },
                         icon: const Icon(Icons.download),
                       ));
@@ -86,7 +89,7 @@ class MyCarousel extends StatelessWidget {
         ),
       ));
     }
-    ;
+
     return CarouselSlider(
         options: CarouselOptions(
           height: 185.0,

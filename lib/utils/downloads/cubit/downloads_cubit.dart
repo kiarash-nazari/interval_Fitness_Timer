@@ -8,7 +8,8 @@ part 'downloads_state.dart';
 class DownloadsCubit extends Cubit<DownloadsState> {
   DownloadsCubit() : super(DownloadsInitial());
 
-  void downloadFile({required String? url, required String name}) async {
+  void downloadFile(
+      {required String? url, required String name, required int id}) async {
     Dio dio = Dio();
 
     var directory = await getApplicationDocumentsDirectory();
@@ -20,10 +21,9 @@ class DownloadsCubit extends Cubit<DownloadsState> {
         url!,
         "$dir/$name",
         onReceiveProgress: (count, total) {
-          print(url);
-          emit(DownloadingState(percentage: count / total));
+          emit(DownloadingState(id: id, percentage: count / total));
+
           print(count / total);
-          print(count);
           if (count == total) {
             emit(DownloadedState());
           }

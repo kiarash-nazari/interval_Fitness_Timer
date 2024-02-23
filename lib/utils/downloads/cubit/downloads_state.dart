@@ -10,12 +10,13 @@ sealed class DownloadsState extends Equatable {
 final class DownloadsInitial extends DownloadsState {}
 
 final class DownloadingState extends DownloadsState {
+  final int id;
   final double percentage;
 
-  const DownloadingState({required this.percentage});
+  const DownloadingState({required this.percentage, required this.id});
 
   @override
-  List<Object> get props => [percentage];
+  List<Object> get props => [id];
 }
 
 final class DownloadedState extends DownloadsState {}
