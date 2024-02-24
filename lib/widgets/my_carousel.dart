@@ -2,7 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interval_timer/data/model/remix_music_model.dart';
-import 'package:interval_timer/data/repo/remix_music_internal_data.dart';
+import 'package:interval_timer/data/res/remix_music_data_src.dart';
 import 'package:interval_timer/utils/downloads/cubit/downloads_cubit.dart';
 import 'package:interval_timer/utils/players/cubit/players_cubit.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
@@ -15,7 +15,7 @@ class MyCarousel extends StatelessWidget {
 
   final Size size;
 
-  final InternalMusicDataIml internalMusicDataIml = InternalMusicDataIml();
+  final InternalMusicDataSrc internalMusicDataIml = InternalMusicDataSrc();
   @override
   Widget build(BuildContext context) {
     List<RemixMusicModel> myList = internalMusicDataIml.myData();

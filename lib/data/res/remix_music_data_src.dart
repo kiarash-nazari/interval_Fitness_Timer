@@ -43,11 +43,11 @@ List<Map<String, dynamic>> json = [
   },
 ];
 
-abstract class RemixMusicInternalData {
+abstract class RemixMusicDataSrc {
   List<RemixMusicModel> myData();
 }
 
-class InternalMusicDataIml implements RemixMusicInternalData {
+class InternalMusicDataSrc implements RemixMusicDataSrc {
   @override
   List<RemixMusicModel> myData() {
     List<RemixMusicModel> listMusic = [];
