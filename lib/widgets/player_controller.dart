@@ -1,5 +1,7 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:interval_timer/res/colors.dart';
 import 'package:interval_timer/screens/interval_screen/cubit/timers_cubit.dart';
 import 'package:interval_timer/utils/players/cubit/players_cubit.dart';
 import 'package:interval_timer/widgets/glassmorphism.dart';
@@ -46,18 +48,41 @@ class PlayerController extends StatelessWidget {
               if (state is EndOfProgressing || state is StartActivitiAudio) {
                 return IconButton(
                   onPressed: () async {
-                    BlocProvider.of<PlayersCubit>(context)
-                        .startActiviti("assets/audio/Star.wav");
-                    BlocProvider.of<PlayersCubit>(context).startMusic(
-                        audioLink:
-                            "https://luxafarin.com/wp-content/uploads/2024/02/mix1.mp3");
-                    await Future.delayed(const Duration(seconds: 3));
+                    if (_activitiController.text.isEmpty ||
+                        _restController.text.isEmpty ||
+                        _repsController.text.isEmpty) {
+                      Flushbar(
+                        icon: Icon(MdiIcons.alert, color: Colors.white),
+                        margin: const EdgeInsets.all(10),
+                        borderRadius: BorderRadius.circular(10),
+                        blockBackgroundInteraction: false,
+                        forwardAnimationCurve: Curves.easeOutBack,
+                        reverseAnimationCurve: Curves.easeOutBack,
+                        messageText: const Text(
+                          'Please fill all fields',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500),
+                        ),
+                        duration: const Duration(seconds: 3),
+                        backgroundGradient:
+                            const LinearGradient(colors: AppColors.grRest),
+                      ).show(context);
+                    } else {
+                      BlocProvider.of<PlayersCubit>(context)
+                          .startActiviti("assets/audio/Star.wav");
+                      BlocProvider.of<PlayersCubit>(context).startMusic(
+                          audioLink:
+                              "https://luxafarin.com/wp-content/uploads/2024/02/mix1.mp3");
+                      await Future.delayed(const Duration(seconds: 3));
 
-                    BlocProvider.of<TimersCubit>(context).startActiviti(
-                        activi: _activitiController.text,
-                        rest: _restController.text);
-                    BlocProvider.of<TimersCubit>(context)
-                        .getLoops(_repsController.text);
+                      BlocProvider.of<TimersCubit>(context).startActiviti(
+                          activi: _activitiController.text,
+                          rest: _restController.text);
+                      BlocProvider.of<TimersCubit>(context)
+                          .getLoops(_repsController.text);
+                    }
                   },
                   icon: Icon(
                     MdiIcons.play,
