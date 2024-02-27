@@ -7,7 +7,9 @@ List<Map<String, dynamic>> json = [
     "downloadPercent": 0.0,
     "musicLink": "https://luxafarin.com/wp-content/uploads/2024/02/mix1.mp3",
     "musicPath": "assets/",
-    "name": "mix1"
+    "name": "mix1",
+    "isDownloading": false,
+    "isDownloaded": false,
   },
   {
     "id": 1,
@@ -15,7 +17,9 @@ List<Map<String, dynamic>> json = [
     "downloadPercent": 0.0,
     "musicLink": "https://luxafarin.com/wp-content/uploads/2024/02/mix2.mp3",
     "musicPath": "assets/",
-    "name": "mix2"
+    "name": "mix2",
+    "isDownloading": false,
+    "isDownloaded": false,
   },
   {
     "id": 2,
@@ -23,7 +27,9 @@ List<Map<String, dynamic>> json = [
     "downloadPercent": 0.0,
     "musicLink": "https://luxafarin.com/wp-content/uploads/2024/02/mix3.mp3",
     "musicPath": "assets/",
-    "name": "mix3"
+    "name": "mix3",
+    "isDownloading": false,
+    "isDownloaded": false,
   },
   {
     "id": 3,
@@ -31,7 +37,9 @@ List<Map<String, dynamic>> json = [
     "downloadPercent": 0.0,
     "musicLink": "https://luxafarin.com/wp-content/uploads/2024/02/mix4.mp3",
     "musicPath": "assets/",
-    "name": "mix4"
+    "name": "mix4",
+    "isDownloading": false,
+    "isDownloaded": false,
   },
   {
     "id": 4,
@@ -39,7 +47,9 @@ List<Map<String, dynamic>> json = [
     "downloadPercent": 0.0,
     "musicLink": "https://luxafarin.com/wp-content/uploads/2024/02/mix5.mp3",
     "musicPath": "assets/",
-    "name": "mix5"
+    "name": "mix5",
+    "isDownloading": false,
+    "isDownloaded": false,
   },
 ];
 

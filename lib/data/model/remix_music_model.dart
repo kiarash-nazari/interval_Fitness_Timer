@@ -5,9 +5,13 @@ class RemixMusicModel {
   final String musicLink;
   final String musicPath;
   final String name;
+  bool isDownloading;
+  bool isDownloaded;
 
   RemixMusicModel(
-      {required this.id,
+      {required this.isDownloaded,
+      required this.isDownloading,
+      required this.id,
       required this.name,
       required this.bgImag,
       required this.downloadPercent,
@@ -16,6 +20,8 @@ class RemixMusicModel {
 
   factory RemixMusicModel.fromJson(Map<String, dynamic> json) {
     return RemixMusicModel(
+        isDownloaded: json['isDownloaded'],
+        isDownloading: json['isDownloading'],
         bgImag: json['bgImag'],
         downloadPercent: json['downloadPercent'],
         musicLink: json['musicLink'],

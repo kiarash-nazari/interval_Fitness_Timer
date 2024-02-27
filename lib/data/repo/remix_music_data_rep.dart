@@ -5,10 +5,10 @@ abstract class RemixMusicInternalDataRep {
   List<RemixMusicModel> myData();
 }
 
-class MusicDataRep implements RemixMusicInternalDataRep {
+class MusicDataRepository implements RemixMusicInternalDataRep {
   final RemixMusicDataSrc _remixMusicDataSrc;
 
-  MusicDataRep(this._remixMusicDataSrc);
+  MusicDataRepository(this._remixMusicDataSrc);
 
   @override
   List<RemixMusicModel> myData() {

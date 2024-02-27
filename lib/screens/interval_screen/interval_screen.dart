@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:interval_timer/components/extentions.dart';
+import 'package:interval_timer/data/repo/remix_music_data_rep.dart';
+import 'package:interval_timer/data/res/remix_music_data_src.dart';
 import 'package:interval_timer/res/colors.dart';
 import 'package:interval_timer/screens/interval_screen/cubit/timers_cubit.dart';
 import 'package:interval_timer/utils/downloads/cubit/downloads_cubit.dart';
