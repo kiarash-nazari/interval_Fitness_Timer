@@ -40,3 +40,21 @@ final class IsDownloadingState extends DownloadedState {
   @override
   List<Object> get props => [isDownloading];
 }
+
+final class IsDownloadedState extends DownloadedState {
+  final List<bool> isDownloadedList;
+
+  IsDownloadedState({required this.isDownloadedList});
+
+  @override
+  List<Object> get props => [isDownloadedList];
+}
+
+final class ToggledState extends DownloadedState {
+  final List<bool> toggledList;
+
+  ToggledState({required this.toggledList});
+
+  @override
+  List<Object> get props => [toggledList];
+}

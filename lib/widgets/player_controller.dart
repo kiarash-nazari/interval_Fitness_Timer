@@ -72,7 +72,7 @@ class PlayerController extends StatelessWidget {
                     } else {
                       BlocProvider.of<PlayersCubit>(context)
                           .startActiviti("assets/audio/Star.wav");
-                      BlocProvider.of<PlayersCubit>(context).startMusic(
+                      BlocProvider.of<PlayersCubit>(context).startMusicOnline(
                           audioLink:
                               "https://luxafarin.com/wp-content/uploads/2024/02/mix1.mp3");
                       await Future.delayed(const Duration(seconds: 3));

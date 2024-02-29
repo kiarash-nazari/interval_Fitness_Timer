@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:path_provider/path_provider.dart';
 
 part 'players_state.dart';
 
@@ -16,8 +19,15 @@ class PlayersCubit extends Cubit<PlayersState> {
     await _alertPlayer.play();
   }
 
-  void startMusic({required String audioLink}) async {
+  void startMusicOnline({required String audioLink}) async {
     await _musicPlayer.setAudioSource(AudioSource.uri(Uri.parse(audioLink)));
+    await _musicPlayer.play();
+  }
+
+  void startMusicFile({required String name}) async {
+    var directory = await getApplicationDocumentsDirectory();
+    String filePath = '${directory.path}/$name';
+    await _musicPlayer.setFilePath(filePath);
     await _musicPlayer.play();
   }
 

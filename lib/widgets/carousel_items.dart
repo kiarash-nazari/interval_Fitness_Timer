@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interval_timer/utils/downloads/cubit/downloads_cubit.dart';
 import 'package:interval_timer/utils/players/cubit/players_cubit.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class CarouselItems extends StatelessWidget {
@@ -13,6 +16,8 @@ class CarouselItems extends StatelessWidget {
     required this.name,
     required this.id,
     required this.percentage,
+    required this.isDownloaded,
+    required this.toggled,
   });
   final String name;
   final Size size;
@@ -20,11 +25,15 @@ class CarouselItems extends StatelessWidget {
   final String bgImag;
   final int id;
   final double percentage;
+  final bool isDownloaded;
+  final bool toggled;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        BlocProvider.of<PlayersCubit>(context).startMusic(audioLink: audioLink);
+        BlocProvider.of<PlayersCubit>(context)
+            .startMusicOnline(audioLink: audioLink);
       },
       child: Container(
         width: 200,
@@ -64,14 +73,23 @@ class CarouselItems extends StatelessWidget {
               backgroundColor: Colors.grey.shade700,
               lineWidth: 5,
               circularStrokeCap: CircularStrokeCap.round,
-              percent: percentage,
+              percent: isDownloaded ? 1 : percentage,
               center: IconButton(
                 color: Colors.amber,
                 onPressed: () {
-                  BlocProvider.of<DownloadsCubit>(context)
-                      .downloadFile(url: audioLink, name: name, id: id);
+                  if (isDownloaded) {
+                    BlocProvider.of<PlayersCubit>(context)
+                        .startMusicFile(name: name);
+                  } else {
+                    BlocProvider.of<DownloadsCubit>(context)
+                        .downloadFile(url: audioLink, name: name, id: id);
+                  }
                 },
-                icon: const Icon(Icons.download),
+                icon: Icon(isDownloaded && !toggled
+                    ? Icons.play_arrow
+                    : isDownloaded && toggled
+                        ? Icons.pause
+                        : Icons.download),
               ),
             )
           ],
