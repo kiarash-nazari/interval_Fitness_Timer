@@ -46,60 +46,55 @@ class MyCarousel extends StatelessWidget {
                 isDownloaded: state is IsDownloadedState
                     ? state.isDownloadedList[0]
                     : false,
-                toggled: state is ToggledState ? state.toggledList[0] : false,
               ),
               CarouselItems(
-                  size: size,
-                  audioLink:
-                      "https://luxafarin.com/wp-content/uploads/2024/02/mix2.mp3",
-                  bgImag: "assets/img/cover2.jpg",
-                  name: "mix2",
-                  id: 1,
-                  percentage: state is DownloadingState ? state.list[1][1]! : 0,
-                  isDownloaded: state is IsDownloadedState
-                      ? state.isDownloadedList[1]
-                      : false,
-                  toggled:
-                      state is ToggledState ? state.toggledList[1] : false),
+                size: size,
+                audioLink:
+                    "https://luxafarin.com/wp-content/uploads/2024/02/mix2.mp3",
+                bgImag: "assets/img/cover2.jpg",
+                name: "mix2",
+                id: 1,
+                percentage: state is DownloadingState ? state.list[1][1]! : 0,
+                isDownloaded: state is IsDownloadedState
+                    ? state.isDownloadedList[1]
+                    : false,
+              ),
               CarouselItems(
-                  size: size,
-                  audioLink:
-                      "https://luxafarin.com/wp-content/uploads/2024/02/mix3.mp3",
-                  bgImag: "assets/img/cover3.jpg",
-                  name: "mix3",
-                  id: 2,
-                  percentage: state is DownloadingState ? state.list[2][2]! : 0,
-                  isDownloaded: state is IsDownloadedState
-                      ? state.isDownloadedList[2]
-                      : false,
-                  toggled:
-                      state is ToggledState ? state.toggledList[2] : false),
+                size: size,
+                audioLink:
+                    "https://luxafarin.com/wp-content/uploads/2024/02/mix3.mp3",
+                bgImag: "assets/img/cover3.jpg",
+                name: "mix3",
+                id: 2,
+                percentage: state is DownloadingState ? state.list[2][2]! : 0,
+                isDownloaded: state is IsDownloadedState
+                    ? state.isDownloadedList[2]
+                    : false,
+              ),
               CarouselItems(
-                  size: size,
-                  audioLink:
-                      "https://luxafarin.com/wp-content/uploads/2024/02/mix4.mp3",
-                  bgImag: "assets/img/cover4.jpg",
-                  name: "mix4",
-                  id: 3,
-                  percentage: state is DownloadingState ? state.list[3][3]! : 0,
-                  isDownloaded: state is IsDownloadedState
-                      ? state.isDownloadedList[3]
-                      : false,
-                  toggled:
-                      state is ToggledState ? state.toggledList[3] : false),
+                size: size,
+                audioLink:
+                    "https://luxafarin.com/wp-content/uploads/2024/02/mix4.mp3",
+                bgImag: "assets/img/cover4.jpg",
+                name: "mix4",
+                id: 3,
+                percentage: state is DownloadingState ? state.list[3][3]! : 0,
+                isDownloaded: state is IsDownloadedState
+                    ? state.isDownloadedList[3]
+                    : false,
+              ),
               CarouselItems(
-                  size: size,
-                  audioLink:
-                      "https://luxafarin.com/wp-content/uploads/2024/02/mix5.mp3",
-                  bgImag: "assets/img/cover5.jpg",
-                  name: "mix5",
-                  id: 4,
-                  percentage: state is DownloadingState ? state.list[4][4]! : 0,
-                  isDownloaded: state is IsDownloadedState
-                      ? state.isDownloadedList[4]
-                      : false,
-                  toggled:
-                      state is ToggledState ? state.toggledList[4] : false),
+                size: size,
+                audioLink:
+                    "https://luxafarin.com/wp-content/uploads/2024/02/mix5.mp3",
+                bgImag: "assets/img/cover5.jpg",
+                name: "mix5",
+                id: 4,
+                percentage: state is DownloadingState ? state.list[4][4]! : 0,
+                isDownloaded: state is IsDownloadedState
+                    ? state.isDownloadedList[4]
+                    : false,
+              ),
             ]);
       },
     );

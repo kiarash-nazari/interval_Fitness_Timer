@@ -28,21 +28,21 @@ class DownloadsCubit extends Cubit<DownloadsState> {
   void toggled(int id) {
     List<bool> toggledList = [false, false, false, false, false];
     switch (id) {
-      case 1:
+      case 0:
         toggledList[0] = !toggledList[0];
         break;
-      case 2:
+      case 1:
         toggledList[1] = !toggledList[1];
         break;
-      case 3:
+      case 2:
         toggledList[2] = !toggledList[2];
 
         break;
-      case 4:
+      case 3:
         toggledList[3] = !toggledList[3];
         break;
-      case 5:
-        toggledList[3] = !toggledList[3];
+      case 4:
+        toggledList[4] = !toggledList[4];
 
         break;
       default:

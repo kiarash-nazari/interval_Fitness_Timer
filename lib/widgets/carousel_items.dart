@@ -4,10 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interval_timer/utils/downloads/cubit/downloads_cubit.dart';
 import 'package:interval_timer/utils/players/cubit/players_cubit.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
-class CarouselItems extends StatelessWidget {
+class CarouselItems extends StatefulWidget {
   const CarouselItems({
     super.key,
     required this.size,
@@ -17,7 +16,6 @@ class CarouselItems extends StatelessWidget {
     required this.id,
     required this.percentage,
     required this.isDownloaded,
-    required this.toggled,
   });
   final String name;
   final Size size;
@@ -26,14 +24,20 @@ class CarouselItems extends StatelessWidget {
   final int id;
   final double percentage;
   final bool isDownloaded;
-  final bool toggled;
 
+  @override
+  State<CarouselItems> createState() => _CarouselItemsState();
+}
+
+bool toggled = false;
+
+class _CarouselItemsState extends State<CarouselItems> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         BlocProvider.of<PlayersCubit>(context)
-            .startMusicOnline(audioLink: audioLink);
+            .startMusicOnline(audioLink: widget.audioLink);
       },
       child: Container(
         width: 200,
@@ -42,7 +46,7 @@ class CarouselItems extends StatelessWidget {
           color: Colors.amber,
           borderRadius: const BorderRadius.all(Radius.circular(30)),
           image: DecorationImage(
-            image: AssetImage(bgImag),
+            image: AssetImage(widget.bgImag),
             fit: BoxFit.cover,
           ),
           boxShadow: const [
@@ -69,25 +73,34 @@ class CarouselItems extends StatelessWidget {
                   end: FractionalOffset(1.0, 0.0),
                   stops: [0.0, 1.0],
                   tileMode: TileMode.clamp),
-              radius: size.width / 15,
+              radius: widget.size.width / 15,
               backgroundColor: Colors.grey.shade700,
               lineWidth: 5,
               circularStrokeCap: CircularStrokeCap.round,
-              percent: isDownloaded ? 1 : percentage,
+              percent: widget.isDownloaded ? 1 : widget.percentage,
               center: IconButton(
                 color: Colors.amber,
                 onPressed: () {
-                  if (isDownloaded) {
-                    BlocProvider.of<PlayersCubit>(context)
-                        .startMusicFile(name: name);
+                  if (widget.isDownloaded) {
+                    setState(() {
+                      toggled = !toggled;
+                    });
+                    if (toggled) {
+                      BlocProvider.of<PlayersCubit>(context)
+                          .startMusicFile(name: widget.name);
+                    } else if (!toggled) {
+                      BlocProvider.of<PlayersCubit>(context).pauseMusic();
+                    }
                   } else {
-                    BlocProvider.of<DownloadsCubit>(context)
-                        .downloadFile(url: audioLink, name: name, id: id);
+                    BlocProvider.of<DownloadsCubit>(context).downloadFile(
+                        url: widget.audioLink,
+                        name: widget.name,
+                        id: widget.id);
                   }
                 },
-                icon: Icon(isDownloaded && !toggled
+                icon: Icon(widget.isDownloaded && !toggled
                     ? Icons.play_arrow
-                    : isDownloaded && toggled
+                    : toggled
                         ? Icons.pause
                         : Icons.download),
               ),
