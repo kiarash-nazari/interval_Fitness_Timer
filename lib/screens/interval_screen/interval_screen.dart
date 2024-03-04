@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:interval_timer/components/extentions.dart';
-import 'package:interval_timer/data/repo/remix_music_data_rep.dart';
-import 'package:interval_timer/data/res/remix_music_data_src.dart';
+
 import 'package:interval_timer/res/colors.dart';
 import 'package:interval_timer/screens/interval_screen/cubit/timers_cubit.dart';
 import 'package:interval_timer/utils/downloads/cubit/downloads_cubit.dart';
@@ -23,7 +22,23 @@ class IntervalScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppColors.bgInterval,
-        body: SizedBox(
+        body: Container(
+          decoration: const BoxDecoration(
+              gradient: RadialGradient(colors: [
+            Colors.black,
+            Colors.black,
+            Color.fromARGB(198, 0, 204, 255),
+            Color.fromARGB(187, 218, 30, 5),
+            Colors.black,
+            Colors.black,
+            Colors.black,
+            Colors.black,
+            Colors.black,
+            Colors.black,
+            Colors.black,
+            Colors.black,
+            Colors.black,
+          ])),
           height: size.height,
           width: double.infinity,
           child: MultiBlocProvider(

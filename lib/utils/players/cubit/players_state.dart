@@ -17,3 +17,19 @@ final class StartActivitiAudio extends PlayersState {
   @override
   List<Object> get props => [audio];
 }
+
+final class IsPlayingAudio extends PlayersState {
+  final String name;
+
+  const IsPlayingAudio(this.name);
+
+  @override
+  List<Object> get props => [name];
+}
+
+final class IsNotPlayingAudio extends PlayersState {
+  const IsNotPlayingAudio();
+
+  @override
+  List<Object> get props => [];
+}

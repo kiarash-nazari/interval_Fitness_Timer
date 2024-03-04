@@ -1,12 +1,10 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interval_timer/utils/downloads/cubit/downloads_cubit.dart';
 import 'package:interval_timer/utils/players/cubit/players_cubit.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
-class CarouselItems extends StatefulWidget {
+class CarouselItems extends StatelessWidget {
   const CarouselItems({
     super.key,
     required this.size,
@@ -26,88 +24,115 @@ class CarouselItems extends StatefulWidget {
   final bool isDownloaded;
 
   @override
-  State<CarouselItems> createState() => _CarouselItemsState();
-}
-
-bool toggled = false;
-
-class _CarouselItemsState extends State<CarouselItems> {
-  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         BlocProvider.of<PlayersCubit>(context)
-            .startMusicOnline(audioLink: widget.audioLink);
+            .startMusicOnline(audioLink: audioLink);
       },
       child: Container(
         width: 200,
         margin: const EdgeInsets.symmetric(horizontal: 5.0),
         decoration: BoxDecoration(
-          color: Colors.amber,
+          color: Colors.black,
           borderRadius: const BorderRadius.all(Radius.circular(30)),
           image: DecorationImage(
-            image: AssetImage(widget.bgImag),
+            image: AssetImage(bgImag),
             fit: BoxFit.cover,
           ),
           boxShadow: const [
             BoxShadow(
-              color: Color.fromARGB(127, 188, 186, 186),
-              blurRadius: 30.0, // soften the shadow
-              spreadRadius: 5.0, //extend the shadow
+              color: Color.fromARGB(126, 65, 65, 65),
+              blurRadius: 3.0, // soften the shadow
+              spreadRadius: 2.0, //extend the shadow
               offset: Offset(
-                10.0, // Move to right 10  horizontally
-                25.0, // Move to bottom 10 Vertically
+                2.0, // Move to right 10  horizontally
+                0.0, // Move to bottom 10 Vertically
               ),
             )
           ],
         ),
-        child: Stack(
-          children: [
-            CircularPercentIndicator(
-              linearGradient: const LinearGradient(
-                  colors: [
-                    Color(0xFF3366FF),
-                    Color(0xFF00CCFF),
-                  ],
-                  begin: FractionalOffset(0.0, 0.0),
-                  end: FractionalOffset(1.0, 0.0),
-                  stops: [0.0, 1.0],
-                  tileMode: TileMode.clamp),
-              radius: widget.size.width / 15,
-              backgroundColor: Colors.grey.shade700,
-              lineWidth: 5,
-              circularStrokeCap: CircularStrokeCap.round,
-              percent: widget.isDownloaded ? 1 : widget.percentage,
-              center: IconButton(
-                color: Colors.amber,
-                onPressed: () {
-                  if (widget.isDownloaded) {
-                    setState(() {
-                      toggled = !toggled;
-                    });
-                    if (toggled) {
-                      BlocProvider.of<PlayersCubit>(context)
-                          .startMusicFile(name: widget.name);
-                    } else if (!toggled) {
-                      BlocProvider.of<PlayersCubit>(context).pauseMusic();
-                    }
-                  } else {
-                    BlocProvider.of<DownloadsCubit>(context).downloadFile(
-                        url: widget.audioLink,
-                        name: widget.name,
-                        id: widget.id);
-                  }
-                },
-                icon: Icon(widget.isDownloaded && !toggled
-                    ? Icons.play_arrow
-                    : toggled
-                        ? Icons.pause
-                        : Icons.download),
-              ),
-            )
-          ],
+        child: BlocConsumer<PlayersCubit, PlayersState>(
+          listener: (context, state) {},
+          builder: (context, state) {
+            if (state is IsPlayingAudio) {
+              return Stack(
+                children: [
+                  CircularPercentIndicator(
+                    linearGradient: const LinearGradient(
+                        colors: [
+                          Color(0xFF3366FF),
+                          Color(0xFF00CCFF),
+                        ],
+                        begin: FractionalOffset(0.0, 0.0),
+                        end: FractionalOffset(1.0, 0.0),
+                        stops: [0.0, 1.0],
+                        tileMode: TileMode.clamp),
+                    radius: size.width / 15,
+                    backgroundColor: Colors.grey.shade700,
+                    lineWidth: 5,
+                    circularStrokeCap: CircularStrokeCap.round,
+                    percent: isDownloaded ? 1 : percentage,
+                    center: IconButton(
+                        color: Colors.amber,
+                        onPressed: () {
+                          if (isDownloaded) {
+                            if (state.name == name) {
+                              BlocProvider.of<PlayersCubit>(context)
+                                  .pauseMusic();
+                            } else {
+                              BlocProvider.of<PlayersCubit>(context)
+                                  .startMusicFile(name: name);
+                            }
+                          }
+                        },
+                        icon: Icon(state.name == name
+                            ? Icons.pause
+                            : isDownloaded
+                                ? Icons.play_arrow
+                                : Icons.download_rounded)),
+                  )
+                ],
+              );
+            }
+            return Stack(
+              children: [
+                CircularPercentIndicator(
+                  linearGradient: const LinearGradient(
+                      colors: [
+                        Color(0xFF3366FF),
+                        Color(0xFF00CCFF),
+                      ],
+                      begin: FractionalOffset(0.0, 0.0),
+                      end: FractionalOffset(1.0, 0.0),
+                      stops: [0.0, 1.0],
+                      tileMode: TileMode.clamp),
+                  radius: size.width / 15,
+                  backgroundColor: Colors.grey.shade700,
+                  lineWidth: 5,
+                  circularStrokeCap: CircularStrokeCap.round,
+                  percent: isDownloaded ? 1 : percentage,
+                  center: IconButton(
+                      color: Colors.amber,
+                      onPressed: () {
+                        if (!isDownloaded) {
+                          BlocProvider.of<DownloadsCubit>(context)
+                              .downloadFile(url: audioLink, name: name, id: id);
+                        }
+                        BlocProvider.of<PlayersCubit>(context)
+                            .startMusicFile(name: name);
+                      },
+                      icon: Icon(isDownloaded
+                          ? Icons.play_arrow
+                          : Icons.download_rounded)),
+                )
+              ],
+            );
+          },
         ),
       ),
     );
   }
 }
+
+bool toggled = false;

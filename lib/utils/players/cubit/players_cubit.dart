@@ -10,12 +10,14 @@ class PlayersCubit extends Cubit<PlayersState> {
 
   final _alertPlayer = AudioPlayer();
   final _musicPlayer = AudioPlayer();
+  String nameA = "mix1";
   Duration _currentPosition = Duration.zero;
-  String? pName;
 
   void startActiviti(String audio) async {
     emit(StartActivitiAudio(audio));
     await _alertPlayer.setAsset(audio);
+    emit(IsPlayingAudio(nameA));
+
     await _alertPlayer.play();
   }
 
@@ -23,30 +25,25 @@ class PlayersCubit extends Cubit<PlayersState> {
     await _musicPlayer.setAudioSource(AudioSource.uri(Uri.parse(audioLink)));
     await _musicPlayer.seek(_currentPosition);
     await _musicPlayer.play();
-    _currentPosition = await _musicPlayer.position;
+    _currentPosition = _musicPlayer.position;
   }
 
   void startMusicFile({required String name}) async {
+    nameA = name;
     var directory = await getApplicationDocumentsDirectory();
     String filePath = '${directory.path}/$name';
     await _musicPlayer.setFilePath(filePath);
     await _musicPlayer.seek(_currentPosition);
-    print("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh" +
-        pName.toString());
-    print(name);
-    if (pName != name) {
-      _currentPosition = Duration.zero;
-      await _musicPlayer.play();
-    }
-    if (pName == name) {
-      await _musicPlayer.play();
-      _currentPosition = _musicPlayer.position;
-    }
-    pName = name;
+
+    _currentPosition = Duration.zero;
+    emit(IsPlayingAudio(name));
+    await _musicPlayer.play();
   }
 
   Future<void> pauseMusic() async {
     await _musicPlayer.pause();
+    nameA = "";
+    emit(const IsNotPlayingAudio());
   }
 
   Future<void> resumeMusic() async {
