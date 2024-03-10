@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interval_timer/components/extentions.dart';
+import 'package:interval_timer/res/button_styles.dart';
 import 'package:interval_timer/res/colors.dart';
 import 'package:interval_timer/res/levels.dart';
 import 'package:interval_timer/screens/main_screen/cubit/main_cubit.dart';
@@ -29,74 +30,114 @@ class ExercisesBoxes extends StatelessWidget {
             size: size,
             header: 'Beginers',
             visible: false,
+            h: 50,
             borderColor: AppColors.mainblue.withOpacity(.4),
             children: Beginers()
                 .levels
                 .asMap()
                 .entries
-                .map((e) => ElevatedButton(
-                    onPressed: () {
-                      BlocProvider.of<MainCubit>(context).changeIndex(0);
-                      repsController.text = e.value[2].toString();
-                      activitiController.text = e.value[0].toString();
-                      restController.text = e.value[1].toString();
-                    },
-                    child: Text("Level ${e.key + 1}")))
+                .map(
+                  (e) => Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: ElevatedButton(
+                      style: AppButtonStyles.blueButton,
+                      onPressed: () {
+                        BlocProvider.of<MainCubit>(context).changeIndex(0);
+                        repsController.text = e.value[2].toString();
+                        activitiController.text = e.value[0].toString();
+                        restController.text = e.value[1].toString();
+                      },
+                      child: Text("Level ${e.key + 1}",
+                          style: const TextStyle(
+                            color: Colors.white,
+                          )),
+                    ),
+                  ),
+                )
                 .toList()),
         ExerciseBox(
             size: size,
             header: 'Primer',
             visible: false,
+            h: 50,
             borderColor: AppColors.mainblue.withOpacity(.4),
             children: Primer()
                 .levels
                 .asMap()
                 .entries
-                .map((e) => ElevatedButton(
-                    onPressed: () {
-                      BlocProvider.of<MainCubit>(context).changeIndex(0);
-                      repsController.text = e.value[2].toString();
-                      activitiController.text = e.value[0].toString();
-                      restController.text = e.value[1].toString();
-                    },
-                    child: Text("Level ${e.key + 1}")))
+                .map(
+                  (e) => Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: ElevatedButton(
+                      style: AppButtonStyles.blueButton,
+                      onPressed: () {
+                        BlocProvider.of<MainCubit>(context).changeIndex(0);
+                        repsController.text = e.value[2].toString();
+                        activitiController.text = e.value[0].toString();
+                        restController.text = e.value[1].toString();
+                      },
+                      child: Text("Level ${e.key + 1}",
+                          style: const TextStyle(
+                            color: Colors.white,
+                          )),
+                    ),
+                  ),
+                )
                 .toList()),
         ExerciseBox(
           size: size,
           header: 'Pro',
           visible: false,
+          h: 50,
           borderColor: AppColors.mainRed.withOpacity(.4),
           children: Pro()
               .levels
               .asMap()
               .entries
-              .map((e) => ElevatedButton(
-                  onPressed: () {
-                    BlocProvider.of<MainCubit>(context).changeIndex(0);
-                    repsController.text = e.value[2].toString();
-                    activitiController.text = e.value[0].toString();
-                    restController.text = e.value[1].toString();
-                  },
-                  child: Text("Level ${e.key + 1}")))
+              .map((e) => Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: ElevatedButton(
+                      style: AppButtonStyles.redButton,
+                      onPressed: () {
+                        BlocProvider.of<MainCubit>(context).changeIndex(0);
+                        repsController.text = e.value[2].toString();
+                        activitiController.text = e.value[0].toString();
+                        restController.text = e.value[1].toString();
+                      },
+                      child: Text("Level ${e.key + 1}",
+                          style: const TextStyle(
+                            color: Colors.white,
+                          )),
+                    ),
+                  ))
               .toList(),
         ),
         ExerciseBox(
           size: size,
           header: 'Advanced',
           visible: false,
+          h: 50,
           borderColor: AppColors.mainRed.withOpacity(.4),
           children: Advanced()
               .levels
               .asMap()
               .entries
-              .map((e) => ElevatedButton(
-                  onPressed: () {
-                    BlocProvider.of<MainCubit>(context).changeIndex(0);
-                    repsController.text = e.value[2].toString();
-                    activitiController.text = e.value[0].toString();
-                    restController.text = e.value[1].toString();
-                  },
-                  child: Text("Level ${e.key + 1}")))
+              .map((e) => Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: ElevatedButton(
+                      style: AppButtonStyles.redButton,
+                      onPressed: () {
+                        BlocProvider.of<MainCubit>(context).changeIndex(0);
+                        repsController.text = e.value[2].toString();
+                        activitiController.text = e.value[0].toString();
+                        restController.text = e.value[1].toString();
+                      },
+                      child: Text("Level ${e.key + 1}",
+                          style: const TextStyle(
+                            color: Colors.white,
+                          )),
+                    ),
+                  ))
               .toList(),
         ),
         (size.height * 0.15).heightBox

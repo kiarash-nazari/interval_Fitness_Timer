@@ -10,6 +10,7 @@ class ExerciseBox extends StatefulWidget {
     required this.size,
     required this.header,
     required this.visible,
+    required this.h,
   });
 
   final Size size;
@@ -17,13 +18,13 @@ class ExerciseBox extends StatefulWidget {
   bool visible;
   final List<Widget> children;
   final Color borderColor;
+  double h;
 
   @override
   State<ExerciseBox> createState() => _ExerciseBoxState();
 }
 
 class _ExerciseBoxState extends State<ExerciseBox> {
-  double h = 50;
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
@@ -31,12 +32,12 @@ class _ExerciseBoxState extends State<ExerciseBox> {
       curve: Curves.easeInOut,
       duration: const Duration(seconds: 1),
       width: widget.size.width / 1.1,
-      height: h,
+      height: widget.h,
       child: Center(
         child: GestureDetector(
           onTap: () => setState(() {
             widget.visible = !widget.visible;
-            h = widget.visible ? 350 : 50;
+            widget.h = widget.visible ? 350 : 50;
           }),
           child: Glassmorphism(
               borderColor: widget.borderColor,
