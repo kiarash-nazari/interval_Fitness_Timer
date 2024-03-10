@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:interval_timer/res/colors.dart';
 import 'package:interval_timer/res/input_decoration.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class Inputs extends StatelessWidget {
   const Inputs({

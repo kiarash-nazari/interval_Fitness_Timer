@@ -12,10 +12,16 @@ import 'package:interval_timer/widgets/player_controller.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class IntervalScreen extends StatelessWidget {
-  IntervalScreen({super.key});
-  final TextEditingController _activitiController = TextEditingController();
-  final TextEditingController _restController = TextEditingController();
-  final TextEditingController _repsController = TextEditingController();
+  const IntervalScreen(
+      {super.key,
+      required this.repsController,
+      required this.activitiController,
+      required this.restController});
+
+  final TextEditingController repsController;
+  final TextEditingController activitiController;
+  final TextEditingController restController;
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
@@ -58,14 +64,14 @@ class IntervalScreen extends StatelessWidget {
                   MyCircularPercent(size: size),
                   MyInputs(
                       size: size,
-                      repsController: _repsController,
-                      activitiController: _activitiController,
-                      restController: _restController),
+                      repsController: repsController,
+                      activitiController: activitiController,
+                      restController: restController),
                   PlayerController(
                       size: size,
-                      activitiController: _activitiController,
-                      restController: _restController,
-                      repsController: _repsController),
+                      activitiController: activitiController,
+                      restController: restController,
+                      repsController: repsController),
                   50.heightBox,
                   MyCarousel(size: size)
                 ],

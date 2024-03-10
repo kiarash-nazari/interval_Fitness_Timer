@@ -8,8 +8,10 @@ import 'package:interval_timer/widgets/glassmorphism.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class MainWindow extends StatelessWidget {
-  const MainWindow({super.key});
-
+  MainWindow({super.key});
+  final TextEditingController _activitiController = TextEditingController();
+  final TextEditingController _restController = TextEditingController();
+  final TextEditingController _repsController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     int indexOfStack = 0;
@@ -31,7 +33,18 @@ class MainWindow extends StatelessWidget {
               builder: (context, state) {
                 return IndexedStack(
                   index: state is NavIndex ? state.index : 0,
-                  children: [IntervalScreen(), const TrainScreen()],
+                  children: [
+                    IntervalScreen(
+                      repsController: _repsController,
+                      activitiController: _activitiController,
+                      restController: _restController,
+                    ),
+                    TrainScreen(
+                      repsController: _repsController,
+                      activitiController: _activitiController,
+                      restController: _restController,
+                    ),
+                  ],
                 );
               },
             ),
@@ -43,6 +56,7 @@ class MainWindow extends StatelessWidget {
               child: SizedBox(
                 height: size.height * 0.1,
                 child: Glassmorphism(
+                    borderColor: Colors.white.withOpacity(.2),
                     blur: 0.3,
                     opacity: 0.17,
                     radius: 0,

@@ -23,4 +23,35 @@ class AppColors {
     Color(0xFF3366FF),
     Color(0xFF00CCFF),
   ];
+
+  static const List<Color> grBackgroundTraining = [
+    Colors.black,
+    Colors.black,
+    Color.fromARGB(187, 218, 30, 5),
+    Color.fromARGB(198, 0, 204, 255),
+    Colors.black,
+    Colors.black,
+    Colors.black,
+    Colors.black,
+    Colors.black,
+    Colors.black,
+    Colors.black,
+    Colors.black,
+    Colors.black,
+  ];
+  static const List<Color> grBackgroundInterval = [
+    Colors.black,
+    Colors.black,
+    Color.fromARGB(187, 218, 30, 5),
+    Color.fromARGB(198, 0, 204, 255),
+    Colors.black,
+    Colors.black,
+    Colors.black,
+    Colors.black,
+    Colors.black,
+    Colors.black,
+    Colors.black,
+    Colors.black,
+    Colors.black,
+  ];
 }

@@ -26,6 +26,7 @@ class PlayerController extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Glassmorphism(
+      borderColor: AppColors.mainblue,
       blur: .30,
       opacity: 0.17,
       radius: 30,
