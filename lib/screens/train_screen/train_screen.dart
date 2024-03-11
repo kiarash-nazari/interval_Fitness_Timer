@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:interval_timer/res/colors.dart';
-import 'package:interval_timer/widgets/exercisesBoxes.dart';
+import 'package:interval_timer/widgets/exercises_boxes.dart';
 
 class TrainScreen extends StatelessWidget {
   const TrainScreen(

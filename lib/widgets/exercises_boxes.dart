@@ -32,6 +32,7 @@ class ExercisesBoxes extends StatelessWidget {
             visible: false,
             h: 50,
             borderColor: AppColors.mainblue.withOpacity(.4),
+            videoId: 'LOBLyrErqus',
             children: Beginers()
                 .levels
                 .asMap()
@@ -61,6 +62,7 @@ class ExercisesBoxes extends StatelessWidget {
             visible: false,
             h: 50,
             borderColor: AppColors.mainblue.withOpacity(.4),
+            videoId: 'LOBLyrErqus',
             children: Primer()
                 .levels
                 .asMap()
@@ -90,6 +92,7 @@ class ExercisesBoxes extends StatelessWidget {
           visible: false,
           h: 50,
           borderColor: AppColors.mainRed.withOpacity(.4),
+          videoId: 'LOBLyrErqus',
           children: Pro()
               .levels
               .asMap()
@@ -118,6 +121,7 @@ class ExercisesBoxes extends StatelessWidget {
           visible: false,
           h: 50,
           borderColor: AppColors.mainRed.withOpacity(.4),
+          videoId: 'LOBLyrErqus',
           children: Advanced()
               .levels
               .asMap()
