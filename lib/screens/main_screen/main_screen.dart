@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interval_timer/res/colors.dart';
 import 'package:interval_timer/screens/interval_screen/interval_screen.dart';
@@ -66,29 +68,65 @@ class MainWindow extends StatelessWidget {
                           indexOfStack = state.index;
                         }
                         return Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            IconButton(
-                              padding: const EdgeInsets.all(15),
-                              onPressed: () {
-                                BlocProvider.of<MainCubit>(context)
-                                    .changeIndex(0);
-                              },
-                              icon: Icon(MdiIcons.runFast),
-                              color: indexOfStack == 0
-                                  ? AppColors.mainblue
-                                  : Colors.white,
+                            Expanded(
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  IconButton(
+                                    padding: const EdgeInsets.all(15),
+                                    onPressed: () {
+                                      BlocProvider.of<MainCubit>(context)
+                                          .changeIndex(0);
+                                    },
+                                    icon: Icon(MdiIcons.runFast),
+                                    color: indexOfStack == 0
+                                        ? AppColors.mainblue
+                                        : Colors.white,
+                                  ),
+                                  IconButton(
+                                    padding: const EdgeInsets.all(15),
+                                    onPressed: () {
+                                      BlocProvider.of<MainCubit>(context)
+                                          .changeIndex(1);
+                                    },
+                                    icon: Icon(MdiIcons.dumbbell),
+                                    color: indexOfStack == 1
+                                        ? AppColors.mainRed
+                                        : Colors.white.withAlpha(70),
+                                  ),
+                                ],
+                              ),
                             ),
-                            IconButton(
-                              padding: const EdgeInsets.all(15),
-                              onPressed: () {
-                                BlocProvider.of<MainCubit>(context)
-                                    .changeIndex(1);
-                              },
-                              icon: Icon(MdiIcons.dumbbell),
-                              color: indexOfStack == 1
-                                  ? AppColors.mainRed
-                                  : Colors.white.withAlpha(70),
+                            Row(
+                              children: [
+                                Material(
+                                  color: Colors.transparent,
+                                  child: InkWell(
+                                    borderRadius: BorderRadius.circular(50),
+                                    onTap: () {},
+                                    highlightColor: Colors.amber,
+                                    child: Container(
+                                        width: 40,
+                                        // height: 30,
+                                        decoration: BoxDecoration(
+                                          color: indexOfStack == 1
+                                              ? Colors.amber
+                                              : Colors.amber.withOpacity(.5),
+                                          borderRadius:
+                                              const BorderRadius.horizontal(
+                                                  left: Radius.circular(50)),
+                                        ),
+                                        child: const Padding(
+                                          padding: EdgeInsets.fromLTRB(
+                                              12, 20, 0, 20),
+                                          child: Text("""VIP"""),
+                                        )),
+                                  ),
+                                ),
+                              ],
                             )
                           ],
                         );
