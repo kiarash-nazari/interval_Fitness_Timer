@@ -1,11 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interval_timer/res/colors.dart';
 import 'package:interval_timer/screens/interval_screen/interval_screen.dart';
 import 'package:interval_timer/screens/main_screen/cubit/main_cubit.dart';
 import 'package:interval_timer/screens/train_screen/train_screen.dart';
+import 'package:interval_timer/screens/vip_screen/vip_screen.dart';
 import 'package:interval_timer/widgets/glassmorphism.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -46,6 +45,7 @@ class MainWindow extends StatelessWidget {
                       activitiController: _activitiController,
                       restController: _restController,
                     ),
+                    const VipScreen()
                   ],
                 );
               },
@@ -62,6 +62,7 @@ class MainWindow extends StatelessWidget {
                     blur: 0.3,
                     opacity: 0.17,
                     radius: 0,
+                    bgColor: Colors.white,
                     child: BlocBuilder<MainCubit, MainState>(
                       builder: (context, state) {
                         if (state is NavIndex) {
@@ -106,13 +107,16 @@ class MainWindow extends StatelessWidget {
                                   color: Colors.transparent,
                                   child: InkWell(
                                     borderRadius: BorderRadius.circular(50),
-                                    onTap: () {},
+                                    onTap: () {
+                                      BlocProvider.of<MainCubit>(context)
+                                          .changeIndex(2);
+                                    },
                                     highlightColor: Colors.amber,
                                     child: Container(
                                         width: 40,
                                         // height: 30,
                                         decoration: BoxDecoration(
-                                          color: indexOfStack == 1
+                                          color: indexOfStack == 2
                                               ? Colors.amber
                                               : Colors.amber.withOpacity(.5),
                                           borderRadius:

@@ -4,7 +4,6 @@ import 'package:interval_timer/res/colors.dart';
 import 'package:interval_timer/utils/youtube/youtube_player.dart';
 import 'package:interval_timer/widgets/glassmorphism.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class ExerciseBox extends StatefulWidget {
   ExerciseBox(
@@ -49,6 +48,7 @@ class _ExerciseBoxState extends State<ExerciseBox> {
               blur: .2,
               opacity: .2,
               radius: 20,
+              bgColor: Colors.white,
               child: Center(
                   child: SingleChildScrollView(
                 child: Row(

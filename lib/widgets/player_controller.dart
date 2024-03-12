@@ -30,6 +30,7 @@ class PlayerController extends StatelessWidget {
       blur: .30,
       opacity: 0.17,
       radius: 30,
+      bgColor: Colors.black,
       child: SizedBox(
         width: size.width / 1.3,
         height: 70,

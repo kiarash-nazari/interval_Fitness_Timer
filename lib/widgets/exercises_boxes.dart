@@ -32,7 +32,7 @@ class ExercisesBoxes extends StatelessWidget {
             visible: false,
             h: 50,
             borderColor: AppColors.mainblue.withOpacity(.4),
-            videoId: 'LOBLyrErqus',
+            videoId: 'liJVSwOiiwg',
             children: Beginers()
                 .levels
                 .asMap()
