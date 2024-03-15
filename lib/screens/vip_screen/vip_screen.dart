@@ -87,7 +87,6 @@ class _VipButtonState extends State<VipButton> {
         onTap: () {
           setState(() {
             openWhatsapp(context);
-            print("some text");
           });
         },
         highlightColor: widget.bgColor.withOpacity(.2),
@@ -137,18 +136,12 @@ class _VipButtonState extends State<VipButton> {
     var whatsAppUrlIos =
         Uri.parse("https://wa.me/$whatsAppNum?text=${Uri.parse("Hello")}");
     if (Platform.isIOS) {
-      print("ARRRRRRRRRRRRRRe");
-
       if (await canLaunchUrl(whatsAppUrlIos)) {
-        print("ARRRRRRRRRRRRRRe");
-
         launchUrl(
           whatsAppUrlIos,
           mode: LaunchMode.externalApplication,
         );
       } else {
-        print("ARRRRRRRRRRRRRRe");
-
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text("whatsapp not installed"),
@@ -157,12 +150,9 @@ class _VipButtonState extends State<VipButton> {
       }
     } else {
       if (await canLaunchUrl(whatsAppUrlAndroid)) {
-        print("ARRRRRRRRRRRRRRe");
-
         launchUrl(whatsAppUrlAndroid);
         launchUrl(whatsAppUrlAndroid, mode: LaunchMode.externalApplication);
       } else {
-        print("ssssssssssssag");
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text("whatsapp not installed"),

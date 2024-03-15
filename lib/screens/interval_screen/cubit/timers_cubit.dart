@@ -55,7 +55,7 @@ class TimersCubit extends Cubit<TimersState> {
   }
 
   void startRest({required String activi, required String rest}) {
-    int activiti = int.parse(activi);
+    int activiti = int.parse(rest);
     threeSecondsBeforeStart = activiti - 3;
 
     restTimer = Timer.periodic(const Duration(seconds: 1), (timer) {

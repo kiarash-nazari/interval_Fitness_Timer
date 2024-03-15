@@ -5,6 +5,7 @@ import 'package:interval_timer/utils/youtube/youtube_player.dart';
 import 'package:interval_timer/widgets/glassmorphism.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+// ignore: must_be_immutable
 class ExerciseBox extends StatefulWidget {
   ExerciseBox(
       {super.key,

@@ -11,9 +11,7 @@ final class MainInitial extends MainState {}
 
 final class NavIndex extends MainState {
   final int index;
-  NavIndex(this.index) {
-    print(index);
-  }
+  const NavIndex(this.index);
 
   @override
   List<Object> get props => [index];

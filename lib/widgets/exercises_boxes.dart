@@ -5,7 +5,7 @@ import 'package:interval_timer/res/button_styles.dart';
 import 'package:interval_timer/res/colors.dart';
 import 'package:interval_timer/res/levels.dart';
 import 'package:interval_timer/screens/main_screen/cubit/main_cubit.dart';
-import 'package:interval_timer/widgets/exercise_box_Item.dart';
+import 'package:interval_timer/widgets/exercise_box_item.dart';
 
 class ExercisesBoxes extends StatelessWidget {
   const ExercisesBoxes({

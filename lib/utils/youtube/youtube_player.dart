@@ -41,8 +41,7 @@ class Youtube extends StatelessWidget {
         ),
       );
     } catch (e) {
-      print(e);
+      return const SizedBox();
     }
-    return const SizedBox();
   }
 }

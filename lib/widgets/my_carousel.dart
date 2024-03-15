@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interval_timer/utils/downloads/cubit/downloads_cubit.dart';
 import 'package:interval_timer/widgets/carousel_items.dart';
-import 'package:path_provider/path_provider.dart';
 
 class MyCarousel extends StatelessWidget {
   const MyCarousel({
@@ -14,17 +13,13 @@ class MyCarousel extends StatelessWidget {
   final Size size;
 
   Future<bool> myDownloaded() async {
-    var directory = await getApplicationDocumentsDirectory();
-
     return true;
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<DownloadsCubit, DownloadsState>(
-      listener: (context, state) {
-        // TODO: implement listener
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         return CarouselSlider(
             options: CarouselOptions(

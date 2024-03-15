@@ -69,7 +69,6 @@ class DownloadsCubit extends Cubit<DownloadsState> {
     if (await File("${directory.path}/mix5").exists()) {
       isDownloadedList[4] = true;
     }
-    print(isDownloadedList);
 
     emit(IsDownloadedState(isDownloadedList: isDownloadedList));
   }
@@ -90,7 +89,6 @@ class DownloadsCubit extends Cubit<DownloadsState> {
         "$dir/$name",
         onReceiveProgress: (count, total) {
           map[id] = count / total;
-          print(list);
           emit(DownloadingState(id: id, percentage: count / total, list: list));
 
           if (count == total) {

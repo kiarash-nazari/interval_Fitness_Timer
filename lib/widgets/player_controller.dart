@@ -77,13 +77,14 @@ class PlayerController extends StatelessWidget {
                       BlocProvider.of<PlayersCubit>(context).startMusicOnline(
                           audioLink:
                               "https://luxafarin.com/wp-content/uploads/2024/02/mix1.mp3");
-                      await Future.delayed(const Duration(seconds: 3));
-
-                      BlocProvider.of<TimersCubit>(context).startActiviti(
-                          activi: _activitiController.text,
-                          rest: _restController.text);
-                      BlocProvider.of<TimersCubit>(context)
-                          .getLoops(_repsController.text);
+                      await Future.delayed(const Duration(seconds: 3))
+                          .then((value) {
+                        BlocProvider.of<TimersCubit>(context).startActiviti(
+                            activi: _activitiController.text,
+                            rest: _restController.text);
+                        BlocProvider.of<TimersCubit>(context)
+                            .getLoops(_repsController.text);
+                      });
                     }
                   },
                   icon: Icon(
@@ -99,11 +100,12 @@ class PlayerController extends StatelessWidget {
                     BlocProvider.of<PlayersCubit>(context)
                         .startActiviti("assets/audio/Star.wav");
                     BlocProvider.of<PlayersCubit>(context).resumeMusic();
-                    await Future.delayed(const Duration(seconds: 3));
-
-                    BlocProvider.of<TimersCubit>(context).startActiviti(
-                        activi: _activitiController.text,
-                        rest: _restController.text);
+                    await Future.delayed(const Duration(seconds: 3))
+                        .then((value) {
+                      BlocProvider.of<TimersCubit>(context).startActiviti(
+                          activi: _activitiController.text,
+                          rest: _restController.text);
+                    });
                   },
                   icon: Icon(
                     MdiIcons.play,
