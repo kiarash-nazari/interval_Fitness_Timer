@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:dio/dio.dart';
 import 'package:interval_timer/data/repo/remix_music_data_rep.dart';
 import 'package:interval_timer/data/res/remix_music_data_src.dart';
+import 'package:interval_timer/utils/shared_perfrences_manager.dart';
 import 'package:path_provider/path_provider.dart';
 
 part 'downloads_state.dart';
@@ -15,6 +16,9 @@ class DownloadsCubit extends Cubit<DownloadsState> {
   }
   final MusicDataRepository internalMusicDataRep =
       MusicDataRepository(InternalMusicDataSrc());
+
+  List<bool> whoDownloading = [false, false, false, false, false];
+  List<double> percentageList = [0, 0, 0, 0, 0];
 
   Map<int, double> map = {};
   List<Map<int, double>> list = [
@@ -54,7 +58,9 @@ class DownloadsCubit extends Cubit<DownloadsState> {
     var directory = await getApplicationDocumentsDirectory();
     List<bool> isDownloadedList = [false, false, false, false, false];
 
-    if (await File("${directory.path}/mix1").exists()) {
+    if (await File("${directory.path}/mix1").exists() &&
+        SharedPreferencesManager().getInt("mix1") ==
+            File("${directory.path}/mix1").lengthSync()) {
       isDownloadedList[0] = true;
     }
     if (await File("${directory.path}/mix2").exists()) {
@@ -73,23 +79,34 @@ class DownloadsCubit extends Cubit<DownloadsState> {
     emit(IsDownloadedState(isDownloadedList: isDownloadedList));
   }
 
+  final CancelToken _cancelToken = CancelToken();
   void downloadFile(
       {required String? url, required String name, required int id}) async {
     Dio dio = Dio();
     var directory = await getApplicationDocumentsDirectory();
-    CancelToken cancelToken = CancelToken();
     var dir = directory.path;
     map[id] = 0;
     list.replaceRange(id, id + 1, [map]);
 
     try {
+      emit(DownloadsLoadingState(id: id));
       await dio.download(
-        cancelToken: cancelToken,
+        cancelToken: _cancelToken,
         url!,
         "$dir/$name",
         onReceiveProgress: (count, total) {
+          whoDownloading[id] = true;
+          percentageList[id] = count / total;
+          list[id][id] = count / total;
+          SharedPreferencesManager().saveInt(name, total);
           map[id] = count / total;
-          emit(DownloadingState(id: id, percentage: count / total, list: list));
+          emit(DownloadingState(
+            id: id,
+            percentage: count / total,
+            list: list,
+            whoDownloading: whoDownloading,
+            percentageList: percentageList,
+          ));
 
           if (count == total) {
             emit(DownloadedState());
@@ -99,6 +116,17 @@ class DownloadsCubit extends Cubit<DownloadsState> {
     } catch (e) {
       return emit(DownloadErrorState(message: e.toString()));
     }
+  }
+
+  void pauseDownload() {
+    _cancelToken.cancel("Download paused");
+    emit(DownloadingState(
+      id: 2,
+      percentage: 0,
+      list: list,
+      whoDownloading: whoDownloading,
+      percentageList: percentageList,
+    ));
   }
 
   void isDownloading() {

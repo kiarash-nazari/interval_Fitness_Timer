@@ -52,85 +52,92 @@ class CarouselItems extends StatelessWidget {
             )
           ],
         ),
-        child: BlocConsumer<PlayersCubit, PlayersState>(
-          listener: (context, state) {},
-          builder: (context, state) {
-            if (state is IsPlayingAudio) {
-              return Stack(
-                children: [
-                  CircularPercentIndicator(
-                    linearGradient: const LinearGradient(
-                        colors: [
-                          Color(0xFF3366FF),
-                          Color(0xFF00CCFF),
-                        ],
-                        begin: FractionalOffset(0.0, 0.0),
-                        end: FractionalOffset(1.0, 0.0),
-                        stops: [0.0, 1.0],
-                        tileMode: TileMode.clamp),
-                    radius: size.width / 15,
-                    backgroundColor: Colors.grey.shade700,
-                    lineWidth: 5,
-                    circularStrokeCap: CircularStrokeCap.round,
-                    percent: isDownloaded ? 1 : percentage,
-                    center: IconButton(
-                        color: Colors.amber,
-                        onPressed: () {
-                          if (isDownloaded) {
-                            if (state.name == name) {
-                              BlocProvider.of<PlayersCubit>(context)
-                                  .pauseMusic();
-                            } else {
-                              BlocProvider.of<PlayersCubit>(context)
-                                  .startMusicFile(name: name);
-                            }
-                          }
-                        },
-                        icon: Icon(state.name == name
-                            ? Icons.pause
-                            : isDownloaded
-                                ? Icons.play_arrow
-                                : Icons.download_rounded)),
-                  )
-                ],
-              );
-            }
-            return Stack(
-              children: [
-                CircularPercentIndicator(
-                  linearGradient: const LinearGradient(
-                      colors: [
-                        Color(0xFF3366FF),
-                        Color(0xFF00CCFF),
-                      ],
-                      begin: FractionalOffset(0.0, 0.0),
-                      end: FractionalOffset(1.0, 0.0),
-                      stops: [0.0, 1.0],
-                      tileMode: TileMode.clamp),
-                  radius: size.width / 15,
-                  backgroundColor: Colors.grey.shade700,
-                  lineWidth: 5,
-                  circularStrokeCap: CircularStrokeCap.round,
-                  percent: isDownloaded ? 1 : percentage,
-                  center: IconButton(
-                      color: Colors.amber,
-                      onPressed: () {
-                        if (!isDownloaded) {
-                          BlocProvider.of<DownloadsCubit>(context)
-                              .downloadFile(url: audioLink, name: name, id: id);
-                        }
-                        BlocProvider.of<PlayersCubit>(context)
-                            .startMusicFile(name: name);
-                      },
-                      icon: Icon(isDownloaded
-                          ? Icons.play_arrow
-                          : Icons.download_rounded)),
-                )
-              ],
-            );
-          },
+        alignment: Alignment.topLeft,
+        child: DownloadProgress(
+          size: size,
+          url: audioLink,
+          name: name,
+          id: id,
+          percentage: percentage,
         ),
       ),
+    );
+  }
+}
+
+class DownloadProgress extends StatelessWidget {
+  const DownloadProgress(
+      {super.key,
+      required this.size,
+      required this.url,
+      required this.name,
+      required this.id,
+      required this.percentage});
+
+  final Size size;
+  final String url;
+  final String name;
+  final int id;
+  final double percentage;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<DownloadsCubit, DownloadsState>(
+      builder: (context, state) {
+        return CircularPercentIndicator(
+          linearGradient: const LinearGradient(
+              colors: [
+                Color(0xFF3366FF),
+                Color(0xFF00CCFF),
+              ],
+              begin: FractionalOffset(0.0, 0.0),
+              end: FractionalOffset(1.0, 0.0),
+              stops: [0.0, 1.0],
+              tileMode: TileMode.clamp),
+          radius: size.width / 15,
+          backgroundColor: Colors.grey.shade700,
+          lineWidth: 5,
+          circularStrokeCap: CircularStrokeCap.round,
+          percent: state is DownloadingState ? state.percentageList[id] : 0,
+          center: BlocBuilder<DownloadsCubit, DownloadsState>(
+            builder: (context, state) {
+              if (state is DownloadsLoadingState) {
+                return state.id == id
+                    ? const CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.amber),
+                      )
+                    : const Icon(
+                        Icons.download_rounded,
+                        color: Colors.amber,
+                      );
+              } else if (state is DownloadingState) {
+                return IconButton(
+                    color: Colors.amber,
+                    onPressed: () {
+                      BlocProvider.of<DownloadsCubit>(context)
+                          .downloadFile(url: url, name: name, id: id);
+                    },
+                    icon: state.whoDownloading[id]
+                        ? IconButton(
+                            icon: const Icon(Icons.pause_rounded),
+                            onPressed: () {
+                              BlocProvider.of<DownloadsCubit>(context)
+                                  .pauseDownload();
+                            },
+                          )
+                        : const Icon(Icons.download_rounded));
+              }
+              return IconButton(
+                  color: Colors.amber,
+                  onPressed: () {
+                    BlocProvider.of<DownloadsCubit>(context)
+                        .downloadFile(url: url, name: name, id: id);
+                  },
+                  icon: const Icon(Icons.download_rounded));
+            },
+          ),
+        );
+      },
     );
   }
 }

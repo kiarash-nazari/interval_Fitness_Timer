@@ -9,17 +9,34 @@ sealed class DownloadsState extends Equatable {
 
 final class DownloadsInitial extends DownloadsState {}
 
+final class DownloadsLoadingState extends DownloadsState {
+  final int id;
+  const DownloadsLoadingState({required this.id});
+
+  @override
+  List<Object> get props => [id];
+}
+
 final class DownloadingState extends DownloadsState {
   final int id;
+  final List<bool> whoDownloading;
+  final List<double> percentageList;
   final double percentage;
   final List<Map<int, double>> list;
 
   const DownloadingState(
-      {required this.list, required this.percentage, required this.id});
+      {required this.list,
+      required this.percentage,
+      required this.id,
+      required this.whoDownloading,
+      required this.percentageList});
 
   @override
-  List<Object> get props => [id, percentage, list];
+  List<Object> get props =>
+      [id, percentage, list, whoDownloading, percentageList];
 }
+
+final class DownloadsPausedState extends DownloadsState {}
 
 final class DownloadedState extends DownloadsState {}
 
