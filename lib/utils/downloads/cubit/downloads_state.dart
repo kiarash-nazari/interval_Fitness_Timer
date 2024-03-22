@@ -18,27 +18,24 @@ final class DownloadsLoadingState extends DownloadsState {
 }
 
 final class DownloadingState extends DownloadsState {
-  final int id;
   final List<bool> whoDownloading;
   final List<double> percentageList;
   final double percentage;
-  final List<Map<int, double>> list;
 
   const DownloadingState(
-      {required this.list,
-      required this.percentage,
-      required this.id,
+      {required this.percentage,
       required this.whoDownloading,
       required this.percentageList});
 
   @override
-  List<Object> get props =>
-      [id, percentage, list, whoDownloading, percentageList];
+  List<Object> get props => [percentage, whoDownloading, percentageList];
 }
 
 final class DownloadsPausedState extends DownloadsState {}
 
 final class DownloadedState extends DownloadsState {}
+
+final class NoInternetState extends DownloadsState {}
 
 final class DownloadErrorState extends DownloadedState {
   final String message;

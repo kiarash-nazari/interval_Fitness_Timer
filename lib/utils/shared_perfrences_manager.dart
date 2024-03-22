@@ -16,11 +16,22 @@ class SharedPreferencesManager {
 
   //write data
   Future<void> saveInt(String key, int value) async {
-    await _preferences!.setInt(key, value);
+    try {
+      await _preferences?.setInt(key, value);
+      print("$key : $value  ");
+    } catch (e) {
+      print("Booooz $e");
+    }
   }
 
   //read data
-  num? getInt(String key) {
-    return _preferences!.getDouble(key);
+  int? getInt(String key) {
+    try {
+      print(_preferences?.getInt(key));
+      return _preferences?.getInt(key);
+    } catch (e) {
+      print("Get Int Error $e");
+    }
+    return 3;
   }
 }

@@ -53,8 +53,6 @@ class IntervalScreen extends StatelessWidget {
                 create: (context) => TimersCubit(),
               ),
               BlocProvider<PlayersCubit>(create: (context) => PlayersCubit()),
-              BlocProvider<DownloadsCubit>(
-                  create: (context) => DownloadsCubit()),
             ],
             child: SingleChildScrollView(
               child: Column(

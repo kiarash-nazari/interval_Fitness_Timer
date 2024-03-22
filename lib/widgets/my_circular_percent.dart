@@ -45,6 +45,13 @@ class MyCircularPercent extends StatelessWidget {
             }
           },
           builder: (context, state) {
+            if (state is Stop) {
+              return MyCircularPercentIndicator(
+                  size: size,
+                  gradient: AppColors.grActiviti,
+                  percent: 0,
+                  count: 0);
+            }
             return MyCircularPercentIndicator(
                 size: size,
                 gradient: AppColors.grActiviti,

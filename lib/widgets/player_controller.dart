@@ -102,6 +102,8 @@ class PlayerController extends StatelessWidget {
                     BlocProvider.of<PlayersCubit>(context).resumeMusic();
                     await Future.delayed(const Duration(seconds: 3))
                         .then((value) {
+                      BlocProvider.of<PlayersCubit>(context).resumeAlert();
+
                       BlocProvider.of<TimersCubit>(context).startActiviti(
                           activi: _activitiController.text,
                           rest: _restController.text);
@@ -118,6 +120,7 @@ class PlayerController extends StatelessWidget {
                 return IconButton(
                   onPressed: () async {
                     BlocProvider.of<PlayersCubit>(context).resumeMusic();
+                    BlocProvider.of<PlayersCubit>(context).resumeAlert();
 
                     BlocProvider.of<TimersCubit>(context).startRest(
                         activi: _activitiController.text,
@@ -144,7 +147,13 @@ class PlayerController extends StatelessWidget {
             },
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              _restController.text = "";
+              _activitiController.text = "";
+              _repsController.text = "";
+              BlocProvider.of<TimersCubit>(context).stop();
+              BlocProvider.of<PlayersCubit>(context).stopMusic();
+            },
             icon: Icon(
               MdiIcons.stop,
               size: 50,

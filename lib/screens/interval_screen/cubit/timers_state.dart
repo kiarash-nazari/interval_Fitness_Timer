@@ -48,3 +48,5 @@ final class ThreeSecondsBeforeStart extends TimersState {}
 final class PauseInActiviti extends TimersState {}
 
 final class PauseInRest extends TimersState {}
+
+final class Stop extends TimersState {}

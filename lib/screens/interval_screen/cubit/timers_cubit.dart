@@ -88,4 +88,13 @@ class TimersCubit extends Cubit<TimersState> {
     activitiTimer?.cancel();
     restTimer?.cancel();
   }
+
+  void stop() {
+    emit(Stop());
+
+    activitiTimer?.cancel();
+    restTimer?.cancel();
+    cuntableActiviti = 1;
+    emit(EndOfProgressing());
+  }
 }

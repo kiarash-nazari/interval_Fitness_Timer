@@ -22,7 +22,9 @@ class PlayersCubit extends Cubit<PlayersState> {
   }
 
   void startMusicOnline({required String audioLink}) async {
-    await _musicPlayer.setAudioSource(AudioSource.uri(Uri.parse(audioLink)));
+    try {
+      await _musicPlayer.setAudioSource(AudioSource.uri(Uri.parse(audioLink)));
+    } catch (e) {}
     await _musicPlayer.seek(_currentPosition);
     await _musicPlayer.play();
     _currentPosition = _musicPlayer.position;
@@ -42,11 +44,25 @@ class PlayersCubit extends Cubit<PlayersState> {
 
   Future<void> pauseMusic() async {
     await _musicPlayer.pause();
+    await _alertPlayer.pause();
+
     nameA = "";
     emit(const IsNotPlayingAudio());
   }
 
+  Future<void> stopMusic() async {
+    await _musicPlayer.stop();
+    await _alertPlayer.stop();
+
+    nameA = "";
+    emit(PlayersInitial());
+  }
+
   Future<void> resumeMusic() async {
+    await _musicPlayer.play();
+  }
+
+  Future<void> resumeAlert() async {
     await _musicPlayer.play();
   }
 }
