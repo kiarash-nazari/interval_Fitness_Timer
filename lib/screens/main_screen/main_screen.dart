@@ -60,11 +60,11 @@ class MainWindow extends StatelessWidget {
               child: SizedBox(
                 height: size.height * 0.1,
                 child: Glassmorphism(
-                    borderColor: Colors.white.withOpacity(.2),
-                    blur: 0.3,
-                    opacity: 0.17,
+                    borderColor: Colors.amber.withOpacity(.8),
+                    blur: 0.8,
+                    opacity: 0.6,
                     radius: 0,
-                    bgColor: Colors.white,
+                    bgColor: Colors.black,
                     child: BlocBuilder<MainCubit, MainState>(
                       builder: (context, state) {
                         if (state is NavIndex) {
