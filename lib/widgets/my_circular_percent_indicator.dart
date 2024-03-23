@@ -18,22 +18,27 @@ class MyCircularPercentIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CircularPercentIndicator(
-      radius: size.width / 5,
-      linearGradient: LinearGradient(
-          colors: gradient,
-          begin: const FractionalOffset(0.0, 0.0),
-          end: const FractionalOffset(1.0, 0.0),
-          tileMode: TileMode.clamp),
-      backgroundColor: AppColors.bgCircularPercent,
-      lineWidth: 16,
-      circularStrokeCap: CircularStrokeCap.round,
-      percent: percent,
-      center: Text(
-        count.toString(),
-        style: const TextStyle(
-            fontSize: 70, color: Color.fromARGB(255, 253, 253, 253)),
-      ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        if (constraints.maxWidth >= constraints.maxHeight) {}
+        return CircularPercentIndicator(
+          radius: size.height / 9.5,
+          linearGradient: LinearGradient(
+              colors: gradient,
+              begin: const FractionalOffset(0.0, 0.0),
+              end: const FractionalOffset(1.0, 0.0),
+              tileMode: TileMode.clamp),
+          backgroundColor: AppColors.bgCircularPercent,
+          lineWidth: size.height / 60,
+          circularStrokeCap: CircularStrokeCap.round,
+          percent: percent,
+          center: Text(
+            count.toString(),
+            style: const TextStyle(
+                fontSize: 70, color: Color.fromARGB(255, 253, 253, 253)),
+          ),
+        );
+      },
     );
   }
 }

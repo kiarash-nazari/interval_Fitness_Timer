@@ -35,9 +35,10 @@ class Inputs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
       child: SizedBox(
-        width: size.width / 3,
+        width: size.height / 5,
+        height: size.height / 6,
         child: TextField(
             controller: controller,
             keyboardType: TextInputType.number,

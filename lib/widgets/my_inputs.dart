@@ -23,6 +23,7 @@ class MyInputs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Inputs(
           size: size,
@@ -38,7 +39,6 @@ class MyInputs extends StatelessWidget {
           icon: MdiIcons.autorenew,
           controller: _repsController,
         ),
-        10.heightBox,
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

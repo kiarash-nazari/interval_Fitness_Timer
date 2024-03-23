@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:interval_timer/components/extentions.dart';
-
 import 'package:interval_timer/res/colors.dart';
 import 'package:interval_timer/screens/interval_screen/cubit/timers_cubit.dart';
-import 'package:interval_timer/utils/downloads/cubit/downloads_cubit.dart';
 import 'package:interval_timer/utils/players/cubit/players_cubit.dart';
 import 'package:interval_timer/widgets/my_carousel.dart';
 import 'package:interval_timer/widgets/my_circular_percent.dart';
@@ -56,10 +54,11 @@ class IntervalScreen extends StatelessWidget {
             ],
             child: SingleChildScrollView(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  50.heightBox,
+                  16.heightBox,
                   MyCircularPercent(size: size),
+                  8.heightBox,
                   MyInputs(
                       size: size,
                       repsController: repsController,
@@ -70,8 +69,9 @@ class IntervalScreen extends StatelessWidget {
                       activitiController: activitiController,
                       restController: restController,
                       repsController: repsController),
-                  50.heightBox,
-                  MyCarousel(size: size)
+                  24.heightBox,
+                  MyCarousel(size: size),
+                  75.heightBox,
                 ],
               ),
             ),

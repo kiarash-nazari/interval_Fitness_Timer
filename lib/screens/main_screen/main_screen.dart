@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:interval_timer/components/extentions.dart';
 import 'package:interval_timer/res/colors.dart';
 import 'package:interval_timer/screens/interval_screen/interval_screen.dart';
 import 'package:interval_timer/screens/main_screen/cubit/main_cubit.dart';
@@ -55,6 +56,7 @@ class MainWindow extends StatelessWidget {
               bottom: 0,
               right: 0,
               left: 0,
+              top: size.height * 0.9,
               child: SizedBox(
                 height: size.height * 0.1,
                 child: Glassmorphism(
