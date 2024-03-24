@@ -37,8 +37,8 @@ class Inputs extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
       child: SizedBox(
-        width: size.height / 5,
-        height: size.height / 6,
+        width: 150,
+        height: 100,
         child: TextField(
             controller: controller,
             keyboardType: TextInputType.number,

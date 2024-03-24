@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:interval_timer/components/extentions.dart';
 import 'package:interval_timer/res/colors.dart';
 import 'package:interval_timer/screens/interval_screen/interval_screen.dart';
 import 'package:interval_timer/screens/main_screen/cubit/main_cubit.dart';

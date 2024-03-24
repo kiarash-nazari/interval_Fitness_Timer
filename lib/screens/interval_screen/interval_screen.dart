@@ -54,22 +54,23 @@ class IntervalScreen extends StatelessWidget {
             ],
             child: SingleChildScrollView(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  16.heightBox,
+                  24.heightBox,
                   MyCircularPercent(size: size),
-                  8.heightBox,
+                  24.heightBox,
                   MyInputs(
                       size: size,
                       repsController: repsController,
                       activitiController: activitiController,
                       restController: restController),
+                  8.heightBox,
                   PlayerController(
                       size: size,
                       activitiController: activitiController,
                       restController: restController,
                       repsController: repsController),
-                  24.heightBox,
+                  32.heightBox,
                   MyCarousel(size: size),
                   75.heightBox,
                 ],

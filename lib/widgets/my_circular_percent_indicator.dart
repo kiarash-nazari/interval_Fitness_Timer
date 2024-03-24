@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:interval_timer/res/colors.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class MyCircularPercentIndicator extends StatelessWidget {
@@ -22,14 +21,14 @@ class MyCircularPercentIndicator extends StatelessWidget {
       builder: (context, constraints) {
         if (constraints.maxWidth >= constraints.maxHeight) {}
         return CircularPercentIndicator(
-          radius: size.height / 9.5,
+          radius: size.height / 10,
           linearGradient: LinearGradient(
               colors: gradient,
               begin: const FractionalOffset(0.0, 0.0),
               end: const FractionalOffset(1.0, 0.0),
               tileMode: TileMode.clamp),
-          backgroundColor: AppColors.bgCircularPercent,
-          lineWidth: size.height / 60,
+          backgroundColor: const Color.fromARGB(170, 255, 255, 255),
+          lineWidth: size.height / 70,
           circularStrokeCap: CircularStrokeCap.round,
           percent: percent,
           center: Text(

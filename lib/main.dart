@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interval_timer/data/repo/remix_music_data_rep.dart';
 import 'package:interval_timer/data/res/remix_music_data_src.dart';
-import 'package:interval_timer/screens/main_screen/main_screen.dart';
+import 'package:interval_timer/screens/splash/splash_screen.dart';
 import 'package:interval_timer/utils/shared_perfrences_manager.dart';
 
 Future<void> main() async {
@@ -22,7 +22,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return RepositoryProvider(
       create: (context) => MusicDataRepository(InternalMusicDataSrc()),
-      child: MaterialApp(home: MainWindow()),
+      child: const MaterialApp(home: SplashScreen()),
     );
   }
 }
