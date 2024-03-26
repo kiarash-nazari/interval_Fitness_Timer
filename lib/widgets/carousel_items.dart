@@ -7,7 +7,6 @@ import 'package:interval_timer/widgets/download_progrese.dart';
 class CarouselItems extends StatelessWidget {
   const CarouselItems({
     super.key,
-    required this.size,
     required this.audioLink,
     required this.bgImag,
     required this.name,
@@ -16,7 +15,6 @@ class CarouselItems extends StatelessWidget {
     required this.isDownloaded,
   });
   final String name;
-  final Size size;
   final String audioLink;
   final String bgImag;
   final int id;
@@ -25,6 +23,8 @@ class CarouselItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.sizeOf(context);
+
     return BlocProvider(
       create: (context) => DownloadsCubit(),
       child: GestureDetector(

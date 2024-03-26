@@ -25,138 +25,194 @@ class DownloadProgress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DownloadsCubit, DownloadsState>(
-      builder: (context, state) {
-        return CircularPercentIndicator(
-          linearGradient: const LinearGradient(
-              colors: [
-                Color(0xFF3366FF),
-                Color(0xFF00CCFF),
-              ],
-              begin: FractionalOffset(0.0, 0.0),
-              end: FractionalOffset(1.0, 0.0),
-              stops: [0.0, 1.0],
-              tileMode: TileMode.clamp),
-          radius: size.width / 15,
-          backgroundColor: Colors.grey.shade700,
-          lineWidth: 5,
-          circularStrokeCap: CircularStrokeCap.round,
-          percent: BlocProvider.of<DownloadsCubit>(context).percentageList[id],
-          center: BlocBuilder<DownloadsCubit, DownloadsState>(
-            builder: (context, state) {
-              if (state is DownloadsLoadingState) {
-                return state.id == id
-                    ? const CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.amber),
-                      )
-                    : const SizedBox();
-              } else if (state is DownloadingState) {
-                return IconButton(
+    return MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => DownloadsCubit()),
+          BlocProvider(create: (context) => PlayersCubit()),
+        ],
+        child: BlocBuilder<DownloadsCubit, DownloadsState>(
+          builder: (BuildContext context, DownloadsState state) {
+            if (state is DownloadsLoadingState) {
+              return const CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.amber));
+            } else if (state is DownloadingState) {
+              return CircularPercentIndicator(
+                  linearGradient: const LinearGradient(
+                      colors: [
+                        Color(0xFF3366FF),
+                        Color(0xFF00CCFF),
+                      ],
+                      begin: FractionalOffset(0.0, 0.0),
+                      end: FractionalOffset(1.0, 0.0),
+                      stops: [0.0, 1.0],
+                      tileMode: TileMode.clamp),
+                  radius: size.width / 15,
+                  backgroundColor: Colors.grey.shade700,
+                  lineWidth: 5,
+                  circularStrokeCap: CircularStrokeCap.round,
+                  percent: BlocProvider.of<DownloadsCubit>(context)
+                      .percentageList[id],
+                  center: IconButton(
+                    color: Colors.amber,
+                    onPressed: () {
+                      BlocProvider.of<DownloadsCubit>(context).pauseDownload();
+                    },
+                    icon: state.whoDownloading[id]
+                        ? const Icon(Icons.pause_rounded)
+                        : const Icon(Icons.play_arrow_rounded),
+                  ));
+            }
+
+            return CircularPercentIndicator(
+                linearGradient: const LinearGradient(
+                    colors: [
+                      Color(0xFF3366FF),
+                      Color(0xFF00CCFF),
+                    ],
+                    begin: FractionalOffset(0.0, 0.0),
+                    end: FractionalOffset(1.0, 0.0),
+                    stops: [0.0, 1.0],
+                    tileMode: TileMode.clamp),
+                radius: size.width / 15,
+                backgroundColor: Colors.grey.shade700,
+                lineWidth: 5,
+                circularStrokeCap: CircularStrokeCap.round,
+                percent:
+                    BlocProvider.of<DownloadsCubit>(context).percentageList[id],
+                center: IconButton(
                     color: Colors.amber,
                     onPressed: () {
                       BlocProvider.of<DownloadsCubit>(context)
                           .downloadFile(url: url, name: name, id: id);
                     },
-                    icon: state.whoDownloading[id]
-                        ? IconButton(
-                            icon: const Icon(Icons.pause_rounded),
-                            onPressed: () {
-                              BlocProvider.of<DownloadsCubit>(context)
-                                  .pauseDownload();
-                            },
-                          )
-                        : const Icon(Icons.download_rounded));
-              } else if (state is DownloadsPausedState) {
-                return IconButton(
-                  color: Colors.black,
-                  icon: const Icon(Icons.downloading_rounded),
-                  onPressed: () {
-                    BlocProvider.of<DownloadsCubit>(context)
-                        .downloadFile(url: url, id: id, name: name);
-                  },
-                );
-              } else if (state is DownloadErrorState) {
-                SchedulerBinding.instance.addPostFrameCallback((_) {
-                  Flushbar(
-                    icon: Icon(MdiIcons.alert, color: Colors.white),
-                    margin: const EdgeInsets.all(10),
-                    borderRadius: BorderRadius.circular(10),
-                    blockBackgroundInteraction: false,
-                    forwardAnimationCurve: Curves.easeOutBack,
-                    reverseAnimationCurve: Curves.easeOutBack,
-                    messageText: const Text(
-                      "Sorry we are updating server try later",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500),
-                    ),
-                    duration: const Duration(seconds: 3),
-                    backgroundGradient:
-                        const LinearGradient(colors: AppColors.grRest),
-                  ).show(context);
-                });
-              } else if (state is NoInternetState) {
-                SchedulerBinding.instance.addPostFrameCallback((_) {
-                  Flushbar(
-                    icon: Icon(MdiIcons.alert, color: Colors.white),
-                    margin: const EdgeInsets.all(10),
-                    borderRadius: BorderRadius.circular(10),
-                    blockBackgroundInteraction: false,
-                    forwardAnimationCurve: Curves.easeOutBack,
-                    reverseAnimationCurve: Curves.easeOutBack,
-                    messageText: const Text(
-                      "Internet not connected try again",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500),
-                    ),
-                    duration: const Duration(seconds: 3),
-                    backgroundGradient:
-                        const LinearGradient(colors: AppColors.grRest),
-                  ).show(context);
-                });
-              }
+                    icon: const Icon(Icons.download_rounded)));
+          },
+        ));
+    // return BlocBuilder<DownloadsCubit, DownloadsState>(
+    //   builder: (context, state) {
+    //     return CircularPercentIndicator(
+    //       linearGradient: const LinearGradient(
+    //           colors: [
+    //             Color(0xFF3366FF),
+    //             Color(0xFF00CCFF),
+    //           ],
+    //           begin: FractionalOffset(0.0, 0.0),
+    //           end: FractionalOffset(1.0, 0.0),
+    //           stops: [0.0, 1.0],
+    //           tileMode: TileMode.clamp),
+    //       radius: size.width / 15,
+    //       backgroundColor: Colors.grey.shade700,
+    //       lineWidth: 5,
+    //       circularStrokeCap: CircularStrokeCap.round,
+    //       percent: BlocProvider.of<DownloadsCubit>(context).percentageList[id],
+    //       center: BlocBuilder<DownloadsCubit, DownloadsState>(
+    //         builder: (context, state) {
+    //           if (state is DownloadsLoadingState) {
+    //             return state.id == id
+    //                 ? const CircularProgressIndicator(
+    //                     valueColor: AlwaysStoppedAnimation<Color>(Colors.amber),
+    //                   )
+    //                 : const SizedBox();
+    //           } else if (state is DownloadingState) {
+    //             return IconButton(
+    //                 color: Colors.amber,
+    //                 onPressed: () {
+    //                   BlocProvider.of<DownloadsCubit>(context).pauseDownload();
+    //                 },
+    //                 icon: state.whoDownloading[id]
+    //                     ? const Icon(Icons.pause_rounded)
+    //                     : const Icon(Icons.pause_rounded));
+    //           } else if (state is DownloadsPausedState) {
+    //             return IconButton(
+    //               color: Colors.black,
+    //               icon: const Icon(Icons.downloading_rounded),
+    //               onPressed: () {
+    //                 BlocProvider.of<DownloadsCubit>(context)
+    //                     .downloadFile(url: url, id: id, name: name);
+    //               },
+    //             );
+    //           } else if (state is DownloadErrorState) {
+    //             SchedulerBinding.instance.addPostFrameCallback((_) {
+    //               Flushbar(
+    //                 icon: Icon(MdiIcons.alert, color: Colors.white),
+    //                 margin: const EdgeInsets.all(10),
+    //                 borderRadius: BorderRadius.circular(10),
+    //                 blockBackgroundInteraction: false,
+    //                 forwardAnimationCurve: Curves.easeOutBack,
+    //                 reverseAnimationCurve: Curves.easeOutBack,
+    //                 messageText: const Text(
+    //                   "Sorry we are updating server try later",
+    //                   style: TextStyle(
+    //                       color: Colors.white,
+    //                       fontSize: 16,
+    //                       fontWeight: FontWeight.w500),
+    //                 ),
+    //                 duration: const Duration(seconds: 3),
+    //                 backgroundGradient:
+    //                     const LinearGradient(colors: AppColors.grRest),
+    //               ).show(context);
+    //             });
+    //           } else if (state is NoInternetState) {
+    //             SchedulerBinding.instance.addPostFrameCallback((_) {
+    //               Flushbar(
+    //                 icon: Icon(MdiIcons.alert, color: Colors.white),
+    //                 margin: const EdgeInsets.all(10),
+    //                 borderRadius: BorderRadius.circular(10),
+    //                 blockBackgroundInteraction: false,
+    //                 forwardAnimationCurve: Curves.easeOutBack,
+    //                 reverseAnimationCurve: Curves.easeOutBack,
+    //                 messageText: const Text(
+    //                   "Internet not connected try again",
+    //                   style: TextStyle(
+    //                       color: Colors.white,
+    //                       fontSize: 16,
+    //                       fontWeight: FontWeight.w500),
+    //                 ),
+    //                 duration: const Duration(seconds: 3),
+    //                 backgroundGradient:
+    //                     const LinearGradient(colors: AppColors.grRest),
+    //               ).show(context);
+    //             });
+    //           }
 
-              return BlocProvider(
-                create: (context) => PlayersCubit(),
-                child: BlocBuilder<PlayersCubit, PlayersState>(
-                  builder: (context, state) {
-                    if (state is IsPlayingAudio) {
-                      if (state.name == name) {
-                        return IconButton(
-                          onPressed: () {
-                            BlocProvider.of<PlayersCubit>(context).pauseMusic();
-                          },
-                          icon: const Icon(Icons.pause_rounded),
-                          color: Colors.amber,
-                        );
-                      }
-                    }
-                    return IconButton(
-                        color: Colors.amber,
-                        onPressed: () {
-                          if (BlocProvider.of<DownloadsCubit>(context)
-                              .isDownloadedList[id]) {
-                            BlocProvider.of<PlayersCubit>(context)
-                                .startMusicFile(name: name);
-                          } else {
-                            BlocProvider.of<DownloadsCubit>(context)
-                                .downloadFile(url: url, name: name, id: id);
-                          }
-                        },
-                        icon: BlocProvider.of<DownloadsCubit>(context)
-                                .isDownloadedList[id]
-                            ? const Icon(Icons.play_arrow)
-                            : const Icon(Icons.download_rounded));
-                  },
-                ),
-              );
-            },
-          ),
-        );
-      },
-    );
+    //           return BlocProvider(
+    //             create: (context) => PlayersCubit(),
+    //             child: BlocBuilder<PlayersCubit, PlayersState>(
+    //               builder: (context, state) {
+    //                 if (state is IsPlayingAudio) {
+    //                   if (state.name == name) {
+    //                     return IconButton(
+    //                       onPressed: () {
+    //                         BlocProvider.of<PlayersCubit>(context).pauseMusic();
+    //                       },
+    //                       icon: const Icon(Icons.pause_rounded),
+    //                       color: Colors.amber,
+    //                     );
+    //                   }
+    //                 }
+    //                 return IconButton(
+    //                     color: Colors.amber,
+    //                     onPressed: () {
+    //                       if (BlocProvider.of<DownloadsCubit>(context)
+    //                           .isDownloadedList[id]) {
+    //                         BlocProvider.of<PlayersCubit>(context)
+    //                             .startMusicFile(name: name);
+    //                       } else {
+    //                         BlocProvider.of<DownloadsCubit>(context)
+    //                             .downloadFile(url: url, name: name, id: id);
+    //                       }
+    //                     },
+    //                     icon: BlocProvider.of<DownloadsCubit>(context)
+    //                             .isDownloadedList[id]
+    //                         ? const Icon(Icons.play_arrow)
+    //                         : const Icon(Icons.download_rounded));
+    //               },
+    //             ),
+    //           );
+    //         },
+    //       ),
+    //     );
+    //   },
+    // );
   }
 }
