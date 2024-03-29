@@ -60,7 +60,7 @@ class MyCarousel extends StatelessWidget {
         height: 185.0,
         viewportFraction: 0.6,
         enableInfiniteScroll: false,
-        initialPage: 0,
+        initialPage: 1,
         enlargeCenterPage: true,
         enlargeFactor: 0.4,
       ),

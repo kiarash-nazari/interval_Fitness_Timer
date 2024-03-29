@@ -39,11 +39,11 @@ class PlayerController extends StatelessWidget {
             listener: (BuildContext context, TimersState state) {
               if (state is ThreeSecondsBeforeStop) {
                 BlocProvider.of<PlayersCubit>(context)
-                    .startActiviti("assets/audio/Stop.m4a");
+                    .startActivity("assets/audio/Stop.m4a");
               }
               if (state is ThreeSecondsBeforeStart) {
                 BlocProvider.of<PlayersCubit>(context)
-                    .startActiviti("assets/audio/Star.wav");
+                    .startActivity("assets/audio/Star.wav");
               }
             },
             builder: (context, state) {
@@ -73,7 +73,7 @@ class PlayerController extends StatelessWidget {
                       ).show(context);
                     } else {
                       BlocProvider.of<PlayersCubit>(context)
-                          .startActiviti("assets/audio/Star.wav");
+                          .startActivity("assets/audio/Star.wav");
                       BlocProvider.of<PlayersCubit>(context).startMusicOnline(
                           audioLink:
                               "https://luxafarin.com/wp-content/uploads/2024/02/mix1.mp3");
@@ -98,8 +98,8 @@ class PlayerController extends StatelessWidget {
                 return IconButton(
                   onPressed: () async {
                     BlocProvider.of<PlayersCubit>(context)
-                        .startActiviti("assets/audio/Star.wav");
-                    BlocProvider.of<PlayersCubit>(context).resumeMusic();
+                        .startActivity("assets/audio/Star.wav");
+                    BlocProvider.of<PlayersCubit>(context).resumeMusic("mix1");
                     await Future.delayed(const Duration(seconds: 3))
                         .then((value) {
                       BlocProvider.of<PlayersCubit>(context).resumeAlert();
@@ -119,7 +119,7 @@ class PlayerController extends StatelessWidget {
               if (state is PauseInRest) {
                 return IconButton(
                   onPressed: () async {
-                    BlocProvider.of<PlayersCubit>(context).resumeMusic();
+                    BlocProvider.of<PlayersCubit>(context).resumeMusic("mix1");
                     BlocProvider.of<PlayersCubit>(context).resumeAlert();
 
                     BlocProvider.of<TimersCubit>(context).startRest(
