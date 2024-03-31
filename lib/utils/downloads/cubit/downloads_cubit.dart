@@ -122,6 +122,9 @@ class DownloadsCubit extends Cubit<DownloadsState> {
           emit(DownloadsInitial());
         });
       } else {
+        if (e.toString().contains("request cancelled")) {
+          return;
+        }
         emit(DownloadErrorState(message: e.toString()));
         // To Not show error snackbar messages several times
         Future.delayed(const Duration(seconds: 1), () {

@@ -28,7 +28,6 @@ class DownloadProgress extends StatelessWidget {
     return MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => DownloadsCubit()),
-          BlocProvider(create: (context) => PlayersCubit()),
         ],
         child: BlocBuilder<DownloadsCubit, DownloadsState>(
           builder: (BuildContext context, DownloadsState state) {

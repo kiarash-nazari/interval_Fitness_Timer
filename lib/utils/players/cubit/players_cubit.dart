@@ -12,7 +12,7 @@ class PlayersCubit extends Cubit<PlayersState> {
   final _musicPlayer = AudioPlayer();
   String currentAudioName = "mix1";
   Duration _currentPosition = Duration.zero;
-  Duration _currentPositionAlert = Duration.zero;
+  // Duration _currentPositionAlert = Duration.zero;
 
   void startActivity(String audio) async {
     emit(StartActivitiAudio(audio));
@@ -24,7 +24,7 @@ class PlayersCubit extends Cubit<PlayersState> {
     }
     emit(IsPlayingAudio(currentAudioName));
     await _alertPlayer.play();
-    _currentPositionAlert = _alertPlayer.position;
+    // _currentPositionAlert = _alertPlayer.position;
   }
 
   void startMusicOnline({required String audioLink}) async {
@@ -32,7 +32,6 @@ class PlayersCubit extends Cubit<PlayersState> {
       await _musicPlayer.setAudioSource(AudioSource.uri(Uri.parse(audioLink)));
     } catch (e) {
       // Handle error if setting audio source fails
-      print('Error setting audio source: $e');
     }
     await _musicPlayer.seek(_currentPosition);
     await _musicPlayer.play();
@@ -51,7 +50,6 @@ class PlayersCubit extends Cubit<PlayersState> {
   }
 
   Future<void> pauseMusic() async {
-    print("pauseMusic");
     await _musicPlayer.pause();
     await _alertPlayer.pause();
     currentAudioName = "";

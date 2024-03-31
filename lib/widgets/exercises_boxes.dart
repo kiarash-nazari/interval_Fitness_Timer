@@ -23,6 +23,7 @@ class ExercisesBoxes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var values = false;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -40,18 +41,23 @@ class ExercisesBoxes extends StatelessWidget {
                 .map(
                   (e) => Padding(
                     padding: const EdgeInsets.all(5.0),
-                    child: ElevatedButton(
-                      style: AppButtonStyles.blueButton,
-                      onPressed: () {
-                        BlocProvider.of<MainCubit>(context).changeIndex(0);
-                        repsController.text = e.value[2].toString();
-                        activitiController.text = e.value[0].toString();
-                        restController.text = e.value[1].toString();
-                      },
-                      child: Text("Level ${e.key + 1}",
-                          style: const TextStyle(
-                            color: Colors.white,
-                          )),
+                    child: Row(
+                      children: [
+                        Checkbox(value: true, onChanged: (_) => {}),
+                        ElevatedButton(
+                          style: AppButtonStyles.blueButton,
+                          onPressed: () {
+                            BlocProvider.of<MainCubit>(context).changeIndex(0);
+                            repsController.text = e.value[2].toString();
+                            activitiController.text = e.value[0].toString();
+                            restController.text = e.value[1].toString();
+                          },
+                          child: Text("Level ${e.key + 1}",
+                              style: const TextStyle(
+                                color: Colors.white,
+                              )),
+                        ),
+                      ],
                     ),
                   ),
                 )

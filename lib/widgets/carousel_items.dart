@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:interval_timer/utils/downloads/cubit/downloads_cubit.dart';
 import 'package:interval_timer/utils/players/cubit/players_cubit.dart';
 import 'package:interval_timer/widgets/download_progrese.dart';
 
@@ -24,13 +23,17 @@ class CarouselItems extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.sizeOf(context);
+    bool toggle = false;
 
     return BlocProvider(
-      create: (context) => DownloadsCubit(),
+      create: (context) => PlayersCubit(),
       child: GestureDetector(
         onTap: () {
-          BlocProvider.of<PlayersCubit>(context)
-              .startMusicOnline(audioLink: audioLink);
+          toggle
+              ? BlocProvider.of<PlayersCubit>(context).pauseMusic()
+              : BlocProvider.of<PlayersCubit>(context)
+                  .startMusicOnline(audioLink: audioLink);
+          toggle = !toggle;
         },
         child: Container(
           width: 200,
