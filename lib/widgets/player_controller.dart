@@ -8,6 +8,7 @@ import 'package:interval_timer/utils/players/cubit/players_cubit.dart';
 import 'package:interval_timer/widgets/glassmorphism.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:another_flushbar/flushbar.dart';
+import 'package:slide_to_act/slide_to_act.dart';
 
 class PlayerController extends StatefulWidget {
   const PlayerController({
@@ -36,9 +37,10 @@ class PlayerControllerState extends State<PlayerController> {
   late Timer _longPressTimer;
   late Timer _stopTimer;
   bool oneTimePress = true;
+  bool slideActive = false;
 
   void startLongPressTimerPauseMusic() {
-    _longPressTimer = Timer(const Duration(milliseconds: 1300), () {
+    _longPressTimer = Timer(const Duration(milliseconds: 1000), () {
       if (_isLongPressed) {
         BlocProvider.of<TimersCubit>(context).pause();
         BlocProvider.of<PlayersCubit>(context).pauseMusic();
@@ -52,7 +54,7 @@ class PlayerControllerState extends State<PlayerController> {
   }
 
   void startLongPressTimerStop() {
-    _stopTimer = Timer(const Duration(milliseconds: 1600), () {
+    _stopTimer = Timer(const Duration(milliseconds: 1000), () {
       widget._restController.text = "";
       widget._activitiController.text = "";
       widget._repsController.text = "";
@@ -147,6 +149,9 @@ class PlayerControllerState extends State<PlayerController> {
                           } else {
                             if (oneTimePress) {
                               oneTimePress = false;
+                              setState(() {
+                                slideActive = true;
+                              });
 
                               BlocProvider.of<PlayersCubit>(context)
                                   .startActivity("assets/audio/Star.wav");
@@ -173,6 +178,10 @@ class PlayerControllerState extends State<PlayerController> {
                     if (state is PauseInActiviti) {
                       return IconButton(
                         onPressed: () async {
+                          setState(() {
+                            slideActive = !slideActive;
+                          });
+
                           BlocProvider.of<PlayersCubit>(context)
                               .startActivity("assets/audio/Star.wav");
                           BlocProvider.of<PlayersCubit>(context)
@@ -197,6 +206,10 @@ class PlayerControllerState extends State<PlayerController> {
                     if (state is PauseInRest) {
                       return IconButton(
                         onPressed: () async {
+                          setState(() {
+                            slideActive = !slideActive;
+                          });
+
                           BlocProvider.of<PlayersCubit>(context)
                               .resumeMusic("mix1");
                           BlocProvider.of<PlayersCubit>(context).resumeAlert();
@@ -212,97 +225,155 @@ class PlayerControllerState extends State<PlayerController> {
                         ),
                       );
                     }
-                    return GestureDetector(
-                      onTapDown: (s) async {
-                        setState(() {
-                          _isLongPressed = true;
-                          Future.delayed(const Duration(milliseconds: 100))
-                              .then((value) {
-                            setState(() {
-                              _isLongPressed = false;
-                              _progress = 0.0;
+                    return ClipRRect(
+                      borderRadius: const BorderRadius.only(
+                          bottomLeft: Radius.circular(30),
+                          bottomRight: Radius.circular(16),
+                          topLeft: Radius.circular(9),
+                          topRight: Radius.circular(50)),
+                      child: GestureDetector(
+                        onPanDown: (s) {
+                          setState(() {
+                            _isLongPressed = true;
+                            Future.delayed(const Duration(milliseconds: 100))
+                                .then((value) {
+                              setState(() {
+                                _isLongPressed = false;
+                                _progress = 0.0;
+                              });
                             });
                           });
-                        });
-                      },
-                      onLongPressStart: (_) {
-                        setState(() {
-                          _isLongPressed = true;
-                        });
-                        startLongPressTimerPauseMusic();
-                      },
-                      onLongPressCancel: () {
-                        setState(() {
-                          _isLongPressed = false;
-                          _progress = 0.0;
-                        });
-                        stopLongPressTimer();
-                      },
-                      onLongPressEnd: (_) {
-                        setState(() {
-                          _isLongPressed = false;
-                          _progress = 0.0;
-                        });
-                        stopLongPressTimer();
-                      },
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          MdiIcons.pause,
-                          size: 50,
-                          color: Colors.amber,
+                        },
+                        onLongPressStart: (_) {
+                          setState(() {
+                            _isLongPressed = true;
+                          });
+
+                          startLongPressTimerPauseMusic();
+                        },
+                        onLongPressCancel: () {
+                          setState(() {
+                            _isLongPressed = false;
+                            _progress = 0.0;
+                          });
+                          stopLongPressTimer();
+                        },
+                        onLongPressEnd: (_) {
+                          setState(() {
+                            _isLongPressed = false;
+                            _progress = 0.0;
+                          });
+                          stopLongPressTimer();
+                        },
+                        child: IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            MdiIcons.pause,
+                            size: 50,
+                            color: Colors.amber,
+                          ),
                         ),
                       ),
                     );
                   },
                 ),
-                GestureDetector(
-                  onTapDown: (s) async {
-                    setState(() {
-                      _isLongPressed = true;
-                      Future.delayed(const Duration(milliseconds: 100))
-                          .then((value) {
-                        setState(() {
-                          _isLongPressed = false;
-                          _progress = 0.0;
+                ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(30),
+                      bottomRight: Radius.circular(16),
+                      topLeft: Radius.circular(9),
+                      topRight: Radius.circular(50)),
+                  child: GestureDetector(
+                    onPanDown: (s) {
+                      setState(() {
+                        _isLongPressed = true;
+                        Future.delayed(const Duration(milliseconds: 100))
+                            .then((value) {
+                          setState(() {
+                            _isLongPressed = false;
+                            _progress = 0.0;
+                          });
                         });
                       });
-                    });
-                  },
-                  onLongPressCancel: () {
-                    setState(() {
-                      _isLongPressed = false;
-                      _progress = 0.0;
-                    });
-                    stopLongPressTimer();
-                  },
-                  onLongPressStart: (details) {
-                    setState(() {
-                      _isLongPressed = true;
-                    });
-                    startLongPressTimerStop();
-                  },
-                  onLongPressEnd: (details) {
-                    setState(() {
-                      _isLongPressed = false;
-                      _progress = 0.0;
-                    });
-                    stopLongPressTimer();
-                  },
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      MdiIcons.stop,
-                      size: 50,
-                      color: Colors.amber,
+                    },
+                    onLongPressCancel: () {
+                      setState(() {
+                        _isLongPressed = false;
+                        _progress = 0.0;
+                      });
+                      stopLongPressTimer();
+                    },
+                    onLongPressStart: (details) {
+                      setState(() {
+                        _isLongPressed = true;
+                      });
+
+                      startLongPressTimerStop();
+                    },
+                    onLongPressEnd: (details) {
+                      setState(() {
+                        _isLongPressed = false;
+                        _progress = 0.0;
+                      });
+                      stopLongPressTimer();
+                    },
+                    child: IconButton(
+                      onPressed: () {},
+                      icon: Icon(
+                        MdiIcons.stop,
+                        size: 50,
+                        color: Colors.amber,
+                      ),
                     ),
                   ),
                 ),
               ],
+            ),
+            Visibility(
+                visible: !slideActive,
+                child: Positioned(
+                  right: 0,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.amberAccent.shade400,
+                        borderRadius: BorderRadius.circular(30)),
+                    child: IconButton(
+                        color: Colors.black,
+                        onPressed: () {
+                          setState(() {
+                            slideActive = !slideActive;
+                          });
+                        },
+                        icon: Icon(MdiIcons.chevronTripleLeft)),
+                  ),
+                )),
+            Visibility(
+              visible: slideActive,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(5, 4, 5, 4),
+                child: SlideAction(
+                  sliderButtonIcon: Icon(MdiIcons.chevronTripleRight),
+                  innerColor: Colors.amberAccent.shade400,
+                  outerColor: AppColors.mainblue.withOpacity(.6),
+                  elevation: 0,
+                  text: "     Slide to unlock",
+                  textColor: Colors.black,
+                  animationDuration: Duration.zero,
+                  borderRadius: 31,
+                  onSubmit: () {
+                    setState(() {
+                      slideActive = !slideActive;
+                    });
+                    return;
+                  },
+                ),
+              ),
             ),
           ],
         ),
       ),
     );
   }
+
+  var ss = false;
 }
