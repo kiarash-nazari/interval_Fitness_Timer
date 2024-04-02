@@ -332,7 +332,7 @@ class PlayerControllerState extends State<PlayerController> {
             Visibility(
                 visible: !slideActive,
                 child: Positioned(
-                  right: 0,
+                  right: 4,
                   child: Container(
                     decoration: BoxDecoration(
                         color: Colors.amberAccent.shade400,
