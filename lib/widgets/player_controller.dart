@@ -374,6 +374,4 @@ class PlayerControllerState extends State<PlayerController> {
       ),
     );
   }
-
-  var ss = false;
 }
