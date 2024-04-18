@@ -19,6 +19,14 @@ class AppColors {
     Color(0xFFA10100),
     Color.fromARGB(255, 243, 24, 4),
   ];
+  static const List<Color> grMuclesTrain = [
+    Color(0xFF00CCFF),
+    Color(0xFF3366FF),
+    Color(0xFFFFC11F),
+    Color(0xFFFE650D),
+    Color(0xFFA10100),
+    Color.fromARGB(255, 243, 24, 4),
+  ];
   static const List<Color> grRest = [
     Color(0xFF3366FF),
     Color(0xFF00CCFF),

@@ -192,9 +192,14 @@ class _FrontBodyState extends State<FrontBody> {
                     showDialog(
                       context: context,
                       builder: (context) {
-                        return const AlertDialog(
-                            title: Text('How did You Train these Mucles?'),
-                            content: MyProgressBar());
+                        return AlertDialog(
+                          title: const Text('How did You Train these Mucles?'),
+                          content: const MyProgressBar(),
+                          actions: [
+                            TextButton(
+                                onPressed: () {}, child: const Text('Done'))
+                          ],
+                        );
                       },
                     );
                   },
