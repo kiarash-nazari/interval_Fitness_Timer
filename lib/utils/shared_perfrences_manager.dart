@@ -34,4 +34,43 @@ class SharedPreferencesManager {
     }
     return 3;
   }
+
+  //wrtite data lists
+
+  Future<void> saveStringList(String key, List<String> value) async {
+    try {
+      await _preferences?.setStringList(key, value);
+    } catch (e) {
+      print("Booooz $e");
+    }
+  }
+
+  //read data lists
+  List<String>? getStringList(String key) {
+    try {
+      return _preferences?.getStringList(key);
+    } catch (e) {
+      print("Get Int Error $e");
+    }
+    return null;
+  }
+
+  //write data double
+  Future<void> saveDouble(String key, double value) async {
+    try {
+      await _preferences?.setDouble(key, value);
+    } catch (e) {
+      print("Booooz $e");
+    }
+  }
+
+  //read data double
+  double? getDouble(String key) {
+    try {
+      return _preferences?.getDouble(key);
+    } catch (e) {
+      print(e);
+    }
+    return 0.0;
+  }
 }

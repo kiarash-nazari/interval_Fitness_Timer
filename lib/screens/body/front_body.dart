@@ -1,9 +1,13 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:interval_timer/components/extentions.dart';
 import 'package:interval_timer/res/svg_codes.dart';
+import 'package:interval_timer/screens/body/cubit/body_compose_cubit.dart';
+import 'package:interval_timer/utils/shared_perfrences_manager.dart';
 import 'package:interval_timer/widgets/clikable_progresbar.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class FrontBody extends StatefulWidget {
   const FrontBody({Key? key}) : super(key: key);
@@ -13,6 +17,37 @@ class FrontBody extends StatefulWidget {
 }
 
 class _FrontBodyState extends State<FrontBody> {
+  double howHard = 0;
+
+  SharedPreferencesManager sharedPreferencesManager =
+      SharedPreferencesManager();
+  @override
+  void initState() {
+    super.initState();
+    print(sharedPreferencesManager.getStringList("savedBodyParts"));
+    primeriChoosen =
+        sharedPreferencesManager.getStringList("savedBodyParts") ?? [];
+
+    var now = DateTime.now().millisecondsSinceEpoch;
+    int choosedTime = sharedPreferencesManager.getInt("choosedTime") ?? 0;
+    howHard = sharedPreferencesManager.getDouble("howHard") ?? 0;
+
+    print(howHard * 200000);
+    print(((now - choosedTime) / 1000));
+    if (((now - choosedTime) / 1000) > howHard * 200000 &&
+        primeriChoosen.isNotEmpty) {
+      for (var parts in primeriChoosen) {
+        bodyParts[parts] = "glass";
+      }
+      primeriChoosen.clear();
+      sharedPreferencesManager.saveStringList("savedBodyParts", primeriChoosen);
+    } else {
+      for (var parts in primeriChoosen) {
+        bodyParts[parts] = "red";
+      }
+    }
+  }
+
   Map<String, String> bodyParts = {
     'leftKool': 'glass',
     'leftShoulder': 'glass',
@@ -99,10 +134,17 @@ class _FrontBodyState extends State<FrontBody> {
     'rightQuadThird': [6, 60],
     'rightFrontCraft': [13, 50],
   };
+  List<String> primeriChoosen = [];
+  double percentage = .1;
   void togglePart(String partName) {
     setState(() {
-      bodyParts[partName] = bodyParts[partName] == 'red' ? 'glass' : 'red';
-      print(partName);
+      bodyParts[partName] = bodyParts[partName] == 'green' ? 'glass' : 'green';
+      if (primeriChoosen.contains(partName)) {
+        primeriChoosen.remove(partName);
+      } else {
+        primeriChoosen.add(partName);
+      }
+      print(primeriChoosen);
     });
   }
 
@@ -194,14 +236,40 @@ class _FrontBodyState extends State<FrontBody> {
                       builder: (context) {
                         return AlertDialog(
                           title: const Text('How did You Train these Mucles?'),
-                          content: const MyProgressBar(),
+                          content: MyProgressBar(
+                            percentage: 0,
+                          ),
                           actions: [
                             TextButton(
-                                onPressed: () {}, child: const Text('Done'))
+                                onPressed: () {
+                                  for (var parts in primeriChoosen) {
+                                    bodyParts[parts] = "red";
+                                  }
+                                  sharedPreferencesManager.saveStringList(
+                                      "savedBodyParts", primeriChoosen);
+
+                                  int now =
+                                      DateTime.now().millisecondsSinceEpoch;
+                                  print(now);
+                                  sharedPreferencesManager.saveInt(
+                                      "choosedTime", now);
+
+                                  howHard = context
+                                      .read<BodyComposeCubit>()
+                                      .myPercentage;
+
+                                  sharedPreferencesManager.saveDouble(
+                                      "howHard", howHard);
+
+                                  setState(() {});
+                                },
+                                child: const Text('Done'))
                           ],
                         );
                       },
                     );
+                    print(sharedPreferencesManager
+                        .getStringList("savedBodyParts"));
                   },
                   icon: const Icon(Icons.next_plan),
                   label: const Text('Next'),
