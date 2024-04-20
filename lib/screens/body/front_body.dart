@@ -24,29 +24,68 @@ class _FrontBodyState extends State<FrontBody> {
   @override
   void initState() {
     super.initState();
-    print(sharedPreferencesManager.getStringList("savedBodyParts"));
-    primeriChoosen =
-        sharedPreferencesManager.getStringList("savedBodyParts") ?? [];
+    // print(sharedPreferencesManager.getStringList("savedBodyParts"));
 
     var now = DateTime.now().millisecondsSinceEpoch;
-    int choosedTime = sharedPreferencesManager.getInt("choosedTime") ?? 0;
-    howHard = sharedPreferencesManager.getDouble("howHard") ?? 0;
 
-    print(howHard * 200000);
-    print(((now - choosedTime) / 1000));
-    if (((now - choosedTime) / 1000) > howHard * 200000 &&
-        primeriChoosen.isNotEmpty) {
-      for (var parts in primeriChoosen) {
-        bodyParts[parts] = "glass";
-      }
-      primeriChoosen.clear();
-      sharedPreferencesManager.saveStringList("savedBodyParts", primeriChoosen);
-    } else {
-      for (var parts in primeriChoosen) {
-        bodyParts[parts] = "red";
+    var spartHowHard = sharedPreferencesManager.getMap('partHowHard');
+
+    for (var hard in spartHowHard.entries) {
+      if ((now - hard.value[1]) / 1000 > hard.value[0] * 200000) {
+        bodyParts[hard.key] = "glass";
+      } else {
+        bodyParts[hard.key] = "red";
+        print((now - hard.value[1]) / 1000);
+
+        print(hard.value[0] * 200000);
       }
     }
+    // howHard = sharedPreferencesManager.getDouble("howHard") ?? 0;
+
+    // print(howHard * 200000);
+    // print(((now - choosedTime) / 1000));
+    // if (((now - choosedTime) / 1000) > howHard * 200000 &&
+    //     primeriChoosen.isNotEmpty) {
+    //   for (var parts in primeriChoosen) {
+    //     bodyParts[parts] = "glass";
+    //   }
+    //   primeriChoosen.clear();
+    //   sharedPreferencesManager.saveStringList("savedBodyParts", primeriChoosen);
+    // } else {
+    //   for (var parts in primeriChoosen) {
+    //     bodyParts[parts] = "red";
+    //   }
+    // }
   }
+
+  Map<String, List<double>>? partHowHard = {
+    "leftKool": [0, 0],
+    "leftShoulder": [0, 0],
+    "leftBiceps": [0, 0],
+    "leftForearm": [0, 0],
+    "leftChest": [0, 0],
+    "leftFirstAb": [0, 0],
+    "leftSecondAb": [0, 0],
+    "leftThirdAb": [0, 0],
+    "leftSexAb": [0, 0],
+    "leftQuadFirst": [0, 0],
+    "leftQuadSecond": [0, 0],
+    "leftQuadThird": [0, 0],
+    "leftFrontCraft": [0, 0],
+    "rightKool": [0, 0],
+    "rightShoulder": [0, 0],
+    "rightBiceps": [0, 0],
+    "rightForearm": [0, 0],
+    "rightChest": [0, 0],
+    "rightFirstAb": [0, 0],
+    "rightSecondAb": [0, 0],
+    "rightThirdAb": [0, 0],
+    "rightSexAb": [0, 0],
+    "rightQuadFirst": [0, 0],
+    "rightQuadSecond": [0, 0],
+    "rightQuadThird": [0, 0],
+    "rightFrontCraft": [0, 0]
+  };
 
   Map<String, String> bodyParts = {
     'leftKool': 'glass',
@@ -76,6 +115,7 @@ class _FrontBodyState extends State<FrontBody> {
     'rightQuadThird': 'glass',
     'rightFrontCraft': 'glass',
   };
+
   // Define positions and sizes for each body part
   Map<String, List<double>> partPositions = {
     'leftKool': [150, 8, 0],
@@ -135,9 +175,11 @@ class _FrontBodyState extends State<FrontBody> {
     'rightFrontCraft': [13, 50],
   };
   List<String> primeriChoosen = [];
-  double percentage = .1;
   void togglePart(String partName) {
     setState(() {
+      if (bodyParts[partName] == "red") {
+        return;
+      }
       bodyParts[partName] = bodyParts[partName] == 'green' ? 'glass' : 'green';
       if (primeriChoosen.contains(partName)) {
         primeriChoosen.remove(partName);
@@ -231,6 +273,7 @@ class _FrontBodyState extends State<FrontBody> {
                   style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(Colors.amber)),
                   onPressed: () {
+                    print(partHowHard);
                     showDialog(
                       context: context,
                       builder: (context) {
@@ -242,25 +285,23 @@ class _FrontBodyState extends State<FrontBody> {
                           actions: [
                             TextButton(
                                 onPressed: () {
-                                  for (var parts in primeriChoosen) {
-                                    bodyParts[parts] = "red";
-                                  }
-                                  sharedPreferencesManager.saveStringList(
-                                      "savedBodyParts", primeriChoosen);
-
-                                  int now =
-                                      DateTime.now().millisecondsSinceEpoch;
-                                  print(now);
-                                  sharedPreferencesManager.saveInt(
-                                      "choosedTime", now);
-
                                   howHard = context
                                       .read<BodyComposeCubit>()
                                       .myPercentage;
+                                  double now = DateTime.now()
+                                      .millisecondsSinceEpoch
+                                      .toDouble();
+                                  print(now);
+                                  for (var parts in primeriChoosen) {
+                                    bodyParts[parts] = "red";
+                                    partHowHard![parts]?[0] = howHard;
+                                    partHowHard![parts]?[1] = now;
+                                  }
+                                  sharedPreferencesManager.saveMap(
+                                      'partHowHard', partHowHard!);
 
-                                  sharedPreferencesManager.saveDouble(
-                                      "howHard", howHard);
-
+                                  print(sharedPreferencesManager
+                                      .getMap("partHowHard"));
                                   setState(() {});
                                 },
                                 child: const Text('Done'))
@@ -268,8 +309,6 @@ class _FrontBodyState extends State<FrontBody> {
                         );
                       },
                     );
-                    print(sharedPreferencesManager
-                        .getStringList("savedBodyParts"));
                   },
                   icon: const Icon(Icons.next_plan),
                   label: const Text('Next'),

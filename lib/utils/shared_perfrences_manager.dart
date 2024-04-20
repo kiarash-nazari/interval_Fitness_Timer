@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesManager {
@@ -72,5 +74,22 @@ class SharedPreferencesManager {
       print(e);
     }
     return 0.0;
+  }
+
+  //write data map
+  Future<void> saveMap(String key, Map<String, dynamic> value) async {
+    try {
+      final jsonString = json.encode(value);
+      await _preferences?.setString(key, jsonString);
+      // print("$key : $value");
+    } catch (e) {
+      print("Error saving map: $e");
+    }
+  }
+
+  //read data map
+  Map<String, dynamic> getMap(String key) {
+    // print(_preferences?.getString(key));
+    return json.decode(_preferences?.getString(key) ?? "{}");
   }
 }
