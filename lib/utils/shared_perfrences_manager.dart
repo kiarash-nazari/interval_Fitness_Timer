@@ -92,4 +92,13 @@ class SharedPreferencesManager {
     // print(_preferences?.getString(key));
     return json.decode(_preferences?.getString(key) ?? "{}");
   }
+
+  // remove data
+  Future<void> remove(String key) async {
+    try {
+      await _preferences?.remove(key);
+    } catch (e) {
+      print("Error removing key: $e");
+    }
+  }
 }

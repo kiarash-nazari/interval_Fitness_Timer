@@ -1,11 +1,14 @@
 // ignore_for_file: avoid_print
 
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:interval_timer/components/extentions.dart';
 import 'package:interval_timer/res/svg_codes.dart';
 import 'package:interval_timer/screens/body/cubit/body_compose_cubit.dart';
+import 'package:interval_timer/utils/format_time.dart';
 import 'package:interval_timer/utils/shared_perfrences_manager.dart';
 import 'package:interval_timer/widgets/clikable_progresbar.dart';
 
@@ -18,47 +21,36 @@ class FrontBody extends StatefulWidget {
 
 class _FrontBodyState extends State<FrontBody> {
   double howHard = 0;
+  void makeIt() {
+    var now = DateTime.now().millisecondsSinceEpoch;
+    var spartHowHard = sharedPreferencesManager.getMap('partHowHard');
+
+    for (var hard in spartHowHard.entries) {
+      // hard.value[0] = 0;
+      // hard.value[1] = 0;
+      // partHowHard = spartHowHard;
+      if ((now - hard.value[1]) / 1000 > hard.value[0]) {
+        bodyParts[hard.key] = "glass";
+        hard.value[0] = 0;
+        hard.value[1] = 0;
+      } else {
+        bodyParts[hard.key] = "red";
+        print(
+            ("red: ${hard.key} = ${(hard.value[0])} / ${hard.value[1]} / time: ${(hard.value[0]) - ((now - hard.value[1]) / 1000)} "));
+      }
+    }
+    partHowHard = spartHowHard;
+  }
 
   SharedPreferencesManager sharedPreferencesManager =
       SharedPreferencesManager();
   @override
   void initState() {
     super.initState();
-    // print(sharedPreferencesManager.getStringList("savedBodyParts"));
-
-    var now = DateTime.now().millisecondsSinceEpoch;
-
-    var spartHowHard = sharedPreferencesManager.getMap('partHowHard');
-
-    for (var hard in spartHowHard.entries) {
-      if ((now - hard.value[1]) / 1000 > hard.value[0] * 200000) {
-        bodyParts[hard.key] = "glass";
-      } else {
-        bodyParts[hard.key] = "red";
-        print((now - hard.value[1]) / 1000);
-
-        print(hard.value[0] * 200000);
-      }
-    }
-    // howHard = sharedPreferencesManager.getDouble("howHard") ?? 0;
-
-    // print(howHard * 200000);
-    // print(((now - choosedTime) / 1000));
-    // if (((now - choosedTime) / 1000) > howHard * 200000 &&
-    //     primeriChoosen.isNotEmpty) {
-    //   for (var parts in primeriChoosen) {
-    //     bodyParts[parts] = "glass";
-    //   }
-    //   primeriChoosen.clear();
-    //   sharedPreferencesManager.saveStringList("savedBodyParts", primeriChoosen);
-    // } else {
-    //   for (var parts in primeriChoosen) {
-    //     bodyParts[parts] = "red";
-    //   }
-    // }
+    makeIt();
   }
 
-  Map<String, List<double>>? partHowHard = {
+  Map<String, dynamic>? partHowHard = {
     "leftKool": [0, 0],
     "leftShoulder": [0, 0],
     "leftBiceps": [0, 0],
@@ -178,6 +170,62 @@ class _FrontBodyState extends State<FrontBody> {
   void togglePart(String partName) {
     setState(() {
       if (bodyParts[partName] == "red") {
+        showDialog(
+          context: context,
+          builder: (context) {
+            var now = DateTime.now().millisecondsSinceEpoch;
+            return AlertDialog(
+              title: const Text("Recovery Time Reminded"),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    formatTime(
+                      (partHowHard?[partName][0]) -
+                          ((now.toDouble() - partHowHard?[partName][1]) / 1000),
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      TextButton(
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: const Text("Are you sure?"),
+                                  content: Row(
+                                    children: [
+                                      TextButton(
+                                          onPressed: () {
+                                            partHowHard?[partName][0] = 0;
+                                            partHowHard?[partName][1] = 0;
+                                            sharedPreferencesManager.saveMap(
+                                                'partHowHard', partHowHard!);
+                                            makeIt;
+                                            setState(() {});
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text("yes")),
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text("Cancel")),
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                          child: const Text("End Of Recovery"))
+                    ],
+                  )
+                ],
+              ),
+            );
+          },
+        );
         return;
       }
       bodyParts[partName] = bodyParts[partName] == 'green' ? 'glass' : 'green';
@@ -237,6 +285,25 @@ class _FrontBodyState extends State<FrontBody> {
 
   @override
   Widget build(BuildContext context) {
+    var now = DateTime.now().millisecondsSinceEpoch;
+    var spartHowHard = sharedPreferencesManager.getMap('partHowHard');
+
+    for (var hard in spartHowHard.entries) {
+      // hard.value[0] = 0;
+      // hard.value[1] = 0;
+      // partHowHard = spartHowHard;
+      if ((now - hard.value[1]) / 1000 > hard.value[0]) {
+        bodyParts[hard.key] = "glass";
+        hard.value[0] = 0;
+        hard.value[1] = 0;
+      } else {
+        bodyParts[hard.key] = "red";
+        print(
+            ("red: ${hard.key} = ${(hard.value[0])} / ${hard.value[1]} / time: ${(hard.value[0]) - ((now - hard.value[1]) / 1000)} "));
+      }
+      partHowHard = spartHowHard;
+    }
+
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 80, 5, 218),
       appBar: AppBar(
@@ -273,7 +340,6 @@ class _FrontBodyState extends State<FrontBody> {
                   style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(Colors.amber)),
                   onPressed: () {
-                    print(partHowHard);
                     showDialog(
                       context: context,
                       builder: (context) {
@@ -294,14 +360,15 @@ class _FrontBodyState extends State<FrontBody> {
                                   print(now);
                                   for (var parts in primeriChoosen) {
                                     bodyParts[parts] = "red";
-                                    partHowHard![parts]?[0] = howHard;
+                                    partHowHard![parts]?[0] =
+                                        ((howHard * 300000)).toDouble();
                                     partHowHard![parts]?[1] = now;
                                   }
                                   sharedPreferencesManager.saveMap(
                                       'partHowHard', partHowHard!);
+                                  primeriChoosen.clear();
+                                  Navigator.pop(context);
 
-                                  print(sharedPreferencesManager
-                                      .getMap("partHowHard"));
                                   setState(() {});
                                 },
                                 child: const Text('Done'))
