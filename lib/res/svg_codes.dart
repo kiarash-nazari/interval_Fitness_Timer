@@ -16,11 +16,22 @@ class SvgCodes {
             <stop offset="50%" stop-color="#FF0000" stop-opacity="0.5" />
             <stop offset="100%" stop-color="#FF0000" stop-opacity="0.2" />
         </linearGradient>
+        <linearGradient id="blue" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#0000FF" stop-opacity="0.2" />
+            <stop offset="50%" stop-color="#0000FF" stop-opacity="0.5" />
+            <stop offset="100%" stop-color="#0000FF" stop-opacity="0.2" />
+        </linearGradient>
                 <linearGradient id="green" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stop-color="#0FF000" stop-opacity="0.2" />
             <stop offset="50%" stop-color="#0FF000" stop-opacity="0.5" />
             <stop offset="100%" stop-color="#0FF000" stop-opacity="0.2" />
         </linearGradient>
+        <linearGradient id="orange" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFA500" stop-opacity="0.2" />
+            <stop offset="50%" stop-color="#FFA500" stop-opacity="0.5" />
+            <stop offset="100%" stop-color="#FFA500" stop-opacity="0.2" />
+        </linearGradient>
+
     </defs>
     <g filter="url(#blurFilter)">
       <path id="body-u-chestr" 
