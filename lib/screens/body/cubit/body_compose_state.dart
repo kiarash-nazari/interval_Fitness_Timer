@@ -17,3 +17,12 @@ final class BodyComposeUpdatePercentage extends BodyComposeState {
   @override
   List<Object> get props => [percentage];
 }
+
+final class BodyComposeUpdateReminded extends BodyComposeState {
+  const BodyComposeUpdateReminded({required this.remindedInseconds});
+
+  final double remindedInseconds;
+
+  @override
+  List<Object> get props => [remindedInseconds];
+}

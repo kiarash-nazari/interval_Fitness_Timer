@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print
 
+import 'dart:async';
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
@@ -41,16 +42,19 @@ class _FrontBodyState extends State<FrontBody> {
       } else {
         switch ((hard.value[0]) - ((now - hard.value[1]) / 1000)) {
           case < 86400:
-            print("mann ${(hard.value[0]) - ((now - hard.value[1]) / 1000)}");
+            print(
+                "reminded ${(hard.value[0]) - ((now - hard.value[1]) / 1000)}");
             bodyParts[hard.key] = "blue";
             break;
           case > 86400 && < 172800:
-            print("mann ${(hard.value[0]) - ((now - hard.value[1]) / 1000)}");
+            print(
+                "reminded ${(hard.value[0]) - ((now - hard.value[1]) / 1000)}");
 
             bodyParts[hard.key] = "orange";
             break;
           case > 172800:
-            print("mann ${(hard.value[0]) - ((now - hard.value[1]) / 1000)}");
+            print(
+                "reminded ${(hard.value[0]) - ((now - hard.value[1]) / 1000)}");
 
             bodyParts[hard.key] = "red";
             break;
@@ -230,7 +234,7 @@ class _FrontBodyState extends State<FrontBody> {
                       backgroundColor: MaterialStateProperty.all(Colors.amber)),
                   onPressed: () {
                     if (primeriChoosen.isEmpty) {
-                      return null;
+                      return;
                     }
                     showDialog(
                       context: context,
@@ -287,55 +291,72 @@ class _FrontBodyState extends State<FrontBody> {
           context: context,
           builder: (context) {
             var now = DateTime.now().millisecondsSinceEpoch;
+
+            // Timer.periodic(const Duration(seconds: 2), (timer) {
+            //   setState(() {
+            //     remindedTime = (partHowHard?[partName][0]) -
+            //         ((now.toDouble() - partHowHard?[partName][1]) / 1000);
+            //     print(remindedTime);
+            //   });
+            // });
             return AlertDialog(
               title: const Text("Recovery Time Reminded"),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    formatTime(
-                      (partHowHard?[partName][0]) -
-                          ((now.toDouble() - partHowHard?[partName][1]) / 1000),
-                    ),
-                  ),
-                  Row(
+              content: BlocBuilder<BodyComposeCubit, double>(
+                builder: (context, state) {
+                  double remindedTime = context
+                      .read<BodyComposeCubit>()
+                      .updateReminedTime(
+                          level: (partHowHard?[partName][0]),
+                          savedSecond: partHowHard?[partName][1]);
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      TextButton(
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog(
-                                  title: const Text("Are you sure?"),
-                                  content: Row(
-                                    children: [
-                                      TextButton(
-                                          onPressed: () {
-                                            partHowHard?[partName][0] = 0;
-                                            partHowHard?[partName][1] = 0;
-                                            sharedPreferencesManager.saveMap(
-                                                'partHowHard', partHowHard!);
-                                            makeIt();
-                                            setState(() {});
-                                            Navigator.pop(context);
-                                            Navigator.pop(context);
-                                          },
-                                          child: const Text("yes")),
-                                      TextButton(
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: const Text("Cancel")),
-                                    ],
-                                  ),
+                      Text(
+                        formatTime(
+                          remindedTime,
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          TextButton(
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: const Text("Are you sure?"),
+                                      content: Row(
+                                        children: [
+                                          TextButton(
+                                              onPressed: () {
+                                                partHowHard?[partName][0] = 0;
+                                                partHowHard?[partName][1] = 0;
+                                                sharedPreferencesManager
+                                                    .saveMap('partHowHard',
+                                                        partHowHard!);
+                                                makeIt();
+                                                setState(() {});
+                                                Navigator.pop(context);
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text("yes")),
+                                          TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text("Cancel")),
+                                        ],
+                                      ),
+                                    );
+                                  },
                                 );
                               },
-                            );
-                          },
-                          child: const Text("End Of Recovery"))
+                              child: const Text("End Of Recovery"))
+                        ],
+                      )
                     ],
-                  )
-                ],
+                  );
+                },
               ),
             );
           },
