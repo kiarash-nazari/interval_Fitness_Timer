@@ -5,24 +5,30 @@ import 'package:equatable/equatable.dart';
 
 part 'body_compose_state.dart';
 
-class BodyComposeCubit extends Cubit<double> {
-  BodyComposeCubit() : super(0.5);
+class BodyComposeCubit extends Cubit<BodyComposeState> {
+  BodyComposeCubit() : super(BodyComposeLoading());
   double myPercentage = 0;
   double myRemindedInseconds = 0;
+  Timer? countDownTimer;
 
   void updatePercentage({required double percentage}) {
-    emit((percentage));
+    emit((BodyComposeUpdatePercentage(percentage: percentage)));
     myPercentage = percentage;
+    emit(BodyComposeLoading());
   }
 
-  double updateReminedTime(
-      {required double level, required double savedSecond}) {
-    Timer.periodic(const Duration(seconds: 1), (timer) {
+  void updateReminedTime({required double level, required double savedSecond}) {
+    emit(BodyComposeLoading());
+    countDownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       var now = DateTime.now().millisecondsSinceEpoch;
 
       myRemindedInseconds = level - (now.toDouble() - savedSecond) / 1000;
-      emit(myRemindedInseconds);
+      emit(BodyComposeUpdateReminded(remindedInseconds: myRemindedInseconds));
     });
-    return myRemindedInseconds;
+  }
+
+  void cancelCountDownTimer() {
+    print("canceled Timer");
+    countDownTimer?.cancel();
   }
 }

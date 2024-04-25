@@ -9,6 +9,8 @@ sealed class BodyComposeState extends Equatable {
 
 final class BodyComposeInitial extends BodyComposeState {}
 
+final class BodyComposeLoading extends BodyComposeState {}
+
 final class BodyComposeUpdatePercentage extends BodyComposeState {
   const BodyComposeUpdatePercentage({required this.percentage});
 

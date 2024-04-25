@@ -1,8 +1,5 @@
 // ignore_for_file: avoid_print
 
-import 'dart:async';
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -22,7 +19,7 @@ class FrontBody extends StatefulWidget {
 
 class _FrontBodyState extends State<FrontBody> {
   double howHard = 0;
-  late var spartHowHard;
+  late Map<String, dynamic> spartHowHard;
   void makeIt() {
     var now = DateTime.now().millisecondsSinceEpoch;
     if (sharedPreferencesManager.getMap('partHowHard') == {}) {
@@ -290,77 +287,78 @@ class _FrontBodyState extends State<FrontBody> {
         showDialog(
           context: context,
           builder: (context) {
-            var now = DateTime.now().millisecondsSinceEpoch;
-
-            // Timer.periodic(const Duration(seconds: 2), (timer) {
-            //   setState(() {
-            //     remindedTime = (partHowHard?[partName][0]) -
-            //         ((now.toDouble() - partHowHard?[partName][1]) / 1000);
-            //     print(remindedTime);
-            //   });
-            // });
+            context.read<BodyComposeCubit>().updateReminedTime(
+                level: (partHowHard?[partName][0]),
+                savedSecond: partHowHard?[partName][1]);
             return AlertDialog(
               title: const Text("Recovery Time Reminded"),
-              content: BlocBuilder<BodyComposeCubit, double>(
+              content: BlocBuilder<BodyComposeCubit, BodyComposeState>(
                 builder: (context, state) {
-                  double remindedTime = context
-                      .read<BodyComposeCubit>()
-                      .updateReminedTime(
-                          level: (partHowHard?[partName][0]),
-                          savedSecond: partHowHard?[partName][1]);
-                  return Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        formatTime(
-                          remindedTime,
-                        ),
+                  if (state is BodyComposeLoading) {
+                    return const SizedBox(
+                      height: 100,
+                      child: Center(
+                        child: CircularProgressIndicator(),
                       ),
-                      Row(
-                        children: [
-                          TextButton(
-                              onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      title: const Text("Are you sure?"),
-                                      content: Row(
-                                        children: [
-                                          TextButton(
-                                              onPressed: () {
-                                                partHowHard?[partName][0] = 0;
-                                                partHowHard?[partName][1] = 0;
-                                                sharedPreferencesManager
-                                                    .saveMap('partHowHard',
-                                                        partHowHard!);
-                                                makeIt();
-                                                setState(() {});
-                                                Navigator.pop(context);
-                                                Navigator.pop(context);
-                                              },
-                                              child: const Text("yes")),
-                                          TextButton(
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                              child: const Text("Cancel")),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                );
-                              },
-                              child: const Text("End Of Recovery"))
-                        ],
-                      )
-                    ],
-                  );
+                    );
+                  }
+                  if (state is BodyComposeUpdateReminded) {
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          formatTime(state.remindedInseconds),
+                        ),
+                        Row(
+                          children: [
+                            TextButton(
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: const Text("Are you sure?"),
+                                        content: Row(
+                                          children: [
+                                            TextButton(
+                                                onPressed: () {
+                                                  partHowHard?[partName][0] = 0;
+                                                  partHowHard?[partName][1] = 0;
+                                                  sharedPreferencesManager
+                                                      .saveMap('partHowHard',
+                                                          partHowHard!);
+                                                  makeIt();
+                                                  setState(() {});
+                                                  Navigator.pop(context);
+                                                  Navigator.pop(context);
+                                                },
+                                                child: const Text("yes")),
+                                            TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: const Text("Cancel")),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                                child: const Text("End Of Recovery"))
+                          ],
+                        )
+                      ],
+                    );
+                  } else {
+                    return const SizedBox();
+                  }
                 },
               ),
             );
           },
-        );
+        ).then((_) {
+          context.read<BodyComposeCubit>().cancelCountDownTimer();
+        });
         return;
       }
       bodyParts[partName] = bodyParts[partName] == 'green' ? 'glass' : 'green';
