@@ -70,6 +70,7 @@ class SvgCodes {
       fill="url(#${bodyParts["leftShoulder"]})" 
       stroke="#3f5787" 
       stroke-width="0.8"/>
+
 <path id="body-u-trapeziusr" 
       d="M84.747144,55.280986l50.570963-21.567011-1.631276,21.567011h-48.939687Z" 
       transform="translate(-.543772-23.926047)" 
@@ -202,8 +203,18 @@ class SvgCodes {
       fill="url(#${bodyParts["rightFrontCraft"]})" 
       stroke="#3f5787" 
       stroke-width="0.6"/>
-
-
+<path id="body-u-latissimusr" d="M60.489396,71.77814L73.971669,82.653616c7.493094,
+      4.34375,8.097393,50.726023,0,46.764546L50.489396,71.77814Z"
+      transform="matrix(1 0 0 0.66008 28.000001 29.471289)" 
+      fill="url(#${bodyParts["leftShoulder"]})" 
+      stroke="#3f5787" 
+      stroke-width="0.8"/>
+<path id="body-u-latissimusl" d="M60.489396,71.77814L73.971669,82.653616c7.493094,
+      4.34375,9.097393,65.726023,0,46.764546L50.489396,71.77814Z"
+      transform="matrix(-1 0 0 0.66008 255.83959 29.471289)"
+      fill="url(#${bodyParts["leftShoulder"]})" 
+      stroke="#3f5787" 
+      stroke-width="0.8"/>
         <!-- Other paths omitted for brevity -->
     </g>
 </svg>
