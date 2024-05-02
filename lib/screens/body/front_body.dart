@@ -75,6 +75,7 @@ class _FrontBodyState extends State<FrontBody> {
   }
 
   Map<String, dynamic>? partHowHard = {
+    "leftLatissimus": [0, 0],
     "leftKool": [0, 0],
     "leftShoulder": [0, 0],
     "leftBiceps": [0, 0],
@@ -88,6 +89,7 @@ class _FrontBodyState extends State<FrontBody> {
     "leftQuadSecond": [0, 0],
     "leftQuadThird": [0, 0],
     "leftFrontCraft": [0, 0],
+    "rightLatissimus": [0, 0],
     "rightKool": [0, 0],
     "rightShoulder": [0, 0],
     "rightBiceps": [0, 0],
@@ -104,6 +106,7 @@ class _FrontBodyState extends State<FrontBody> {
   };
 
   Map<String, String> bodyParts = {
+    "leftLatissimus": "glass",
     'leftKool': 'glass',
     'leftShoulder': 'glass',
     'leftBiceps': 'glass',
@@ -117,6 +120,7 @@ class _FrontBodyState extends State<FrontBody> {
     'leftQuadSecond': 'glass',
     'leftQuadThird': 'glass',
     'leftFrontCraft': 'glass',
+    "rightLatissimus": "glass",
     'rightKool': 'glass',
     'rightShoulder': 'glass',
     'rightBiceps': 'glass',
@@ -134,6 +138,7 @@ class _FrontBodyState extends State<FrontBody> {
 
   // Define positions and sizes for each body part
   Map<String, List<double>> partPositions = {
+    'leftLatissimus': [170, 90, 2.1],
     'leftKool': [150, 8, 0],
     'leftShoulder': [195, 33, 0],
     'leftBiceps': [200, 80, 0],
@@ -147,6 +152,7 @@ class _FrontBodyState extends State<FrontBody> {
     'leftQuadSecond': [170, 170, 0],
     'leftQuadThird': [159, 172, -.2],
     'leftFrontCraft': [175, 240, 0],
+    'rightLatissimus': [75, 90, -2.1],
     'rightKool': [85, 8, 0],
     'rightShoulder': [47, 33, 0],
     'rightBiceps': [53, 80, 0],
@@ -163,6 +169,7 @@ class _FrontBodyState extends State<FrontBody> {
   };
 
   Map<String, List<double>> partSizes = {
+    'leftLatissimus': [40, 10],
     'leftKool': [50, 25],
     'leftShoulder': [40, 40],
     'leftBiceps': [30, 35],
@@ -176,6 +183,7 @@ class _FrontBodyState extends State<FrontBody> {
     'leftQuadSecond': [6, 50],
     'leftQuadThird': [6, 60],
     'leftFrontCraft': [13, 50],
+    'rightLatissimus': [40, 10],
     'rightKool': [50, 25],
     'rightShoulder': [40, 40],
     'rightBiceps': [30, 35],
@@ -206,7 +214,7 @@ class _FrontBodyState extends State<FrontBody> {
             Stack(
               children: [
                 SvgPicture.string(
-                  SvgCodes.frontBody(bodyParts),
+                  SvgCodes.backBody(),
                   alignment: Alignment.center,
                   fit: BoxFit.contain,
                 ),
@@ -378,7 +386,9 @@ class _FrontBodyState extends State<FrontBody> {
         partName == "leftQuadThird" ||
         partName == "rightQuadThird" ||
         partName == "leftQuadFirst" ||
-        partName == "rightQuadFirst") {
+        partName == "rightQuadFirst" ||
+        partName == "leftLatissimus" ||
+        partName == "rightLatissimus") {
       return Positioned(
         left: left,
         top: top,
@@ -388,7 +398,8 @@ class _FrontBodyState extends State<FrontBody> {
             borderRadius: const BorderRadius.only(
                 bottomRight: Radius.elliptical(10, 50),
                 bottomLeft: Radius.elliptical(10, 50)),
-            child: SizedBox(
+            child: Container(
+              color: Colors.amber.withOpacity(.2),
               width: width,
               height: height,
               child: GestureDetector(
@@ -404,7 +415,8 @@ class _FrontBodyState extends State<FrontBody> {
         top: top,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20),
-          child: SizedBox(
+          child: Container(
+            color: Colors.amber.withOpacity(.2),
             width: width,
             height: height,
             child: GestureDetector(
