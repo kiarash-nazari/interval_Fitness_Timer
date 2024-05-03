@@ -1,14 +1,17 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:interval_timer/components/extentions.dart';
+import 'package:interval_timer/res/body_parts_position.dart';
 import 'package:interval_timer/res/svg_codes.dart';
 import 'package:interval_timer/screens/body/cubit/body_compose_cubit.dart';
 import 'package:interval_timer/utils/format_time.dart';
 import 'package:interval_timer/utils/shared_perfrences_manager.dart';
 import 'package:interval_timer/widgets/clikable_progresbar.dart';
+import 'dart:math' as math;
 
 class FrontBody extends StatefulWidget {
   const FrontBody({Key? key}) : super(key: key);
@@ -23,7 +26,7 @@ class _FrontBodyState extends State<FrontBody> {
   void makeIt() {
     var now = DateTime.now().millisecondsSinceEpoch;
     if (sharedPreferencesManager.getMap('partHowHard') == {}) {
-      sharedPreferencesManager.saveMap('partHowHard', partHowHard!);
+      sharedPreferencesManager.saveMap('partHowHard', frontHowHard!);
     } else {
       spartHowHard = sharedPreferencesManager.getMap('partHowHard');
     }
@@ -63,7 +66,7 @@ class _FrontBodyState extends State<FrontBody> {
             ("red: ${hard.key} = ${(hard.value[0])} / ${hard.value[1]} / time: ${(hard.value[0]) - ((now - hard.value[1]) / 1000)} "));
       }
     }
-    partHowHard = spartHowHard;
+    frontHowHard = spartHowHard;
   }
 
   SharedPreferencesManager sharedPreferencesManager =
@@ -74,37 +77,10 @@ class _FrontBodyState extends State<FrontBody> {
     makeIt();
   }
 
-  Map<String, dynamic>? partHowHard = {
-    "leftLatissimus": [0, 0],
-    "leftKool": [0, 0],
-    "leftShoulder": [0, 0],
-    "leftBiceps": [0, 0],
-    "leftForearm": [0, 0],
-    "leftChest": [0, 0],
-    "leftFirstAb": [0, 0],
-    "leftSecondAb": [0, 0],
-    "leftThirdAb": [0, 0],
-    "leftSexAb": [0, 0],
-    "leftQuadFirst": [0, 0],
-    "leftQuadSecond": [0, 0],
-    "leftQuadThird": [0, 0],
-    "leftFrontCraft": [0, 0],
-    "rightLatissimus": [0, 0],
-    "rightKool": [0, 0],
-    "rightShoulder": [0, 0],
-    "rightBiceps": [0, 0],
-    "rightForearm": [0, 0],
-    "rightChest": [0, 0],
-    "rightFirstAb": [0, 0],
-    "rightSecondAb": [0, 0],
-    "rightThirdAb": [0, 0],
-    "rightSexAb": [0, 0],
-    "rightQuadFirst": [0, 0],
-    "rightQuadSecond": [0, 0],
-    "rightQuadThird": [0, 0],
-    "rightFrontCraft": [0, 0]
-  };
+  Map<String, List<double>> frontBodyPartPositon =
+      BodyPartPositon().frontPartPositions;
 
+  Map<String, dynamic>? frontHowHard = BodyPartPositon().partHowHard;
   Map<String, String> bodyParts = {
     "leftLatissimus": "glass",
     'leftKool': 'glass',
@@ -134,38 +110,6 @@ class _FrontBodyState extends State<FrontBody> {
     'rightQuadSecond': 'glass',
     'rightQuadThird': 'glass',
     'rightFrontCraft': 'glass',
-  };
-
-  // Define positions and sizes for each body part
-  Map<String, List<double>> partPositions = {
-    'leftLatissimus': [170, 90, 2.1],
-    'leftKool': [150, 8, 0],
-    'leftShoulder': [195, 33, 0],
-    'leftBiceps': [200, 80, 0],
-    'leftForearm': [200, 125, 0],
-    'leftChest': [151, 40, 0],
-    'leftFirstAb': [145, 87, 0],
-    'leftSecondAb': [145, 110, 0],
-    'leftThirdAb': [147, 133, 0],
-    'leftSexAb': [157, 150, 2.7],
-    'leftQuadFirst': [180, 167, .2],
-    'leftQuadSecond': [170, 170, 0],
-    'leftQuadThird': [159, 172, -.2],
-    'leftFrontCraft': [175, 240, 0],
-    'rightLatissimus': [75, 90, -2.1],
-    'rightKool': [85, 8, 0],
-    'rightShoulder': [47, 33, 0],
-    'rightBiceps': [53, 80, 0],
-    'rightForearm': [53, 125, 0],
-    'rightChest': [91.5, 40, 0],
-    'rightFirstAb': [103, 87, 0],
-    'rightSecondAb': [105, 110, 0],
-    'rightThirdAb': [107, 133, 0],
-    'rightSexAb': [92, 153, .3],
-    'rightQuadFirst': [96, 167, -.2],
-    'rightQuadSecond': [108, 167, 0],
-    'rightQuadThird': [118, 169, .2],
-    'rightFrontCraft': [98, 240, 0],
   };
 
   Map<String, List<double>> partSizes = {
@@ -222,12 +166,12 @@ class _FrontBodyState extends State<FrontBody> {
                 for (var entry in bodyParts.entries)
                   buildBodyPart(
                       entry.key,
-                      partPositions[entry.key]![0],
-                      partPositions[entry.key]![1],
+                      frontBodyPartPositon[entry.key]![0],
+                      frontBodyPartPositon[entry.key]![1],
                       partSizes[entry.key]![0],
                       partSizes[entry.key]![1],
                       () => togglePart(entry.key),
-                      partPositions[entry.key]?[2] ?? 0),
+                      frontBodyPartPositon[entry.key]?[2] ?? 0),
               ],
             ),
             25.heightBox,
@@ -261,12 +205,12 @@ class _FrontBodyState extends State<FrontBody> {
                                   print(now);
                                   for (var parts in primeriChoosen) {
                                     bodyParts[parts] = "red";
-                                    partHowHard![parts]?[0] =
+                                    frontHowHard![parts]?[0] =
                                         ((howHard * 300000)).toDouble();
-                                    partHowHard![parts]?[1] = now;
+                                    frontHowHard![parts]?[1] = now;
                                   }
                                   sharedPreferencesManager.saveMap(
-                                      'partHowHard', partHowHard!);
+                                      'partHowHard', frontHowHard!);
                                   primeriChoosen.clear();
                                   Navigator.pop(context);
 
@@ -296,8 +240,8 @@ class _FrontBodyState extends State<FrontBody> {
           context: context,
           builder: (context) {
             context.read<BodyComposeCubit>().updateReminedTime(
-                level: (partHowHard?[partName][0]),
-                savedSecond: partHowHard?[partName][1]);
+                level: (frontHowHard?[partName][0]),
+                savedSecond: frontHowHard?[partName][1]);
             return AlertDialog(
               title: const Text("Recovery Time Reminded"),
               content: BlocBuilder<BodyComposeCubit, BodyComposeState>(
@@ -330,11 +274,13 @@ class _FrontBodyState extends State<FrontBody> {
                                           children: [
                                             TextButton(
                                                 onPressed: () {
-                                                  partHowHard?[partName][0] = 0;
-                                                  partHowHard?[partName][1] = 0;
+                                                  frontHowHard?[partName][0] =
+                                                      0;
+                                                  frontHowHard?[partName][1] =
+                                                      0;
                                                   sharedPreferencesManager
                                                       .saveMap('partHowHard',
-                                                          partHowHard!);
+                                                          frontHowHard!);
                                                   makeIt();
                                                   setState(() {});
                                                   Navigator.pop(context);
@@ -377,6 +323,31 @@ class _FrontBodyState extends State<FrontBody> {
       }
       print(primeriChoosen);
     });
+  }
+
+  Widget buildBackBodyPart(String partName, double left, double top,
+      double width, double height, Function() onTap, double angle) {
+    return Center(
+      child: Positioned(
+        left: left,
+        top: top,
+        child: Container(
+          width: width,
+          height: height,
+          decoration: BoxDecoration(
+            color: Colors.blue,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10),
+              topRight: Radius.circular(10),
+            ),
+          ),
+          transform: Matrix4.rotationZ(math.pi / angle), // Rotate 45 degrees
+          child: GestureDetector(
+            onDoubleTap: onTap,
+          ),
+        ),
+      ),
+    );
   }
 
   Widget buildBodyPart(String partName, double left, double top, double width,
