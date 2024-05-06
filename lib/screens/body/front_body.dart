@@ -1,7 +1,6 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:interval_timer/components/extentions.dart';
@@ -26,7 +25,8 @@ class _FrontBodyState extends State<FrontBody> {
   void makeIt() {
     var now = DateTime.now().millisecondsSinceEpoch;
     if (sharedPreferencesManager.getMap('partHowHard') == {}) {
-      sharedPreferencesManager.saveMap('partHowHard', frontHowHard!);
+      print("oooooooooooooooooooooooooommmmmmmmmmggggggggggggggggggg");
+      sharedPreferencesManager.saveMap('partHowHard', frontPartHowHard!);
     } else {
       spartHowHard = sharedPreferencesManager.getMap('partHowHard');
     }
@@ -36,7 +36,7 @@ class _FrontBodyState extends State<FrontBody> {
       // hard.value[1] = 0;
       // partHowHard = spartHowHard;
       if ((now - hard.value[1]) / 1000 > hard.value[0]) {
-        bodyParts[hard.key] = "glass";
+        frontBodyColor[hard.key] = "glass";
         hard.value[0] = 0;
         hard.value[1] = 0;
       } else {
@@ -44,19 +44,19 @@ class _FrontBodyState extends State<FrontBody> {
           case < 86400:
             print(
                 "reminded ${(hard.value[0]) - ((now - hard.value[1]) / 1000)}");
-            bodyParts[hard.key] = "blue";
+            frontBodyColor[hard.key] = "blue";
             break;
           case > 86400 && < 172800:
             print(
                 "reminded ${(hard.value[0]) - ((now - hard.value[1]) / 1000)}");
 
-            bodyParts[hard.key] = "orange";
+            frontBodyColor[hard.key] = "orange";
             break;
           case > 172800:
             print(
                 "reminded ${(hard.value[0]) - ((now - hard.value[1]) / 1000)}");
 
-            bodyParts[hard.key] = "red";
+            frontBodyColor[hard.key] = "red";
             break;
           default:
           // Handle other cases if needed
@@ -66,22 +66,148 @@ class _FrontBodyState extends State<FrontBody> {
             ("red: ${hard.key} = ${(hard.value[0])} / ${hard.value[1]} / time: ${(hard.value[0]) - ((now - hard.value[1]) / 1000)} "));
       }
     }
-    frontHowHard = spartHowHard;
+    frontPartHowHard = spartHowHard;
+  }
+
+  double backHowHardDuble = 0;
+  late Map<String, dynamic> backSpartHowHard;
+  void backMakeIt() {
+    var now = DateTime.now().millisecondsSinceEpoch;
+    if (sharedPreferencesManager.getMap('backPartHowHard') == {}) {
+      sharedPreferencesManager.saveMap('backPartHowHard', backPartHowHard!);
+    } else {
+      backSpartHowHard = sharedPreferencesManager.getMap('backPartHowHard');
+    }
+
+    for (var hard in backSpartHowHard.entries) {
+      // hard.value[0] = 0;
+      // hard.value[1] = 0;
+      // partHowHard = spartHowHard;
+      if ((now - hard.value[1]) / 1000 > hard.value[0]) {
+        backBodyColor[hard.key] = "glass";
+        hard.value[0] = 0;
+        hard.value[1] = 0;
+      } else {
+        switch ((hard.value[0]) - ((now - hard.value[1]) / 1000)) {
+          case < 86400:
+            print(
+                "reminded ${(hard.value[0]) - ((now - hard.value[1]) / 1000)}");
+            backBodyColor[hard.key] = "blue";
+            break;
+          case > 86400 && < 172800:
+            print(
+                "reminded ${(hard.value[0]) - ((now - hard.value[1]) / 1000)}");
+
+            backBodyColor[hard.key] = "orange";
+            break;
+          case > 172800:
+            print(
+                "reminded ${(hard.value[0]) - ((now - hard.value[1]) / 1000)}");
+
+            backBodyColor[hard.key] = "red";
+            break;
+          default:
+          // Handle other cases if needed
+        }
+        // bodyParts[hard.key] = "red";
+        print(
+            ("red: ${hard.key} = ${(hard.value[0])} / ${hard.value[1]} / time: ${(hard.value[0]) - ((now - hard.value[1]) / 1000)} "));
+      }
+    }
+    backPartHowHard = backSpartHowHard;
   }
 
   SharedPreferencesManager sharedPreferencesManager =
       SharedPreferencesManager();
+  // late Map<String, List<double>> frontBodyPartPositon;
+  // late Map<String, String> frontBodyColor;
+  // late Map<String, dynamic>? frontHowHard;
+  // late Map<String, List<double>> frontPartSizes;
+  // //back
+  // late Map<String, List<double>> backBodyPartPositon;
+  // late Map<String, String> backBodyColor;
+  // late Map<String, dynamic>? backHowHard;
+  // late Map<String, List<double>> backPartSizes;
   @override
   void initState() {
-    super.initState();
     makeIt();
+    backMakeIt();
+    super.initState();
+    // //front init
+    // frontBodyPartPositon = BodyPartPositon().frontPartPositions;
+    // frontBodyColor = BodyPartPositon().frontBodyColor;
+    // frontHowHard = BodyPartPositon().frontPartHowHard;
+    // frontPartSizes = BodyPartPositon().frontPartSizes;
+    // //back init
+    // backBodyPartPositon = BodyPartPositon().backPartPositions;
+    // backBodyColor = BodyPartPositon().backBodyColor;
+    // backHowHard = BodyPartPositon().backPartHowHard;
+    // backPartSizes = BodyPartPositon().backPartSizes;
   }
 
-  Map<String, List<double>> frontBodyPartPositon =
-      BodyPartPositon().frontPartPositions;
+  Map<String, List<double>> frontPartPositions = {
+    'leftLatissimus': [170, 90, 2.1],
+    'leftKool': [150, 8, 0],
+    'leftShoulder': [195, 33, 0],
+    'leftBiceps': [200, 80, 0],
+    'leftForearm': [200, 125, 0],
+    'leftChest': [151, 40, 0],
+    'leftFirstAb': [145, 87, 0],
+    'leftSecondAb': [145, 110, 0],
+    'leftThirdAb': [147, 133, 0],
+    'leftSexAb': [157, 150, 2.7],
+    'leftQuadFirst': [180, 167, .2],
+    'leftQuadSecond': [170, 170, 0],
+    'leftQuadThird': [159, 172, -.2],
+    'leftFrontCraft': [175, 240, 0],
+    'rightLatissimus': [75, 90, -2.1],
+    'rightKool': [85, 8, 0],
+    'rightShoulder': [47, 33, 0],
+    'rightBiceps': [53, 80, 0],
+    'rightForearm': [53, 125, 0],
+    'rightChest': [91.5, 40, 0],
+    'rightFirstAb': [103, 87, 0],
+    'rightSecondAb': [105, 110, 0],
+    'rightThirdAb': [107, 133, 0],
+    'rightSexAb': [92, 153, .3],
+    'rightQuadFirst': [96, 167, -.2],
+    'rightQuadSecond': [108, 167, 0],
+    'rightQuadThird': [118, 169, .2],
+    'rightFrontCraft': [98, 240, 0],
+  };
 
-  Map<String, dynamic>? frontHowHard = BodyPartPositon().partHowHard;
-  Map<String, String> bodyParts = {
+  Map<String, dynamic>? frontPartHowHard = {
+    "leftLatissimus": [0, 0],
+    "leftKool": [0, 0],
+    "leftShoulder": [0, 0],
+    "leftBiceps": [0, 0],
+    "leftForearm": [0, 0],
+    "leftChest": [0, 0],
+    "leftFirstAb": [0, 0],
+    "leftSecondAb": [0, 0],
+    "leftThirdAb": [0, 0],
+    "leftSexAb": [0, 0],
+    "leftQuadFirst": [0, 0],
+    "leftQuadSecond": [0, 0],
+    "leftQuadThird": [0, 0],
+    "leftFrontCraft": [0, 0],
+    "rightLatissimus": [0, 0],
+    "rightKool": [0, 0],
+    "rightShoulder": [0, 0],
+    "rightBiceps": [0, 0],
+    "rightForearm": [0, 0],
+    "rightChest": [0, 0],
+    "rightFirstAb": [0, 0],
+    "rightSecondAb": [0, 0],
+    "rightThirdAb": [0, 0],
+    "rightSexAb": [0, 0],
+    "rightQuadFirst": [0, 0],
+    "rightQuadSecond": [0, 0],
+    "rightQuadThird": [0, 0],
+    "rightFrontCraft": [0, 0]
+  };
+
+  Map<String, String> frontBodyColor = {
     "leftLatissimus": "glass",
     'leftKool': 'glass',
     'leftShoulder': 'glass',
@@ -112,7 +238,7 @@ class _FrontBodyState extends State<FrontBody> {
     'rightFrontCraft': 'glass',
   };
 
-  Map<String, List<double>> partSizes = {
+  Map<String, List<double>> frontPartSizes = {
     'leftLatissimus': [40, 10],
     'leftKool': [50, 25],
     'leftShoulder': [40, 40],
@@ -142,11 +268,193 @@ class _FrontBodyState extends State<FrontBody> {
     'rightQuadThird': [6, 60],
     'rightFrontCraft': [13, 50],
   };
+
+//Back side
+
+  Map<String, String> backBodyColor = {
+    'rightBicepsFemoris': 'glass',
+    'rightAdductor': 'glass',
+    'rightSemitendinosus': 'glass',
+    'leftSemitendinosus': 'glass',
+    'leftBicepsFemoris': 'glass',
+    'leftAdductor': 'glass',
+    'rightKool': 'glass',
+    'leftKool': 'glass',
+    'rightTrapezius': 'glass',
+    'leftTrapezius': 'glass',
+    'rightMiddleHead': 'glass',
+    'leftMiddleHead': 'glass',
+    'rightPosteriorHead': 'glass',
+    'leftPosteriorHead': 'glass',
+    'rightTeres': 'glass',
+    'leftTeres': 'glass',
+    'rightLatissimusDorsi': 'glass',
+    'leftLatissimusDorsi': 'glass',
+    'rightLongHead': 'glass',
+    'leftLongHead': 'glass',
+    'rightLateralHead': 'glass',
+    'leftLateralHead': 'glass',
+    'rightMedialHead': 'glass',
+    'leftMedialHead': 'glass',
+    'rightAssist': 'glass',
+    'leftAssist': 'glass',
+    'leftErectorSpinae': 'glass',
+    'rightErectorSpinae': 'glass',
+    'rightGluteusMedius': 'glass',
+    'leftGluteusMedius': 'glass',
+    'rightGluteusMaximus': 'glass',
+    'leftGluteusMaximus': 'glass',
+    'rightSoleus': 'glass',
+    'leftSoleus': 'glass',
+    'leftGastrocnemius': 'glass',
+    'rightGastrocnemius': 'glass',
+    'rightIliotibial': 'glass',
+    'leftIliotibial': 'glass',
+    'rightExtemal': 'glass',
+    'leftExtemal': 'glass',
+  };
+
+  Map<String, List<double>> backPartPositions = {
+    'rightBicepsFemoris': [177, 204, 2.1],
+    'rightAdductor': [155, 204, 2.19],
+    'rightSemitendinosus': [168, 204, 2.1],
+    'leftSemitendinosus': [133, 204, 1.93],
+    'leftBicepsFemoris': [120, 204, 1.93],
+    'leftAdductor': [141, 204, 1.9],
+    'rightKool': [200, 26.5, 1],
+    'leftKool': [135, 26.5, 1],
+    'rightTrapezius': [215, 113, 1],
+    'leftTrapezius': [130, 113, 1],
+    'rightMiddleHead': [240, 55, .8],
+    'leftMiddleHead': [75, 29, 1.3],
+    'rightPosteriorHead': [225, 55, -1.13],
+    'leftPosteriorHead': [90, 42, 1.13],
+    'rightTeres': [215, 73, -1.2],
+    'leftTeres': [97, 57, 1.2],
+    'rightLatissimusDorsi': [215, 113, 1],
+    'leftLatissimusDorsi': [130, 113, 1],
+    'rightLongHead': [235, 95, 1],
+    'leftLongHead': [62, 95, 1],
+    'rightLateralHead': [249, 87, 1.02],
+    'leftLateralHead': [44, 87, -1.02],
+    'rightMedialHead': [239, 111, -1.15],
+    'leftMedialHead': [69, 102, 1.15],
+    'rightAssist': [250, 170, 1],
+    'leftAssist': [64, 170, 1],
+    'leftErectorSpinae': [144, 100, 2],
+    'rightErectorSpinae': [177, 98, 2],
+    'rightGluteusMedius': [193, 165, -1.1],
+    'leftGluteusMedius': [130, 156, 1.1],
+    'rightGluteusMaximus': [109, 172, 1],
+    'leftGluteusMaximus': [175, 240, 0],
+    'rightSoleus': [75, 90, -2.1],
+    'leftSoleus': [85, 8, 0],
+    'leftGastrocnemius': [47, 33, 0],
+    'rightGastrocnemius': [53, 80, 0],
+    'rightIliotibial': [53, 125, 0],
+    'leftIliotibial': [91.5, 40, 0],
+    'rightExtemal': [103, 87, 0],
+    'leftExtemal': [105, 110, 0],
+  };
+
+  Map<String, dynamic> backPartHowHard = {
+    'rightBicepsFemoris': 'glass',
+    'rightAdductor': 'glass',
+    'rightSemitendinosus': 'glass',
+    'leftSemitendinosus': 'glass',
+    'leftBicepsFemoris': 'glass',
+    'leftAdductor': 'glass',
+    'rightKool': 'glass',
+    'leftKool': 'glass',
+    'rightTrapezius': 'glass',
+    'leftTrapezius': 'glass',
+    'rightMiddleHead': 'glass',
+    'leftMiddleHead': 'glass',
+    'rightPosteriorHead': 'glass',
+    'leftPosteriorHead': 'glass',
+    'rightTeres': 'glass',
+    'leftTeres': 'glass',
+    'rightLatissimusDorsi': 'glass',
+    'leftLatissimusDorsi': 'glass',
+    'rightLongHead': 'glass',
+    'leftLongHead': 'glass',
+    'rightLateralHead': 'glass',
+    'leftLateralHead': 'glass',
+    'rightMedialHead': 'glass',
+    'leftMedialHead': 'glass',
+    'rightAssist': 'glass',
+    'leftAssist': 'glass',
+    'leftErectorSpinae': 'glass',
+    'rightErectorSpinae': 'glass',
+    'rightGluteusMedius': 'glass',
+    'leftGluteusMedius': 'glass',
+    'rightGluteusMaximus': 'glass',
+    'leftGluteusMaximus': 'glass',
+    'rightSoleus': 'glass',
+    'leftSoleus': 'glass',
+    'leftGastrocnemius': 'glass',
+    'rightGastrocnemius': 'glass',
+    'rightIliotibial': 'glass',
+    'leftIliotibial': 'glass',
+    'rightExtemal': 'glass',
+    'leftExtemal': 'glass',
+  };
+
+  Map<String, List<double>> backPartSizes = {
+    'leftBicepsFemoris': [47, 7, 0, 0, 30, 0],
+    'rightBicepsFemoris': [47, 7, 0, 30, 0, 0],
+    'leftAdductor': [43, 6, 30, 0, 0, 0],
+    'rightAdductor': [43, 6, 0, 30, 30, 100],
+    'leftSemitendinosus': [43, 10, 0, 0, 10, 0],
+    'rightSemitendinosus': [43, 10, 0, 10, 0, 0],
+    'leftKool': [50, 25, 0, 0, 30, 0],
+    'rightKool': [50, 25, 0, 0, 0, 30],
+    'leftTrapezius': [60, 53, 30, 30, 40, 40],
+    'rightTrapezius': [60, 53, 30, 30, 40, 40],
+    'leftMiddleHead': [40, 20, 0, 0, 30, 30],
+    'rightMiddleHead': [40, 20, 0, 0, 30, 30],
+    'leftPosteriorHead': [33, 17, 10, 30, 50, 30],
+    'rightPosteriorHead': [33, 17, 50, 30, 40, 30],
+    'leftTeres': [33, 18, 30, 50, 30, 50],
+    'rightTeres': [33, 18, 30, 30, 30, 30],
+    'leftLatissimusDorsi': [60, 53, 30, 30, 40, 40],
+    'rightLatissimusDorsi': [60, 53, 30, 30, 40, 40],
+    'leftLongHead': [12, 45, 30, 0, 30, 0],
+    'rightLongHead': [12, 45, 0, 30, 0, 30],
+    'leftLateralHead': [10, 32, 30, 30, 30, 30],
+    'rightLateralHead': [10, 32, 30, 30, 30, 30],
+    'leftMedialHead': [25, 13, 30, 30, 30, 30],
+    'rightMedialHead': [25, 13, 30, 30, 30, 30],
+    'leftAssist': [23, 60, 30, 30, 30, 0],
+    'rightAssist': [23, 60, 30, 30, 0, 30],
+    'leftErectorSpinae': [50, 30, 0, 0, 30, 30],
+    'rightErectorSpinae': [50, 30, 30, 30, 0, 0],
+    'leftGluteusMedius': [35, 18, 30, 30, 30, 30],
+    'rightGluteusMedius': [35, 18, 30, 30, 30, 30],
+    'leftGluteusMaximus': [35, 18, 30, 30, 30, 30],
+    'rightGluteusMaximus': [40, 40, 30, 30, 30, 30],
+    'leftSoleus': [30, 35, 30, 30, 30, 30],
+    'rightSoleus': [30, 35, 30, 30, 30, 30],
+    'leftGastrocnemius': [30, 45, 30, 30, 30, 30],
+    'rightGastrocnemius': [30, 45, 30, 30, 30, 30],
+    'leftIliotibial': [40, 40, 30, 30, 30, 30],
+    'rightIliotibial': [40, 40, 30, 30, 30, 30],
+    'leftExtemal': [33, 18, 30, 30, 30, 30],
+    'rightExtemal': [33, 18, 30, 30, 30, 30],
+  };
+
   List<String> primeriChoosen = [];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: const Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Text("back mucles"),
+        ),
+      ),
       backgroundColor: const Color.fromARGB(255, 80, 5, 218),
       appBar: AppBar(
         title: const Text('Front Body'),
@@ -158,20 +466,56 @@ class _FrontBodyState extends State<FrontBody> {
             Stack(
               children: [
                 SvgPicture.string(
-                  SvgCodes.backBody(),
+                  SvgCodes.backBody(backBodyColor),
                   alignment: Alignment.center,
                   fit: BoxFit.contain,
                 ),
                 // Rendering body parts
-                for (var entry in bodyParts.entries)
-                  buildBodyPart(
-                      entry.key,
-                      frontBodyPartPositon[entry.key]![0],
-                      frontBodyPartPositon[entry.key]![1],
-                      partSizes[entry.key]![0],
-                      partSizes[entry.key]![1],
-                      () => togglePart(entry.key),
-                      frontBodyPartPositon[entry.key]?[2] ?? 0),
+                for (var entry in backBodyColor.entries)
+                  Positioned(
+                    left: backPartPositions[entry.key]?[0],
+                    top: backPartPositions[entry.key]?[1],
+                    child: Container(
+                      width: backPartSizes[entry.key]?[0],
+                      height: backPartSizes[entry.key]?[1],
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.4),
+                        borderRadius: BorderRadius.only(
+                          topLeft:
+                              Radius.circular(backPartSizes[entry.key]![2]),
+                          topRight:
+                              Radius.circular(backPartSizes[entry.key]![3]),
+                          bottomRight:
+                              Radius.circular(backPartSizes[entry.key]![4]),
+                          bottomLeft:
+                              Radius.circular(backPartSizes[entry.key]![5]),
+                        ),
+                      ),
+                      transform: Matrix4.rotationZ(
+                        math.pi / backPartPositions[entry.key]![2],
+                      ), // Rotate 45 degrees
+                      child: GestureDetector(
+                        onDoubleTap: () => togglePart(entry.key),
+                      ),
+                    ),
+                  ),
+                // buildBodyPart(
+                //     entry.key,
+                //     frontPartPositions[entry.key]![0],
+                //     frontPartPositions[entry.key]![1],
+                //     frontPartSizes[entry.key]![0],
+                //     frontPartSizes[entry.key]![1],
+                //     () => togglePart(entry.key),
+                //     frontPartPositions[entry.key]?[2] ?? 0),
+                // for (var entry in backBodyColor.entries)
+                // buildBackBodyPart(
+                //     entry.key,
+                //     backBodyPartPositon[entry.key]![0],
+                //     backBodyPartPositon[entry.key]![1],
+                //     backPartSizes[entry.key]![0],
+                //     backPartSizes[entry.key]![1],
+                //     () => togglePart(entry.key),
+                //     backBodyPartPositon[entry.key]?[2] ?? 0),
               ],
             ),
             25.heightBox,
@@ -204,13 +548,13 @@ class _FrontBodyState extends State<FrontBody> {
                                       .toDouble();
                                   print(now);
                                   for (var parts in primeriChoosen) {
-                                    bodyParts[parts] = "red";
-                                    frontHowHard![parts]?[0] =
+                                    frontBodyColor[parts] = "red";
+                                    frontPartHowHard![parts]?[0] =
                                         ((howHard * 300000)).toDouble();
-                                    frontHowHard![parts]?[1] = now;
+                                    frontPartHowHard![parts]?[1] = now;
                                   }
                                   sharedPreferencesManager.saveMap(
-                                      'partHowHard', frontHowHard!);
+                                      'partHowHard', frontPartHowHard!);
                                   primeriChoosen.clear();
                                   Navigator.pop(context);
 
@@ -235,13 +579,14 @@ class _FrontBodyState extends State<FrontBody> {
 
   void togglePart(String partName) {
     setState(() {
-      if (bodyParts[partName] != "glass" && bodyParts[partName] != "green") {
+      if (frontBodyColor[partName] != "glass" &&
+          frontBodyColor[partName] != "green") {
         showDialog(
           context: context,
           builder: (context) {
             context.read<BodyComposeCubit>().updateReminedTime(
-                level: (frontHowHard?[partName][0]),
-                savedSecond: frontHowHard?[partName][1]);
+                level: (frontPartHowHard?[partName][0]),
+                savedSecond: frontPartHowHard?[partName][1]);
             return AlertDialog(
               title: const Text("Recovery Time Reminded"),
               content: BlocBuilder<BodyComposeCubit, BodyComposeState>(
@@ -274,13 +619,13 @@ class _FrontBodyState extends State<FrontBody> {
                                           children: [
                                             TextButton(
                                                 onPressed: () {
-                                                  frontHowHard?[partName][0] =
-                                                      0;
-                                                  frontHowHard?[partName][1] =
-                                                      0;
+                                                  frontPartHowHard?[partName]
+                                                      [0] = 0;
+                                                  frontPartHowHard?[partName]
+                                                      [1] = 0;
                                                   sharedPreferencesManager
                                                       .saveMap('partHowHard',
-                                                          frontHowHard!);
+                                                          frontPartHowHard!);
                                                   makeIt();
                                                   setState(() {});
                                                   Navigator.pop(context);
@@ -315,7 +660,8 @@ class _FrontBodyState extends State<FrontBody> {
         });
         return;
       }
-      bodyParts[partName] = bodyParts[partName] == 'green' ? 'glass' : 'green';
+      frontBodyColor[partName] =
+          frontBodyColor[partName] == 'green' ? 'glass' : 'green';
       if (primeriChoosen.contains(partName)) {
         primeriChoosen.remove(partName);
       } else {
@@ -370,7 +716,6 @@ class _FrontBodyState extends State<FrontBody> {
                 bottomRight: Radius.elliptical(10, 50),
                 bottomLeft: Radius.elliptical(10, 50)),
             child: Container(
-              color: Colors.amber.withOpacity(.2),
               width: width,
               height: height,
               child: GestureDetector(
@@ -387,7 +732,6 @@ class _FrontBodyState extends State<FrontBody> {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20),
           child: Container(
-            color: Colors.amber.withOpacity(.2),
             width: width,
             height: height,
             child: GestureDetector(
