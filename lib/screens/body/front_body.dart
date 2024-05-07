@@ -25,7 +25,6 @@ class _FrontBodyState extends State<FrontBody> {
   void makeIt() {
     var now = DateTime.now().millisecondsSinceEpoch;
     if (sharedPreferencesManager.getMap('partHowHard') == {}) {
-      print("oooooooooooooooooooooooooommmmmmmmmmggggggggggggggggggg");
       sharedPreferencesManager.saveMap('partHowHard', frontPartHowHard!);
     } else {
       spartHowHard = sharedPreferencesManager.getMap('partHowHard');
@@ -74,9 +73,11 @@ class _FrontBodyState extends State<FrontBody> {
   void backMakeIt() {
     var now = DateTime.now().millisecondsSinceEpoch;
     if (sharedPreferencesManager.getMap('backPartHowHard') == {}) {
-      sharedPreferencesManager.saveMap('backPartHowHard', backPartHowHard!);
+      sharedPreferencesManager.saveMap('backPartHowHard', backPartHowHard);
     } else {
       backSpartHowHard = sharedPreferencesManager.getMap('backPartHowHard');
+      print(
+          "oooooooooooooooooooooooooommmmmmmmmmgggggggggggggggggggv ${backSpartHowHard}");
     }
 
     for (var hard in backSpartHowHard.entries) {
@@ -323,8 +324,8 @@ class _FrontBodyState extends State<FrontBody> {
     'leftAdductor': [141, 204, 1.9],
     'rightKool': [200, 26.5, 1],
     'leftKool': [135, 26.5, 1],
-    'rightTrapezius': [215, 113, 1],
-    'leftTrapezius': [130, 113, 1],
+    'rightTrapezius': [155, 73, -1.5],
+    'leftTrapezius': [146, 47, 1.5],
     'rightMiddleHead': [240, 55, .8],
     'leftMiddleHead': [75, 29, 1.3],
     'rightPosteriorHead': [225, 55, -1.13],
@@ -345,16 +346,16 @@ class _FrontBodyState extends State<FrontBody> {
     'rightErectorSpinae': [177, 98, 2],
     'rightGluteusMedius': [193, 165, -1.1],
     'leftGluteusMedius': [130, 156, 1.1],
-    'rightGluteusMaximus': [109, 172, 1],
-    'leftGluteusMaximus': [175, 240, 0],
-    'rightSoleus': [75, 90, -2.1],
-    'leftSoleus': [85, 8, 0],
-    'leftGastrocnemius': [47, 33, 0],
-    'rightGastrocnemius': [53, 80, 0],
-    'rightIliotibial': [53, 125, 0],
-    'leftIliotibial': [91.5, 40, 0],
-    'rightExtemal': [103, 87, 0],
-    'leftExtemal': [105, 110, 0],
+    'rightGluteusMaximus': [179, 205, 1],
+    'leftGluteusMaximus': [142, 205, 1],
+    'rightSoleus': [182, 286, 1.05],
+    'leftSoleus': [121, 288, -1.05],
+    'leftGastrocnemius': [133, 282, -1.032],
+    'rightGastrocnemius': [170, 280, 1.032],
+    'rightIliotibial': [194, 224, -1.02],
+    'leftIliotibial': [112, 222, 1.01],
+    'rightExtemal': [194, 145, -1.05],
+    'leftExtemal': [105, 145, 1.05],
   };
 
   Map<String, dynamic> backPartHowHard = {
@@ -409,8 +410,8 @@ class _FrontBodyState extends State<FrontBody> {
     'rightSemitendinosus': [43, 10, 0, 10, 0, 0],
     'leftKool': [50, 25, 0, 0, 30, 0],
     'rightKool': [50, 25, 0, 0, 0, 30],
-    'leftTrapezius': [60, 53, 30, 30, 40, 40],
-    'rightTrapezius': [60, 53, 30, 30, 40, 40],
+    'leftTrapezius': [30, 50, 30, 30, 40, 40],
+    'rightTrapezius': [30, 50, 30, 30, 40, 40],
     'leftMiddleHead': [40, 20, 0, 0, 30, 30],
     'rightMiddleHead': [40, 20, 0, 0, 30, 30],
     'leftPosteriorHead': [33, 17, 10, 30, 50, 30],
@@ -431,16 +432,16 @@ class _FrontBodyState extends State<FrontBody> {
     'rightErectorSpinae': [50, 30, 30, 30, 0, 0],
     'leftGluteusMedius': [35, 18, 30, 30, 30, 30],
     'rightGluteusMedius': [35, 18, 30, 30, 30, 30],
-    'leftGluteusMaximus': [35, 18, 30, 30, 30, 30],
-    'rightGluteusMaximus': [40, 40, 30, 30, 30, 30],
-    'leftSoleus': [30, 35, 30, 30, 30, 30],
-    'rightSoleus': [30, 35, 30, 30, 30, 30],
-    'leftGastrocnemius': [30, 45, 30, 30, 30, 30],
-    'rightGastrocnemius': [30, 45, 30, 30, 30, 30],
-    'leftIliotibial': [40, 40, 30, 30, 30, 30],
-    'rightIliotibial': [40, 40, 30, 30, 30, 30],
-    'leftExtemal': [33, 18, 30, 30, 30, 30],
-    'rightExtemal': [33, 18, 30, 30, 30, 30],
+    'leftGluteusMaximus': [30, 48, 30, 30, 30, 30],
+    'rightGluteusMaximus': [30, 48, 30, 30, 30, 30],
+    'leftSoleus': [10, 40, 30, 30, 100, 30],
+    'rightSoleus': [10, 40, 30, 30, 30, 100],
+    'leftGastrocnemius': [10, 28, 30, 30, 10, 50],
+    'rightGastrocnemius': [10, 28, 30, 30, 50, 10],
+    'leftIliotibial': [17, 58, 30, 30, 30, 30],
+    'rightIliotibial': [17, 58, 30, 30, 30, 30],
+    'leftExtemal': [10, 18, 0, 0, 10, 70],
+    'rightExtemal': [10, 18, 0, 0, 60, 20],
   };
 
   List<String> primeriChoosen = [];
@@ -479,7 +480,6 @@ class _FrontBodyState extends State<FrontBody> {
                       width: backPartSizes[entry.key]?[0],
                       height: backPartSizes[entry.key]?[1],
                       decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.4),
                         borderRadius: BorderRadius.only(
                           topLeft:
                               Radius.circular(backPartSizes[entry.key]![2]),
@@ -495,7 +495,7 @@ class _FrontBodyState extends State<FrontBody> {
                         math.pi / backPartPositions[entry.key]![2],
                       ), // Rotate 45 degrees
                       child: GestureDetector(
-                        onDoubleTap: () => togglePart(entry.key),
+                        onTap: () => backTogglePart(entry.key),
                       ),
                     ),
                   ),
@@ -662,6 +662,101 @@ class _FrontBodyState extends State<FrontBody> {
       }
       frontBodyColor[partName] =
           frontBodyColor[partName] == 'green' ? 'glass' : 'green';
+      if (primeriChoosen.contains(partName)) {
+        primeriChoosen.remove(partName);
+      } else {
+        primeriChoosen.add(partName);
+      }
+      print(primeriChoosen);
+    });
+  }
+
+  void backTogglePart(String partName) {
+    setState(() {
+      if (backBodyColor[partName] != "glass" &&
+          backBodyColor[partName] != "green") {
+        showDialog(
+          context: context,
+          builder: (context) {
+            context.read<BodyComposeCubit>().updateReminedTime(
+                level: (backPartHowHard[partName][0]),
+                savedSecond: backPartHowHard[partName][1]);
+            return AlertDialog(
+              title: const Text("Recovery Time Reminded"),
+              content: BlocBuilder<BodyComposeCubit, BodyComposeState>(
+                builder: (context, state) {
+                  if (state is BodyComposeLoading) {
+                    return const SizedBox(
+                      height: 100,
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
+                  }
+                  if (state is BodyComposeUpdateReminded) {
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          formatTime(state.remindedInseconds),
+                        ),
+                        Row(
+                          children: [
+                            TextButton(
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: const Text("Are you sure?"),
+                                        content: Row(
+                                          children: [
+                                            TextButton(
+                                                onPressed: () {
+                                                  backPartHowHard[partName][0] =
+                                                      0;
+                                                  backPartHowHard[partName][1] =
+                                                      0;
+                                                  sharedPreferencesManager
+                                                      .saveMap(
+                                                          'backPartHowHard',
+                                                          backPartHowHard);
+                                                  backMakeIt();
+                                                  setState(() {});
+                                                  Navigator.pop(context);
+                                                  Navigator.pop(context);
+                                                },
+                                                child: const Text("yes")),
+                                            TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: const Text("Cancel")),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                                child: const Text("End Of Recovery"))
+                          ],
+                        )
+                      ],
+                    );
+                  } else {
+                    return const SizedBox();
+                  }
+                },
+              ),
+            );
+          },
+        ).then((_) {
+          context.read<BodyComposeCubit>().cancelCountDownTimer();
+        });
+        return;
+      }
+      backBodyColor[partName] =
+          backBodyColor[partName] == 'green' ? 'glass' : 'green';
       if (primeriChoosen.contains(partName)) {
         primeriChoosen.remove(partName);
       } else {
