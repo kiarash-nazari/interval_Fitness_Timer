@@ -31,4 +31,11 @@ class BodyComposeCubit extends Cubit<BodyComposeState> {
     print("canceled Timer");
     countDownTimer?.cancel();
   }
+
+  bool fornt = true;
+  void toggleBody() {
+    fornt = !fornt;
+    print("ffffffffffff $fornt");
+    emit(TogleBody(front: fornt));
+  }
 }

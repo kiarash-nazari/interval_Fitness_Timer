@@ -28,3 +28,12 @@ final class BodyComposeUpdateReminded extends BodyComposeState {
   @override
   List<Object> get props => [remindedInseconds];
 }
+
+final class TogleBody extends BodyComposeState {
+  const TogleBody({required this.front});
+
+  final bool front;
+
+  @override
+  List<Object> get props => [front];
+}

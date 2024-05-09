@@ -20,12 +20,17 @@ class FrontBody extends StatefulWidget {
 }
 
 class _FrontBodyState extends State<FrontBody> {
+  SharedPreferencesManager sharedPreferencesManager =
+      SharedPreferencesManager();
   double howHard = 0;
+  bool front = true;
+
   late Map<String, dynamic> spartHowHard;
   void makeIt() {
     var now = DateTime.now().millisecondsSinceEpoch;
-    if (sharedPreferencesManager.getMap('partHowHard') == {}) {
+    if (sharedPreferencesManager.getMap('partHowHard').isEmpty) {
       sharedPreferencesManager.saveMap('partHowHard', frontPartHowHard!);
+      spartHowHard = sharedPreferencesManager.getMap('partHowHard');
     } else {
       spartHowHard = sharedPreferencesManager.getMap('partHowHard');
     }
@@ -72,12 +77,11 @@ class _FrontBodyState extends State<FrontBody> {
   late Map<String, dynamic> backSpartHowHard;
   void backMakeIt() {
     var now = DateTime.now().millisecondsSinceEpoch;
-    if (sharedPreferencesManager.getMap('backPartHowHard') == {}) {
-      sharedPreferencesManager.saveMap('backPartHowHard', backPartHowHard);
+    if (sharedPreferencesManager.getMap('backPartHowHard').isEmpty) {
+      sharedPreferencesManager.saveMap('backPartHowHard', backPartHowHard!);
+      backSpartHowHard = sharedPreferencesManager.getMap('backPartHowHard');
     } else {
       backSpartHowHard = sharedPreferencesManager.getMap('backPartHowHard');
-      print(
-          "oooooooooooooooooooooooooommmmmmmmmmgggggggggggggggggggv ${backSpartHowHard}");
     }
 
     for (var hard in backSpartHowHard.entries) {
@@ -118,8 +122,6 @@ class _FrontBodyState extends State<FrontBody> {
     backPartHowHard = backSpartHowHard;
   }
 
-  SharedPreferencesManager sharedPreferencesManager =
-      SharedPreferencesManager();
   // late Map<String, List<double>> frontBodyPartPositon;
   // late Map<String, String> frontBodyColor;
   // late Map<String, dynamic>? frontHowHard;
@@ -131,9 +133,9 @@ class _FrontBodyState extends State<FrontBody> {
   // late Map<String, List<double>> backPartSizes;
   @override
   void initState() {
-    makeIt();
-    backMakeIt();
     super.initState();
+    backMakeIt();
+    makeIt();
     // //front init
     // frontBodyPartPositon = BodyPartPositon().frontPartPositions;
     // frontBodyColor = BodyPartPositon().frontBodyColor;
@@ -358,47 +360,47 @@ class _FrontBodyState extends State<FrontBody> {
     'leftExtemal': [105, 145, 1.05],
   };
 
-  Map<String, dynamic> backPartHowHard = {
-    'rightBicepsFemoris': 'glass',
-    'rightAdductor': 'glass',
-    'rightSemitendinosus': 'glass',
-    'leftSemitendinosus': 'glass',
-    'leftBicepsFemoris': 'glass',
-    'leftAdductor': 'glass',
-    'rightKool': 'glass',
-    'leftKool': 'glass',
-    'rightTrapezius': 'glass',
-    'leftTrapezius': 'glass',
-    'rightMiddleHead': 'glass',
-    'leftMiddleHead': 'glass',
-    'rightPosteriorHead': 'glass',
-    'leftPosteriorHead': 'glass',
-    'rightTeres': 'glass',
-    'leftTeres': 'glass',
-    'rightLatissimusDorsi': 'glass',
-    'leftLatissimusDorsi': 'glass',
-    'rightLongHead': 'glass',
-    'leftLongHead': 'glass',
-    'rightLateralHead': 'glass',
-    'leftLateralHead': 'glass',
-    'rightMedialHead': 'glass',
-    'leftMedialHead': 'glass',
-    'rightAssist': 'glass',
-    'leftAssist': 'glass',
-    'leftErectorSpinae': 'glass',
-    'rightErectorSpinae': 'glass',
-    'rightGluteusMedius': 'glass',
-    'leftGluteusMedius': 'glass',
-    'rightGluteusMaximus': 'glass',
-    'leftGluteusMaximus': 'glass',
-    'rightSoleus': 'glass',
-    'leftSoleus': 'glass',
-    'leftGastrocnemius': 'glass',
-    'rightGastrocnemius': 'glass',
-    'rightIliotibial': 'glass',
-    'leftIliotibial': 'glass',
-    'rightExtemal': 'glass',
-    'leftExtemal': 'glass',
+  Map<String, dynamic>? backPartHowHard = {
+    'rightBicepsFemoris': [0, 0],
+    'rightAdductor': [0, 0],
+    'rightSemitendinosus': [0, 0],
+    'leftSemitendinosus': [0, 0],
+    'leftBicepsFemoris': [0, 0],
+    'leftAdductor': [0, 0],
+    'rightKool': [0, 0],
+    'leftKool': [0, 0],
+    'rightTrapezius': [0, 0],
+    'leftTrapezius': [0, 0],
+    'rightMiddleHead': [0, 0],
+    'leftMiddleHead': [0, 0],
+    'rightPosteriorHead': [0, 0],
+    'leftPosteriorHead': [0, 0],
+    'rightTeres': [0, 0],
+    'leftTeres': [0, 0],
+    'rightLatissimusDorsi': [0, 0],
+    'leftLatissimusDorsi': [0, 0],
+    'rightLongHead': [0, 0],
+    'leftLongHead': [0, 0],
+    'rightLateralHead': [0, 0],
+    'leftLateralHead': [0, 0],
+    'rightMedialHead': [0, 0],
+    'leftMedialHead': [0, 0],
+    'rightAssist': [0, 0],
+    'leftAssist': [0, 0],
+    'leftErectorSpinae': [0, 0],
+    'rightErectorSpinae': [0, 0],
+    'rightGluteusMedius': [0, 0],
+    'leftGluteusMedius': [0, 0],
+    'rightGluteusMaximus': [0, 0],
+    'leftGluteusMaximus': [0, 0],
+    'rightSoleus': [0, 0],
+    'leftSoleus': [0, 0],
+    'leftGastrocnemius': [0, 0],
+    'rightGastrocnemius': [0, 0],
+    'rightIliotibial': [0, 0],
+    'leftIliotibial': [0, 0],
+    'rightExtemal': [0, 0],
+    'leftExtemal': [0, 0],
   };
 
   Map<String, List<double>> backPartSizes = {
@@ -450,10 +452,18 @@ class _FrontBodyState extends State<FrontBody> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Text("back mucles"),
+        onPressed: () {
+          setState(() {
+            context.read<BodyComposeCubit>().toggleBody();
+            front = !front;
+            print(front);
+          });
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: front == true
+              ? const Text("back body")
+              : const Text("front body"),
         ),
       ),
       backgroundColor: const Color.fromARGB(255, 80, 5, 218),
@@ -464,59 +474,137 @@ class _FrontBodyState extends State<FrontBody> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Stack(
-              children: [
-                SvgPicture.string(
-                  SvgCodes.backBody(backBodyColor),
-                  alignment: Alignment.center,
-                  fit: BoxFit.contain,
-                ),
-                // Rendering body parts
-                for (var entry in backBodyColor.entries)
-                  Positioned(
-                    left: backPartPositions[entry.key]?[0],
-                    top: backPartPositions[entry.key]?[1],
-                    child: Container(
-                      width: backPartSizes[entry.key]?[0],
-                      height: backPartSizes[entry.key]?[1],
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          topLeft:
-                              Radius.circular(backPartSizes[entry.key]![2]),
-                          topRight:
-                              Radius.circular(backPartSizes[entry.key]![3]),
-                          bottomRight:
-                              Radius.circular(backPartSizes[entry.key]![4]),
-                          bottomLeft:
-                              Radius.circular(backPartSizes[entry.key]![5]),
+            BlocBuilder<BodyComposeCubit, BodyComposeState>(
+              builder: (context, state) {
+                if (context.read<BodyComposeCubit>().fornt) {
+                  return Stack(
+                    children: [
+                      SvgPicture.string(
+                        SvgCodes.frontBody(frontBodyColor),
+                        alignment: Alignment.center,
+                        fit: BoxFit.contain,
+                      ),
+                      // Rendering body parts
+                      for (var entry in frontBodyColor.entries)
+                        buildBodyPart(
+                            entry.key,
+                            frontPartPositions[entry.key]![0],
+                            frontPartPositions[entry.key]![1],
+                            frontPartSizes[entry.key]![0],
+                            frontPartSizes[entry.key]![1],
+                            () => togglePart(entry.key),
+                            frontPartPositions[entry.key]?[2] ?? 0),
+                    ],
+                  );
+                }
+                if (context.read<BodyComposeCubit>().fornt == false) {
+                  return Stack(
+                    children: [
+                      SvgPicture.string(
+                        SvgCodes.backBody(backBodyColor),
+                        alignment: Alignment.center,
+                        fit: BoxFit.contain,
+                      ),
+                      // Rendering body parts
+                      for (var entry in backBodyColor.entries)
+                        Positioned(
+                          left: backPartPositions[entry.key]?[0],
+                          top: backPartPositions[entry.key]?[1],
+                          child: Container(
+                            width: backPartSizes[entry.key]?[0],
+                            height: backPartSizes[entry.key]?[1],
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(
+                                    backPartSizes[entry.key]![2]),
+                                topRight: Radius.circular(
+                                    backPartSizes[entry.key]![3]),
+                                bottomRight: Radius.circular(
+                                    backPartSizes[entry.key]![4]),
+                                bottomLeft: Radius.circular(
+                                    backPartSizes[entry.key]![5]),
+                              ),
+                            ),
+                            transform: Matrix4.rotationZ(
+                              math.pi / backPartPositions[entry.key]![2],
+                            ), // Rotate 45 degrees
+                            child: GestureDetector(
+                              onTap: () => backTogglePart(entry.key),
+                            ),
+                          ),
                         ),
-                      ),
-                      transform: Matrix4.rotationZ(
-                        math.pi / backPartPositions[entry.key]![2],
-                      ), // Rotate 45 degrees
-                      child: GestureDetector(
-                        onTap: () => backTogglePart(entry.key),
-                      ),
-                    ),
-                  ),
-                // buildBodyPart(
-                //     entry.key,
-                //     frontPartPositions[entry.key]![0],
-                //     frontPartPositions[entry.key]![1],
-                //     frontPartSizes[entry.key]![0],
-                //     frontPartSizes[entry.key]![1],
-                //     () => togglePart(entry.key),
-                //     frontPartPositions[entry.key]?[2] ?? 0),
-                // for (var entry in backBodyColor.entries)
-                // buildBackBodyPart(
-                //     entry.key,
-                //     backBodyPartPositon[entry.key]![0],
-                //     backBodyPartPositon[entry.key]![1],
-                //     backPartSizes[entry.key]![0],
-                //     backPartSizes[entry.key]![1],
-                //     () => togglePart(entry.key),
-                //     backBodyPartPositon[entry.key]?[2] ?? 0),
-              ],
+                    ],
+                  );
+                }
+                return SizedBox();
+                // return Stack(
+                //   children: [
+                //     SvgPicture.string(
+                //       front == true
+                //           ? SvgCodes.frontBody(frontBodyColor)
+                //           : SvgCodes.backBody(backBodyColor),
+                //       alignment: Alignment.center,
+                //       fit: BoxFit.contain,
+                //     ),
+                //     // Rendering body parts
+                //     for (var entry in front == true
+                //         ? frontBodyColor.entries
+                //         : backBodyColor.entries)
+                //       front == true
+                //           ? buildBodyPart(
+                //               entry.key,
+                //               frontPartPositions[entry.key]![0],
+                //               frontPartPositions[entry.key]![1],
+                //               frontPartSizes[entry.key]![0],
+                //               frontPartSizes[entry.key]![1],
+                //               () => togglePart(entry.key),
+                //               frontPartPositions[entry.key]?[2] ?? 0)
+                //           : Positioned(
+                //               left: backPartPositions[entry.key]?[0],
+                //               top: backPartPositions[entry.key]?[1],
+                //               child: Container(
+                //                 width: backPartSizes[entry.key]?[0],
+                //                 height: backPartSizes[entry.key]?[1],
+                //                 decoration: BoxDecoration(
+                //                   borderRadius: BorderRadius.only(
+                //                     topLeft: Radius.circular(
+                //                         backPartSizes[entry.key]![2]),
+                //                     topRight: Radius.circular(
+                //                         backPartSizes[entry.key]![3]),
+                //                     bottomRight: Radius.circular(
+                //                         backPartSizes[entry.key]![4]),
+                //                     bottomLeft: Radius.circular(
+                //                         backPartSizes[entry.key]![5]),
+                //                   ),
+                //                 ),
+                //                 transform: Matrix4.rotationZ(
+                //                   math.pi / backPartPositions[entry.key]![2],
+                //                 ), // Rotate 45 degrees
+                //                 child: GestureDetector(
+                //                   onTap: () => backTogglePart(entry.key),
+                //                 ),
+                //               ),
+                //             ),
+                //     // buildBodyPart(
+                //     //     entry.key,
+                //     //     frontPartPositions[entry.key]![0],
+                //     //     frontPartPositions[entry.key]![1],
+                //     //     frontPartSizes[entry.key]![0],
+                //     //     frontPartSizes[entry.key]![1],
+                //     //     () => togglePart(entry.key),
+                //     //     frontPartPositions[entry.key]?[2] ?? 0),
+                //     // for (var entry in backBodyColor.entries)
+                //     // buildBackBodyPart(
+                //     //     entry.key,
+                //     //     backBodyPartPositon[entry.key]![0],
+                //     //     backBodyPartPositon[entry.key]![1],
+                //     //     backPartSizes[entry.key]![0],
+                //     //     backPartSizes[entry.key]![1],
+                //     //     () => togglePart(entry.key),
+                //     //     backBodyPartPositon[entry.key]?[2] ?? 0),
+                //   ],
+                // );
+              },
             ),
             25.heightBox,
             Row(
@@ -539,28 +627,42 @@ class _FrontBodyState extends State<FrontBody> {
                           ),
                           actions: [
                             TextButton(
-                                onPressed: () {
-                                  howHard = context
-                                      .read<BodyComposeCubit>()
-                                      .myPercentage;
-                                  double now = DateTime.now()
-                                      .millisecondsSinceEpoch
-                                      .toDouble();
-                                  print(now);
-                                  for (var parts in primeriChoosen) {
-                                    frontBodyColor[parts] = "red";
-                                    frontPartHowHard![parts]?[0] =
-                                        ((howHard * 300000)).toDouble();
-                                    frontPartHowHard![parts]?[1] = now;
-                                  }
-                                  sharedPreferencesManager.saveMap(
-                                      'partHowHard', frontPartHowHard!);
-                                  primeriChoosen.clear();
-                                  Navigator.pop(context);
+                              child: const Text('Done'),
+                              onPressed: () {
+                                howHard = context
+                                    .read<BodyComposeCubit>()
+                                    .myPercentage;
+                                //back
+                                backHowHardDuble = context
+                                    .read<BodyComposeCubit>()
+                                    .myPercentage;
+                                double now = DateTime.now()
+                                    .millisecondsSinceEpoch
+                                    .toDouble();
+                                print(now);
+                                for (var parts in primeriChoosen) {
+                                  frontBodyColor[parts] = "red";
+                                  frontPartHowHard![parts]?[0] =
+                                      ((howHard * 300000)).toDouble();
+                                  frontPartHowHard![parts]?[1] = now;
+                                  //Back
+                                  backBodyColor[parts] = "red";
+                                  backPartHowHard?[parts]?[0] =
+                                      ((backHowHardDuble * 300000)).toDouble();
+                                  backPartHowHard?[parts]?[1] = now;
+                                }
+                                sharedPreferencesManager.saveMap(
+                                    'partHowHard', frontPartHowHard!);
+                                //back
 
-                                  setState(() {});
-                                },
-                                child: const Text('Done'))
+                                sharedPreferencesManager.saveMap(
+                                    'backPartHowHard', backPartHowHard!);
+                                primeriChoosen.clear();
+                                Navigator.pop(context);
+
+                                setState(() {});
+                              },
+                            )
                           ],
                         );
                       },
@@ -679,8 +781,8 @@ class _FrontBodyState extends State<FrontBody> {
           context: context,
           builder: (context) {
             context.read<BodyComposeCubit>().updateReminedTime(
-                level: (backPartHowHard[partName][0]),
-                savedSecond: backPartHowHard[partName][1]);
+                level: (backPartHowHard?[partName][0]),
+                savedSecond: backPartHowHard?[partName][1]);
             return AlertDialog(
               title: const Text("Recovery Time Reminded"),
               content: BlocBuilder<BodyComposeCubit, BodyComposeState>(
@@ -713,14 +815,14 @@ class _FrontBodyState extends State<FrontBody> {
                                           children: [
                                             TextButton(
                                                 onPressed: () {
-                                                  backPartHowHard[partName][0] =
-                                                      0;
-                                                  backPartHowHard[partName][1] =
-                                                      0;
+                                                  backPartHowHard?[partName]
+                                                      [0] = 0;
+                                                  backPartHowHard?[partName]
+                                                      [1] = 0;
                                                   sharedPreferencesManager
                                                       .saveMap(
                                                           'backPartHowHard',
-                                                          backPartHowHard);
+                                                          backPartHowHard!);
                                                   backMakeIt();
                                                   setState(() {});
                                                   Navigator.pop(context);
