@@ -456,6 +456,7 @@ class _FrontBodyState extends State<FrontBody> {
           setState(() {
             context.read<BodyComposeCubit>().toggleBody();
             front = !front;
+
             print(front);
           });
         },
@@ -516,17 +517,17 @@ class _FrontBodyState extends State<FrontBody> {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(
-                                    backPartSizes[entry.key]![2]),
+                                    backPartSizes[entry.key]?[2] ?? 0),
                                 topRight: Radius.circular(
-                                    backPartSizes[entry.key]![3]),
+                                    backPartSizes[entry.key]?[3] ?? 0),
                                 bottomRight: Radius.circular(
-                                    backPartSizes[entry.key]![4]),
+                                    backPartSizes[entry.key]?[4] ?? 0),
                                 bottomLeft: Radius.circular(
-                                    backPartSizes[entry.key]![5]),
+                                    backPartSizes[entry.key]?[5] ?? 0),
                               ),
                             ),
                             transform: Matrix4.rotationZ(
-                              math.pi / backPartPositions[entry.key]![2],
+                              math.pi / (backPartPositions[entry.key]?[2] ?? 0),
                             ), // Rotate 45 degrees
                             child: GestureDetector(
                               onTap: () => backTogglePart(entry.key),
@@ -640,16 +641,34 @@ class _FrontBodyState extends State<FrontBody> {
                                     .millisecondsSinceEpoch
                                     .toDouble();
                                 print(now);
-                                for (var parts in primeriChoosen) {
-                                  frontBodyColor[parts] = "red";
-                                  frontPartHowHard![parts]?[0] =
-                                      ((howHard * 300000)).toDouble();
-                                  frontPartHowHard![parts]?[1] = now;
-                                  //Back
-                                  backBodyColor[parts] = "red";
-                                  backPartHowHard?[parts]?[0] =
-                                      ((backHowHardDuble * 300000)).toDouble();
-                                  backPartHowHard?[parts]?[1] = now;
+
+                                for (var entry in frontBodyColor.entries) {
+                                  if (primeriChoosen.contains(entry.key)) {
+                                    List ss = [];
+                                    ss.add(entry.key);
+                                    print("sssssssssssssssssssssssssssss $ss");
+                                    for (var parts in primeriChoosen) {
+                                      frontBodyColor[parts] = "red";
+                                      frontPartHowHard![parts]?[0] =
+                                          ((howHard * 300000)).toDouble();
+                                      frontPartHowHard![parts]?[1] = now;
+                                      primeriChoosen.remove(entry.key);
+                                      print(primeriChoosen);
+                                    }
+                                  }
+                                }
+                                for (var entry in backBodyColor.entries) {
+                                  if (primeriChoosen.contains(entry.key)) {
+                                    for (var parts in primeriChoosen) {
+                                      //Back
+                                      backBodyColor[parts] = "red";
+                                      backPartHowHard?[parts]?[0] =
+                                          ((backHowHardDuble * 300000))
+                                              .toDouble();
+                                      backPartHowHard?[parts]?[1] = now;
+                                      primeriChoosen.remove(entry.key);
+                                    }
+                                  }
                                 }
                                 sharedPreferencesManager.saveMap(
                                     'partHowHard', frontPartHowHard!);
@@ -762,13 +781,21 @@ class _FrontBodyState extends State<FrontBody> {
         });
         return;
       }
-      frontBodyColor[partName] =
-          frontBodyColor[partName] == 'green' ? 'glass' : 'green';
-      if (primeriChoosen.contains(partName)) {
+      if (frontBodyColor[partName] == 'green') {
         primeriChoosen.remove(partName);
+        frontBodyColor[partName] = 'glass';
       } else {
         primeriChoosen.add(partName);
+
+        frontBodyColor[partName] = 'green';
       }
+      // frontBodyColor[partName] =
+      //     frontBodyColor[partName] == 'green' ? 'glass' : 'green';
+      // if (primeriChoosen.contains(partName)) {
+      //   primeriChoosen.remove(partName);
+      // } else {
+      //   primeriChoosen.add(partName);
+      // }
       print(primeriChoosen);
     });
   }
@@ -868,30 +895,30 @@ class _FrontBodyState extends State<FrontBody> {
     });
   }
 
-  Widget buildBackBodyPart(String partName, double left, double top,
-      double width, double height, Function() onTap, double angle) {
-    return Center(
-      child: Positioned(
-        left: left,
-        top: top,
-        child: Container(
-          width: width,
-          height: height,
-          decoration: BoxDecoration(
-            color: Colors.blue,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(10),
-              topRight: Radius.circular(10),
-            ),
-          ),
-          transform: Matrix4.rotationZ(math.pi / angle), // Rotate 45 degrees
-          child: GestureDetector(
-            onDoubleTap: onTap,
-          ),
-        ),
-      ),
-    );
-  }
+  // Widget buildBackBodyPart(String partName, double left, double top,
+  //     double width, double height, Function() onTap, double angle) {
+  //   return Center(
+  //     child: Positioned(
+  //       left: left,
+  //       top: top,
+  //       child: Container(
+  //         width: width,
+  //         height: height,
+  //         decoration: const BoxDecoration(
+  //           color: Colors.blue,
+  //           borderRadius: BorderRadius.only(
+  //             topLeft: Radius.circular(10),
+  //             topRight: Radius.circular(10),
+  //           ),
+  //         ),
+  //         transform: Matrix4.rotationZ(math.pi / angle), // Rotate 45 degrees
+  //         child: GestureDetector(
+  //           onDoubleTap: onTap,
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget buildBodyPart(String partName, double left, double top, double width,
       double height, Function() onTap, double? angle) {
