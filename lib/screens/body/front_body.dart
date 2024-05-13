@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:interval_timer/components/extentions.dart';
 import 'package:interval_timer/res/body_parts_position.dart';
+import 'package:interval_timer/res/colors.dart';
 import 'package:interval_timer/res/svg_codes.dart';
 import 'package:interval_timer/screens/body/cubit/body_compose_cubit.dart';
 import 'package:interval_timer/utils/format_time.dart';
@@ -24,6 +25,7 @@ class _FrontBodyState extends State<FrontBody> {
       SharedPreferencesManager();
   double howHard = 0;
   bool front = true;
+  bool mm = true;
 
   late Map<String, dynamic> spartHowHard;
   void makeIt() {
@@ -122,30 +124,11 @@ class _FrontBodyState extends State<FrontBody> {
     backPartHowHard = backSpartHowHard;
   }
 
-  // late Map<String, List<double>> frontBodyPartPositon;
-  // late Map<String, String> frontBodyColor;
-  // late Map<String, dynamic>? frontHowHard;
-  // late Map<String, List<double>> frontPartSizes;
-  // //back
-  // late Map<String, List<double>> backBodyPartPositon;
-  // late Map<String, String> backBodyColor;
-  // late Map<String, dynamic>? backHowHard;
-  // late Map<String, List<double>> backPartSizes;
   @override
   void initState() {
     super.initState();
     backMakeIt();
     makeIt();
-    // //front init
-    // frontBodyPartPositon = BodyPartPositon().frontPartPositions;
-    // frontBodyColor = BodyPartPositon().frontBodyColor;
-    // frontHowHard = BodyPartPositon().frontPartHowHard;
-    // frontPartSizes = BodyPartPositon().frontPartSizes;
-    // //back init
-    // backBodyPartPositon = BodyPartPositon().backPartPositions;
-    // backBodyColor = BodyPartPositon().backBodyColor;
-    // backHowHard = BodyPartPositon().backPartHowHard;
-    // backPartSizes = BodyPartPositon().backPartSizes;
   }
 
   Map<String, List<double>> frontPartPositions = {
@@ -281,8 +264,8 @@ class _FrontBodyState extends State<FrontBody> {
     'leftSemitendinosus': 'glass',
     'leftBicepsFemoris': 'glass',
     'leftAdductor': 'glass',
-    'rightKool': 'glass',
-    'leftKool': 'glass',
+    'rightBackKool': 'glass',
+    'leftBackKool': 'glass',
     'rightTrapezius': 'glass',
     'leftTrapezius': 'glass',
     'rightMiddleHead': 'glass',
@@ -324,8 +307,8 @@ class _FrontBodyState extends State<FrontBody> {
     'leftSemitendinosus': [133, 204, 1.93],
     'leftBicepsFemoris': [120, 204, 1.93],
     'leftAdductor': [141, 204, 1.9],
-    'rightKool': [200, 26.5, 1],
-    'leftKool': [135, 26.5, 1],
+    'rightBackKool': [200, 26.5, 1],
+    'leftBackKool': [135, 26.5, 1],
     'rightTrapezius': [155, 73, -1.5],
     'leftTrapezius': [146, 47, 1.5],
     'rightMiddleHead': [240, 55, .8],
@@ -367,8 +350,8 @@ class _FrontBodyState extends State<FrontBody> {
     'leftSemitendinosus': [0, 0],
     'leftBicepsFemoris': [0, 0],
     'leftAdductor': [0, 0],
-    'rightKool': [0, 0],
-    'leftKool': [0, 0],
+    'rightBackKool': [0, 0],
+    'leftBackKool': [0, 0],
     'rightTrapezius': [0, 0],
     'leftTrapezius': [0, 0],
     'rightMiddleHead': [0, 0],
@@ -410,8 +393,8 @@ class _FrontBodyState extends State<FrontBody> {
     'rightAdductor': [43, 6, 0, 30, 30, 100],
     'leftSemitendinosus': [43, 10, 0, 0, 10, 0],
     'rightSemitendinosus': [43, 10, 0, 10, 0, 0],
-    'leftKool': [50, 25, 0, 0, 30, 0],
-    'rightKool': [50, 25, 0, 0, 0, 30],
+    'leftBackKool': [50, 25, 0, 0, 30, 0],
+    'rightBackKool': [50, 25, 0, 0, 0, 30],
     'leftTrapezius': [30, 50, 30, 30, 40, 40],
     'rightTrapezius': [30, 50, 30, 30, 40, 40],
     'leftMiddleHead': [40, 20, 0, 0, 30, 30],
@@ -537,74 +520,7 @@ class _FrontBodyState extends State<FrontBody> {
                     ],
                   );
                 }
-                return SizedBox();
-                // return Stack(
-                //   children: [
-                //     SvgPicture.string(
-                //       front == true
-                //           ? SvgCodes.frontBody(frontBodyColor)
-                //           : SvgCodes.backBody(backBodyColor),
-                //       alignment: Alignment.center,
-                //       fit: BoxFit.contain,
-                //     ),
-                //     // Rendering body parts
-                //     for (var entry in front == true
-                //         ? frontBodyColor.entries
-                //         : backBodyColor.entries)
-                //       front == true
-                //           ? buildBodyPart(
-                //               entry.key,
-                //               frontPartPositions[entry.key]![0],
-                //               frontPartPositions[entry.key]![1],
-                //               frontPartSizes[entry.key]![0],
-                //               frontPartSizes[entry.key]![1],
-                //               () => togglePart(entry.key),
-                //               frontPartPositions[entry.key]?[2] ?? 0)
-                //           : Positioned(
-                //               left: backPartPositions[entry.key]?[0],
-                //               top: backPartPositions[entry.key]?[1],
-                //               child: Container(
-                //                 width: backPartSizes[entry.key]?[0],
-                //                 height: backPartSizes[entry.key]?[1],
-                //                 decoration: BoxDecoration(
-                //                   borderRadius: BorderRadius.only(
-                //                     topLeft: Radius.circular(
-                //                         backPartSizes[entry.key]![2]),
-                //                     topRight: Radius.circular(
-                //                         backPartSizes[entry.key]![3]),
-                //                     bottomRight: Radius.circular(
-                //                         backPartSizes[entry.key]![4]),
-                //                     bottomLeft: Radius.circular(
-                //                         backPartSizes[entry.key]![5]),
-                //                   ),
-                //                 ),
-                //                 transform: Matrix4.rotationZ(
-                //                   math.pi / backPartPositions[entry.key]![2],
-                //                 ), // Rotate 45 degrees
-                //                 child: GestureDetector(
-                //                   onTap: () => backTogglePart(entry.key),
-                //                 ),
-                //               ),
-                //             ),
-                //     // buildBodyPart(
-                //     //     entry.key,
-                //     //     frontPartPositions[entry.key]![0],
-                //     //     frontPartPositions[entry.key]![1],
-                //     //     frontPartSizes[entry.key]![0],
-                //     //     frontPartSizes[entry.key]![1],
-                //     //     () => togglePart(entry.key),
-                //     //     frontPartPositions[entry.key]?[2] ?? 0),
-                //     // for (var entry in backBodyColor.entries)
-                //     // buildBackBodyPart(
-                //     //     entry.key,
-                //     //     backBodyPartPositon[entry.key]![0],
-                //     //     backBodyPartPositon[entry.key]![1],
-                //     //     backPartSizes[entry.key]![0],
-                //     //     backPartSizes[entry.key]![1],
-                //     //     () => togglePart(entry.key),
-                //     //     backBodyPartPositon[entry.key]?[2] ?? 0),
-                //   ],
-                // );
+                return const SizedBox();
               },
             ),
             25.heightBox,
@@ -618,10 +534,10 @@ class _FrontBodyState extends State<FrontBody> {
                     if (primeriChoosen.isEmpty) {
                       return;
                     }
-                    showDialog(
+                    showAdaptiveDialog(
                       context: context,
                       builder: (context) {
-                        return AlertDialog(
+                        return AlertDialog.adaptive(
                           title: const Text('How did You Train these Mucles?'),
                           content: MyProgressBar(
                             percentage: 0,
@@ -643,30 +559,31 @@ class _FrontBodyState extends State<FrontBody> {
                                 print(now);
 
                                 for (var entry in frontBodyColor.entries) {
+                                  print("printed");
                                   if (primeriChoosen.contains(entry.key)) {
                                     List ss = [];
                                     ss.add(entry.key);
                                     print("sssssssssssssssssssssssssssss $ss");
-                                    for (var parts in primeriChoosen) {
+                                    for (var parts in ss) {
                                       frontBodyColor[parts] = "red";
                                       frontPartHowHard![parts]?[0] =
                                           ((howHard * 300000)).toDouble();
                                       frontPartHowHard![parts]?[1] = now;
-                                      primeriChoosen.remove(entry.key);
                                       print(primeriChoosen);
                                     }
                                   }
                                 }
                                 for (var entry in backBodyColor.entries) {
                                   if (primeriChoosen.contains(entry.key)) {
-                                    for (var parts in primeriChoosen) {
+                                    List ss = [];
+                                    ss.add(entry.key);
+                                    for (var parts in ss) {
                                       //Back
                                       backBodyColor[parts] = "red";
                                       backPartHowHard?[parts]?[0] =
                                           ((backHowHardDuble * 300000))
                                               .toDouble();
                                       backPartHowHard?[parts]?[1] = now;
-                                      primeriChoosen.remove(entry.key);
                                     }
                                   }
                                 }
@@ -679,7 +596,10 @@ class _FrontBodyState extends State<FrontBody> {
                                 primeriChoosen.clear();
                                 Navigator.pop(context);
 
-                                setState(() {});
+                                setState(() {
+                                  backMakeIt();
+                                  makeIt();
+                                });
                               },
                             )
                           ],
@@ -699,16 +619,17 @@ class _FrontBodyState extends State<FrontBody> {
   }
 
   void togglePart(String partName) {
+    List<bool> isExpandedList = [false, false, false];
     setState(() {
       if (frontBodyColor[partName] != "glass" &&
           frontBodyColor[partName] != "green") {
-        showDialog(
+        showAdaptiveDialog(
           context: context,
           builder: (context) {
             context.read<BodyComposeCubit>().updateReminedTime(
                 level: (frontPartHowHard?[partName][0]),
                 savedSecond: frontPartHowHard?[partName][1]);
-            return AlertDialog(
+            return AlertDialog.adaptive(
               title: const Text("Recovery Time Reminded"),
               content: BlocBuilder<BodyComposeCubit, BodyComposeState>(
                 builder: (context, state) {
@@ -728,43 +649,115 @@ class _FrontBodyState extends State<FrontBody> {
                           formatTime(state.remindedInseconds),
                         ),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             TextButton(
+                              onPressed: () {
+                                showAdaptiveDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog.adaptive(
+                                      title: const Text("Are you sure?"),
+                                      content: Row(
+                                        children: [
+                                          TextButton(
+                                              onPressed: () {
+                                                frontPartHowHard?[partName][0] =
+                                                    0;
+                                                frontPartHowHard?[partName][1] =
+                                                    0;
+                                                sharedPreferencesManager
+                                                    .saveMap('partHowHard',
+                                                        frontPartHowHard!);
+                                                makeIt();
+                                                setState(() {});
+                                                Navigator.pop(context);
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text("yes")),
+                                          TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text("Cancel")),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                              child: const Text("End Of Recovery"),
+                            ),
+                            TextButton(
                                 onPressed: () {
-                                  showDialog(
+                                  showAdaptiveDialog(
                                     context: context,
                                     builder: (context) {
-                                      return AlertDialog(
-                                        title: const Text("Are you sure?"),
-                                        content: Row(
+                                      return AlertDialog.adaptive(
+                                        content: Column(
                                           children: [
-                                            TextButton(
-                                                onPressed: () {
-                                                  frontPartHowHard?[partName]
-                                                      [0] = 0;
-                                                  frontPartHowHard?[partName]
-                                                      [1] = 0;
-                                                  sharedPreferencesManager
-                                                      .saveMap('partHowHard',
-                                                          frontPartHowHard!);
-                                                  makeIt();
-                                                  setState(() {});
-                                                  Navigator.pop(context);
-                                                  Navigator.pop(context);
-                                                },
-                                                child: const Text("yes")),
-                                            TextButton(
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                child: const Text("Cancel")),
+                                            //problem is set state doesn,t Work
+                                            ExpansionPanelList(
+                                              expansionCallback:
+                                                  (panelIndex, isExpanded) {
+                                                setState(() {
+                                                  mm = !mm;
+                                                  isExpandedList[panelIndex] =
+                                                      !isExpanded;
+
+                                                  //         _isExpandedList =
+                                                  //     List.generate(
+                                                  //   _isExpandedList.length,
+                                                  //   (index) =>
+                                                  //       index == panelIndex
+                                                  //           ? !isExpanded
+                                                  //           : false,
+                                                  // );
+                                                });
+                                              },
+                                              children: [
+                                                ExpansionPanel(
+                                                  isExpanded: mm,
+                                                  headerBuilder:
+                                                      (context, isExpanded) {
+                                                    return const Text(
+                                                        "Gym Exercices");
+                                                  },
+                                                  body: const Text("video"),
+                                                ),
+                                                ExpansionPanel(
+                                                    isExpanded:
+                                                        isExpandedList[1],
+                                                    headerBuilder:
+                                                        (context, isExpanded) {
+                                                      return const Text(
+                                                          "Mobiliti");
+                                                    },
+                                                    body: const Text("video")),
+                                                ExpansionPanel(
+                                                    isExpanded:
+                                                        isExpandedList[2],
+                                                    headerBuilder:
+                                                        (context, isExpanded) {
+                                                      return const Text(
+                                                          "Body Weight");
+                                                    },
+                                                    body: const Text("video"))
+                                              ],
+                                            )
                                           ],
                                         ),
+                                        backgroundColor: AppColors.bgInterval,
                                       );
                                     },
                                   );
                                 },
-                                child: const Text("End Of Recovery"))
+                                child: const Row(
+                                  children: [
+                                    Icon(Icons.video_collection),
+                                    Text("watch exercises")
+                                  ],
+                                ))
                           ],
                         )
                       ],
@@ -804,13 +797,13 @@ class _FrontBodyState extends State<FrontBody> {
     setState(() {
       if (backBodyColor[partName] != "glass" &&
           backBodyColor[partName] != "green") {
-        showDialog(
+        showAdaptiveDialog(
           context: context,
           builder: (context) {
             context.read<BodyComposeCubit>().updateReminedTime(
                 level: (backPartHowHard?[partName][0]),
                 savedSecond: backPartHowHard?[partName][1]);
-            return AlertDialog(
+            return AlertDialog.adaptive(
               title: const Text("Recovery Time Reminded"),
               content: BlocBuilder<BodyComposeCubit, BodyComposeState>(
                 builder: (context, state) {
@@ -833,10 +826,10 @@ class _FrontBodyState extends State<FrontBody> {
                           children: [
                             TextButton(
                                 onPressed: () {
-                                  showDialog(
+                                  showAdaptiveDialog(
                                     context: context,
                                     builder: (context) {
-                                      return AlertDialog(
+                                      return AlertDialog.adaptive(
                                         title: const Text("Are you sure?"),
                                         content: Row(
                                           children: [
