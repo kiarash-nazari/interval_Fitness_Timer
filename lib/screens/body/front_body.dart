@@ -8,10 +8,14 @@ import 'package:interval_timer/res/body_parts_position.dart';
 import 'package:interval_timer/res/colors.dart';
 import 'package:interval_timer/res/svg_codes.dart';
 import 'package:interval_timer/screens/body/cubit/body_compose_cubit.dart';
+import 'package:interval_timer/screens/body/models/video_parts.dart';
 import 'package:interval_timer/utils/format_time.dart';
 import 'package:interval_timer/utils/shared_perfrences_manager.dart';
+import 'package:interval_timer/utils/youtube/youtube_player.dart';
 import 'package:interval_timer/widgets/clikable_progresbar.dart';
 import 'dart:math' as math;
+
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class FrontBody extends StatefulWidget {
   const FrontBody({Key? key}) : super(key: key);
@@ -26,6 +30,7 @@ class _FrontBodyState extends State<FrontBody> {
   double howHard = 0;
   bool front = true;
   bool mm = true;
+  List<bool> isExpandedList = [false, false, false];
 
   late Map<String, dynamic> spartHowHard;
   void makeIt() {
@@ -619,7 +624,6 @@ class _FrontBodyState extends State<FrontBody> {
   }
 
   void togglePart(String partName) {
-    List<bool> isExpandedList = [false, false, false];
     setState(() {
       if (frontBodyColor[partName] != "glass" &&
           frontBodyColor[partName] != "green") {
@@ -693,62 +697,127 @@ class _FrontBodyState extends State<FrontBody> {
                                   showAdaptiveDialog(
                                     context: context,
                                     builder: (context) {
-                                      return AlertDialog.adaptive(
-                                        content: Column(
-                                          children: [
-                                            //problem is set state doesn,t Work
-                                            ExpansionPanelList(
-                                              expansionCallback:
-                                                  (panelIndex, isExpanded) {
-                                                setState(() {
-                                                  mm = !mm;
-                                                  isExpandedList[panelIndex] =
-                                                      !isExpanded;
+                                      return StatefulBuilder(builder:
+                                          (BuildContext context,
+                                              void Function(void Function())
+                                                  setState) {
+                                        return AlertDialog.adaptive(
+                                          content: Column(
+                                            children: [
+                                              24.heightBox,
+                                              ExpansionPanelList(
+                                                expandedHeaderPadding:
+                                                    const EdgeInsets.all(10),
+                                                expansionCallback:
+                                                    (panelIndex, isExpanded) {
+                                                  setState(() {
+                                                    // mm = !mm;
+                                                    isExpandedList[panelIndex] =
+                                                        isExpanded;
+                                                    print(isExpandedList);
 
-                                                  //         _isExpandedList =
-                                                  //     List.generate(
-                                                  //   _isExpandedList.length,
-                                                  //   (index) =>
-                                                  //       index == panelIndex
-                                                  //           ? !isExpanded
-                                                  //           : false,
-                                                  // );
-                                                });
-                                              },
-                                              children: [
-                                                ExpansionPanel(
-                                                  isExpanded: mm,
-                                                  headerBuilder:
-                                                      (context, isExpanded) {
-                                                    return const Text(
-                                                        "Gym Exercices");
-                                                  },
-                                                  body: const Text("video"),
-                                                ),
-                                                ExpansionPanel(
+                                                    //         _isExpandedList =
+                                                    //     List.generate(
+                                                    //   _isExpandedList.length,
+                                                    //   (index) =>
+                                                    //       index == panelIndex
+                                                    //           ? !isExpanded
+                                                    //           : false,
+                                                    // );
+                                                  });
+                                                },
+                                                children: [
+                                                  ExpansionPanel(
                                                     isExpanded:
-                                                        isExpandedList[1],
+                                                        isExpandedList[0],
                                                     headerBuilder:
                                                         (context, isExpanded) {
-                                                      return const Text(
-                                                          "Mobiliti");
+                                                      return const Padding(
+                                                        padding: EdgeInsets.all(
+                                                            16.0),
+                                                        child: Text(
+                                                            "Gym Exercises"),
+                                                      );
                                                     },
-                                                    body: const Text("video")),
-                                                ExpansionPanel(
-                                                    isExpanded:
-                                                        isExpandedList[2],
-                                                    headerBuilder:
-                                                        (context, isExpanded) {
-                                                      return const Text(
-                                                          "Body Weight");
-                                                    },
-                                                    body: const Text("video"))
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                        backgroundColor: AppColors.bgInterval,
-                                      );
+                                                    body: SizedBox(
+                                                      width: 150,
+                                                      height: 300,
+                                                      child: ListView.builder(
+                                                        physics:
+                                                            const BouncingScrollPhysics(),
+                                                        itemCount: VideoParts
+                                                            .videoGymParts[
+                                                                partName]
+                                                            .length,
+                                                        itemBuilder:
+                                                            (context, index) {
+                                                          YoutubePlayerController
+                                                              controler =
+                                                              YoutubePlayerController(
+                                                                  initialVideoId:
+                                                                      VideoParts
+                                                                              .videoGymParts[
+                                                                          partName]);
+                                                          return Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8.0),
+                                                            child: Container(
+                                                              height: 100,
+                                                              width: double
+                                                                  .infinity,
+                                                              color: AppColors
+                                                                  .mainblue,
+                                                              child: Row(
+                                                                children: [
+                                                                  YoutubePlayer(
+                                                                      controller:
+                                                                          controler)
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          );
+                                                        },
+                                                      ),
+                                                    ),
+                                                    canTapOnHeader: true,
+                                                  ),
+                                                  ExpansionPanel(
+                                                      isExpanded:
+                                                          isExpandedList[1],
+                                                      headerBuilder: (context,
+                                                          isExpanded) {
+                                                        return const Padding(
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  16.0),
+                                                          child:
+                                                              Text("Mobiliti"),
+                                                        );
+                                                      },
+                                                      body:
+                                                          const Text("video")),
+                                                  ExpansionPanel(
+                                                      isExpanded:
+                                                          isExpandedList[2],
+                                                      headerBuilder: (context,
+                                                          isExpanded) {
+                                                        return const Padding(
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  16.0),
+                                                          child: Text(
+                                                              "Body Weight"),
+                                                        );
+                                                      },
+                                                      body: const Text("video"))
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                          backgroundColor: AppColors.bgInterval,
+                                        );
+                                      });
                                     },
                                   );
                                 },
