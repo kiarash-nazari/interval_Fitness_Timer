@@ -756,8 +756,9 @@ class _FrontBodyState extends State<FrontBody> {
                                                               YoutubePlayerController(
                                                                   initialVideoId:
                                                                       VideoParts
-                                                                              .videoGymParts[
-                                                                          partName]);
+                                                                              .videoGymParts[partName]
+                                                                          [
+                                                                          index]);
                                                           return Padding(
                                                             padding:
                                                                 const EdgeInsets
