@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_print
 
+import 'dart:isolate';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -694,6 +696,11 @@ class _FrontBodyState extends State<FrontBody> {
                             ),
                             TextButton(
                                 onPressed: () {
+                                  double videoHeight = 150;
+                                  // var  controler;
+                                  //     Future<YoutubePlayer> video = Isolate.run((){
+                                  //       return YoutubePlayer(controller: controler);
+                                  //     });
                                   showAdaptiveDialog(
                                     context: context,
                                     builder: (context) {
@@ -740,7 +747,7 @@ class _FrontBodyState extends State<FrontBody> {
                                                       );
                                                     },
                                                     body: SizedBox(
-                                                      width: 150,
+                                                      width: 200,
                                                       height: 300,
                                                       child: ListView.builder(
                                                         physics:
@@ -754,27 +761,49 @@ class _FrontBodyState extends State<FrontBody> {
                                                           YoutubePlayerController
                                                               controler =
                                                               YoutubePlayerController(
-                                                                  initialVideoId:
-                                                                      VideoParts
-                                                                              .videoGymParts[partName]
-                                                                          [
-                                                                          index]);
+                                                            flags:
+                                                                const YoutubePlayerFlags(
+                                                              disableDragSeek:
+                                                                  false,
+                                                              controlsVisibleAtStart:
+                                                                  true,
+                                                              hideControls:
+                                                                  false,
+                                                              showLiveFullscreenButton:
+                                                                  true,
+                                                              useHybridComposition:
+                                                                  true,
+                                                              autoPlay: false,
+                                                            ),
+                                                            initialVideoId: VideoParts
+                                                                    .videoGymParts[
+                                                                partName][index],
+                                                          );
                                                           return Padding(
                                                             padding:
                                                                 const EdgeInsets
                                                                     .all(8.0),
-                                                            child: Container(
-                                                              height: 100,
-                                                              width: double
-                                                                  .infinity,
-                                                              color: AppColors
-                                                                  .mainblue,
-                                                              child: Row(
-                                                                children: [
-                                                                  YoutubePlayer(
-                                                                      controller:
-                                                                          controler)
-                                                                ],
+                                                            child:
+                                                                GestureDetector(
+                                                              onTap: () {
+                                                                setState(
+                                                                  () {
+                                                                    controler
+                                                                        .fitHeight(
+                                                                            Size.infinite);
+                                                                    videoHeight =
+                                                                        300;
+                                                                  },
+                                                                );
+                                                              },
+                                                              child: SizedBox(
+                                                                width: double
+                                                                    .infinity,
+                                                                height:
+                                                                    videoHeight,
+                                                                child: YoutubePlayer(
+                                                                    controller:
+                                                                        controler),
                                                               ),
                                                             ),
                                                           );
