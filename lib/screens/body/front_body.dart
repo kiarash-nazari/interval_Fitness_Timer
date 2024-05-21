@@ -14,7 +14,9 @@ import 'package:interval_timer/screens/body/models/video_parts.dart';
 import 'package:interval_timer/utils/format_time.dart';
 import 'package:interval_timer/utils/shared_perfrences_manager.dart';
 import 'package:interval_timer/utils/youtube/youtube_player.dart';
+import 'package:interval_timer/utils/youtube/youtube_service.dart';
 import 'package:interval_timer/widgets/clikable_progresbar.dart';
+import 'package:interval_timer/widgets/youtube_video_player.dart';
 import 'dart:math' as math;
 
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -129,6 +131,15 @@ class _FrontBodyState extends State<FrontBody> {
       }
     }
     backPartHowHard = backSpartHowHard;
+  }
+
+  final YoutubeService _youtubeService = YoutubeService();
+  Future<List<String>>? _videoIds;
+
+  void _searchVideos(String part) {
+    setState(() {
+      _videoIds = _youtubeService.fetchVideoIds(part);
+    });
   }
 
   @override
@@ -696,11 +707,8 @@ class _FrontBodyState extends State<FrontBody> {
                             ),
                             TextButton(
                                 onPressed: () {
+                                  _searchVideos(primeriChoosen[0]);
                                   double videoHeight = 150;
-                                  // var  controler;
-                                  //     Future<YoutubePlayer> video = Isolate.run((){
-                                  //       return YoutubePlayer(controller: controler);
-                                  //     });
                                   showAdaptiveDialog(
                                     context: context,
                                     builder: (context) {
@@ -749,66 +757,111 @@ class _FrontBodyState extends State<FrontBody> {
                                                     body: SizedBox(
                                                       width: 200,
                                                       height: 300,
-                                                      child: ListView.builder(
-                                                        physics:
-                                                            const BouncingScrollPhysics(),
-                                                        itemCount: VideoParts
-                                                            .videoGymParts[
-                                                                partName]
-                                                            .length,
-                                                        itemBuilder:
-                                                            (context, index) {
-                                                          YoutubePlayerController
-                                                              controler =
-                                                              YoutubePlayerController(
-                                                            flags:
-                                                                const YoutubePlayerFlags(
-                                                              disableDragSeek:
-                                                                  false,
-                                                              controlsVisibleAtStart:
-                                                                  true,
-                                                              hideControls:
-                                                                  false,
-                                                              showLiveFullscreenButton:
-                                                                  true,
-                                                              useHybridComposition:
-                                                                  true,
-                                                              autoPlay: false,
-                                                            ),
-                                                            initialVideoId: VideoParts
-                                                                    .videoGymParts[
-                                                                partName][index],
-                                                          );
-                                                          return Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(8.0),
-                                                            child:
-                                                                GestureDetector(
-                                                              onTap: () {
-                                                                setState(
-                                                                  () {
-                                                                    controler
-                                                                        .fitHeight(
-                                                                            Size.infinite);
-                                                                    videoHeight =
-                                                                        300;
-                                                                  },
-                                                                );
+                                                      child: FutureBuilder<
+                                                          List<String>>(
+                                                        future: _videoIds,
+                                                        builder: (context,
+                                                            snapshot) {
+                                                          print(snapshot.data);
+                                                          if (snapshot
+                                                                  .connectionState ==
+                                                              ConnectionState
+                                                                  .waiting) {
+                                                            return const Center(
+                                                                child:
+                                                                    CircularProgressIndicator());
+                                                          } else if (snapshot
+                                                              .hasError) {
+                                                            return Center(
+                                                                child: Text(snapshot
+                                                                    .error
+                                                                    .toString()));
+                                                          } else if (!snapshot
+                                                                  .hasData ||
+                                                              snapshot.data!
+                                                                  .isEmpty) {
+                                                            return const Center(
+                                                                child: Text(
+                                                                    "No Videos Found"));
+                                                          } else {
+                                                            return ListView
+                                                                .builder(
+                                                              itemCount:
+                                                                  snapshot.data!
+                                                                      .length,
+                                                              itemBuilder:
+                                                                  (context,
+                                                                      index) {
+                                                                return YoutubrVideoPlayer(
+                                                                    videoId: snapshot
+                                                                            .data![
+                                                                        index]);
                                                               },
-                                                              child: SizedBox(
-                                                                width: double
-                                                                    .infinity,
-                                                                height:
-                                                                    videoHeight,
-                                                                child: YoutubePlayer(
-                                                                    controller:
-                                                                        controler),
-                                                              ),
-                                                            ),
-                                                          );
+                                                            );
+                                                          }
                                                         },
                                                       ),
+
+                                                      // child: ListView.builder(
+                                                      //   physics:
+                                                      //       const BouncingScrollPhysics(),
+                                                      //   itemCount: VideoParts
+                                                      //       .videoGymParts[
+                                                      //           partName]
+                                                      //       .length,
+                                                      //   itemBuilder:
+                                                      //       (context, index) {
+                                                      //     YoutubePlayerController
+                                                      //         controler =
+                                                      //         YoutubePlayerController(
+                                                      //       flags:
+                                                      //           const YoutubePlayerFlags(
+                                                      //         disableDragSeek:
+                                                      //             false,
+                                                      //         controlsVisibleAtStart:
+                                                      //             true,
+                                                      //         hideControls:
+                                                      //             false,
+                                                      //         showLiveFullscreenButton:
+                                                      //             true,
+                                                      //         useHybridComposition:
+                                                      //             true,
+                                                      //         autoPlay: false,
+                                                      //       ),
+                                                      //       initialVideoId: VideoParts
+                                                      //               .videoGymParts[
+                                                      //           partName][index],
+                                                      //     );
+                                                      //     return Padding(
+                                                      //       padding:
+                                                      //           const EdgeInsets
+                                                      //               .all(8.0),
+                                                      //       child:
+                                                      //           GestureDetector(
+                                                      //         onTap: () {
+                                                      //           setState(
+                                                      //             () {
+                                                      //               controler
+                                                      //                   .fitHeight(
+                                                      //                       Size.infinite);
+                                                      //               videoHeight =
+                                                      //                   300;
+                                                      //             },
+                                                      //           );
+                                                      //         },
+                                                      //         child: SizedBox(
+                                                      //           width: double
+                                                      //               .infinity,
+                                                      //           height:
+                                                      //               videoHeight,
+                                                      //           child: YoutubePlayer(
+                                                      //               controller:
+                                                      //                   controler),
+                                                      //         ),
+                                                      //       ),
+                                                      //     );
+                                                      //   },
+                                                      // ),
                                                     ),
                                                     canTapOnHeader: true,
                                                   ),
