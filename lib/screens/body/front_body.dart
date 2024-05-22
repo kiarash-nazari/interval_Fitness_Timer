@@ -3,6 +3,7 @@
 import 'dart:isolate';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:interval_timer/components/extentions.dart';
@@ -17,6 +18,7 @@ import 'package:interval_timer/utils/youtube/youtube_player.dart';
 import 'package:interval_timer/utils/youtube/youtube_service.dart';
 import 'package:interval_timer/widgets/clikable_progresbar.dart';
 import 'package:interval_timer/widgets/youtube_video_player.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'dart:math' as math;
 
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -472,166 +474,280 @@ class _FrontBodyState extends State<FrontBody> {
       appBar: AppBar(
         title: const Text('Front Body'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            BlocBuilder<BodyComposeCubit, BodyComposeState>(
-              builder: (context, state) {
-                if (context.read<BodyComposeCubit>().fornt) {
-                  return Stack(
-                    children: [
-                      SvgPicture.string(
-                        SvgCodes.frontBody(frontBodyColor),
-                        alignment: Alignment.center,
-                        fit: BoxFit.contain,
-                      ),
-                      // Rendering body parts
-                      for (var entry in frontBodyColor.entries)
-                        buildBodyPart(
-                            entry.key,
-                            frontPartPositions[entry.key]![0],
-                            frontPartPositions[entry.key]![1],
-                            frontPartSizes[entry.key]![0],
-                            frontPartSizes[entry.key]![1],
-                            () => togglePart(entry.key),
-                            frontPartPositions[entry.key]?[2] ?? 0),
-                    ],
-                  );
-                }
-                if (context.read<BodyComposeCubit>().fornt == false) {
-                  return Stack(
-                    children: [
-                      SvgPicture.string(
-                        SvgCodes.backBody(backBodyColor),
-                        alignment: Alignment.center,
-                        fit: BoxFit.contain,
-                      ),
-                      // Rendering body parts
-                      for (var entry in backBodyColor.entries)
-                        Positioned(
-                          left: backPartPositions[entry.key]?[0],
-                          top: backPartPositions[entry.key]?[1],
-                          child: Container(
-                            width: backPartSizes[entry.key]?[0],
-                            height: backPartSizes[entry.key]?[1],
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(
-                                    backPartSizes[entry.key]?[2] ?? 0),
-                                topRight: Radius.circular(
-                                    backPartSizes[entry.key]?[3] ?? 0),
-                                bottomRight: Radius.circular(
-                                    backPartSizes[entry.key]?[4] ?? 0),
-                                bottomLeft: Radius.circular(
-                                    backPartSizes[entry.key]?[5] ?? 0),
-                              ),
-                            ),
-                            transform: Matrix4.rotationZ(
-                              math.pi / (backPartPositions[entry.key]?[2] ?? 0),
-                            ), // Rotate 45 degrees
-                            child: GestureDetector(
-                              onTap: () => backTogglePart(entry.key),
-                            ),
+      body: Stack(
+        children: [
+          Visibility(
+            visible: primeriChoosen.length == 1,
+            child: Positioned(
+              left: 20,
+              top: 70,
+              child: IconButton(
+                onPressed: () {
+                  _searchVideos("Gym exersice for ${primeriChoosen.first}");
+                  showAdaptiveDialog(
+                    context: context,
+                    builder: (context) {
+                      return StatefulBuilder(builder: (BuildContext context,
+                          void Function(void Function()) setState) {
+                        return AlertDialog.adaptive(
+                          content: Column(
+                            children: [
+                              24.heightBox,
+                              ExpansionPanelList(
+                                expandedHeaderPadding: const EdgeInsets.all(10),
+                                expansionCallback: (panelIndex, isExpanded) {
+                                  setState(() {
+                                    // mm = !mm;
+                                    isExpandedList[panelIndex] = isExpanded;
+                                    print(isExpandedList);
+                                  });
+                                },
+                                children: [
+                                  ExpansionPanel(
+                                    isExpanded: isExpandedList[0],
+                                    headerBuilder: (context, isExpanded) {
+                                      return const Padding(
+                                        padding: EdgeInsets.all(16.0),
+                                        child: Text("Gym Exercises"),
+                                      );
+                                    },
+                                    body: SizedBox(
+                                      width: 200,
+                                      height: 300,
+                                      child: FutureBuilder<List<String>>(
+                                        future: _videoIds,
+                                        builder: (context, snapshot) {
+                                          print(snapshot.data);
+                                          if (snapshot.connectionState ==
+                                              ConnectionState.waiting) {
+                                            return const Center(
+                                                child:
+                                                    CircularProgressIndicator());
+                                          } else if (snapshot.hasError) {
+                                            return Center(
+                                                child: Text(
+                                                    snapshot.error.toString()));
+                                          } else if (!snapshot.hasData ||
+                                              snapshot.data!.isEmpty) {
+                                            return const Center(
+                                                child: Text("No Videos Found"));
+                                          } else {
+                                            return ListView.builder(
+                                              itemCount: snapshot.data!.length,
+                                              itemBuilder: (context, index) {
+                                                return YoutubrVideoPlayer(
+                                                    videoId:
+                                                        snapshot.data![index]);
+                                              },
+                                            );
+                                          }
+                                        },
+                                      ),
+                                    ),
+                                    canTapOnHeader: true,
+                                  ),
+                                  ExpansionPanel(
+                                      isExpanded: isExpandedList[1],
+                                      headerBuilder: (context, isExpanded) {
+                                        return const Padding(
+                                          padding: EdgeInsets.all(16.0),
+                                          child: Text("Mobiliti"),
+                                        );
+                                      },
+                                      body: const Text("video")),
+                                  ExpansionPanel(
+                                      isExpanded: isExpandedList[2],
+                                      headerBuilder: (context, isExpanded) {
+                                        return const Padding(
+                                          padding: EdgeInsets.all(16.0),
+                                          child: Text("Body Weight"),
+                                        );
+                                      },
+                                      body: const Text("video"))
+                                ],
+                              )
+                            ],
                           ),
-                        ),
-                    ],
+                          backgroundColor: AppColors.bgInterval,
+                        );
+                      });
+                    },
                   );
-                }
-                return const SizedBox();
-              },
+                },
+                icon: Icon(
+                  MdiIcons.youtube,
+                  size: 50,
+                ),
+                color: AppColors.mainRed,
+              ),
             ),
-            25.heightBox,
-            Row(
+          ),
+          Center(
+            child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                TextButton.icon(
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.amber)),
-                  onPressed: () {
-                    if (primeriChoosen.isEmpty) {
-                      return;
-                    }
-                    showAdaptiveDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog.adaptive(
-                          title: const Text('How did You Train these Mucles?'),
-                          content: MyProgressBar(
-                            percentage: 0,
+                BlocBuilder<BodyComposeCubit, BodyComposeState>(
+                  builder: (context, state) {
+                    if (context.read<BodyComposeCubit>().fornt) {
+                      return Stack(
+                        children: [
+                          SvgPicture.string(
+                            SvgCodes.frontBody(frontBodyColor),
+                            alignment: Alignment.center,
+                            fit: BoxFit.contain,
                           ),
-                          actions: [
-                            TextButton(
-                              child: const Text('Done'),
-                              onPressed: () {
-                                howHard = context
-                                    .read<BodyComposeCubit>()
-                                    .myPercentage;
-                                //back
-                                backHowHardDuble = context
-                                    .read<BodyComposeCubit>()
-                                    .myPercentage;
-                                double now = DateTime.now()
-                                    .millisecondsSinceEpoch
-                                    .toDouble();
-                                print(now);
+                          // Rendering body parts
+                          for (var entry in frontBodyColor.entries)
+                            buildBodyPart(
+                                entry.key,
+                                frontPartPositions[entry.key]![0],
+                                frontPartPositions[entry.key]![1],
+                                frontPartSizes[entry.key]![0],
+                                frontPartSizes[entry.key]![1],
+                                () => togglePart(entry.key),
+                                frontPartPositions[entry.key]?[2] ?? 0),
+                        ],
+                      );
+                    }
+                    if (context.read<BodyComposeCubit>().fornt == false) {
+                      return Stack(
+                        children: [
+                          SvgPicture.string(
+                            SvgCodes.backBody(backBodyColor),
+                            alignment: Alignment.center,
+                            fit: BoxFit.contain,
+                          ),
+                          // Rendering body parts
+                          for (var entry in backBodyColor.entries)
+                            Positioned(
+                              left: backPartPositions[entry.key]?[0],
+                              top: backPartPositions[entry.key]?[1],
+                              child: Container(
+                                width: backPartSizes[entry.key]?[0],
+                                height: backPartSizes[entry.key]?[1],
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(
+                                        backPartSizes[entry.key]?[2] ?? 0),
+                                    topRight: Radius.circular(
+                                        backPartSizes[entry.key]?[3] ?? 0),
+                                    bottomRight: Radius.circular(
+                                        backPartSizes[entry.key]?[4] ?? 0),
+                                    bottomLeft: Radius.circular(
+                                        backPartSizes[entry.key]?[5] ?? 0),
+                                  ),
+                                ),
+                                transform: Matrix4.rotationZ(
+                                  math.pi /
+                                      (backPartPositions[entry.key]?[2] ?? 0),
+                                ), // Rotate 45 degrees
+                                child: GestureDetector(
+                                  onTap: () => backTogglePart(entry.key),
+                                ),
+                              ),
+                            ),
+                        ],
+                      );
+                    }
+                    return const SizedBox();
+                  },
+                ),
+                25.heightBox,
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextButton.icon(
+                      style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.amber)),
+                      onPressed: () {
+                        if (primeriChoosen.isEmpty) {
+                          return;
+                        }
+                        showAdaptiveDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog.adaptive(
+                              title:
+                                  const Text('How did You Train these Mucles?'),
+                              content: MyProgressBar(
+                                percentage: 0,
+                              ),
+                              actions: [
+                                TextButton(
+                                  child: const Text('Done'),
+                                  onPressed: () {
+                                    howHard = context
+                                        .read<BodyComposeCubit>()
+                                        .myPercentage;
+                                    //back
+                                    backHowHardDuble = context
+                                        .read<BodyComposeCubit>()
+                                        .myPercentage;
+                                    double now = DateTime.now()
+                                        .millisecondsSinceEpoch
+                                        .toDouble();
+                                    print(now);
 
-                                for (var entry in frontBodyColor.entries) {
-                                  print("printed");
-                                  if (primeriChoosen.contains(entry.key)) {
-                                    List ss = [];
-                                    ss.add(entry.key);
-                                    print("sssssssssssssssssssssssssssss $ss");
-                                    for (var parts in ss) {
-                                      frontBodyColor[parts] = "red";
-                                      frontPartHowHard![parts]?[0] =
-                                          ((howHard * 300000)).toDouble();
-                                      frontPartHowHard![parts]?[1] = now;
-                                      print(primeriChoosen);
+                                    for (var entry in frontBodyColor.entries) {
+                                      print("printed");
+                                      if (primeriChoosen.contains(entry.key)) {
+                                        List ss = [];
+                                        ss.add(entry.key);
+                                        print(
+                                            "sssssssssssssssssssssssssssss $ss");
+                                        for (var parts in ss) {
+                                          frontBodyColor[parts] = "red";
+                                          frontPartHowHard![parts]?[0] =
+                                              ((howHard * 300000)).toDouble();
+                                          frontPartHowHard![parts]?[1] = now;
+                                          print(primeriChoosen);
+                                        }
+                                      }
                                     }
-                                  }
-                                }
-                                for (var entry in backBodyColor.entries) {
-                                  if (primeriChoosen.contains(entry.key)) {
-                                    List ss = [];
-                                    ss.add(entry.key);
-                                    for (var parts in ss) {
-                                      //Back
-                                      backBodyColor[parts] = "red";
-                                      backPartHowHard?[parts]?[0] =
-                                          ((backHowHardDuble * 300000))
-                                              .toDouble();
-                                      backPartHowHard?[parts]?[1] = now;
+                                    for (var entry in backBodyColor.entries) {
+                                      if (primeriChoosen.contains(entry.key)) {
+                                        List ss = [];
+                                        ss.add(entry.key);
+                                        for (var parts in ss) {
+                                          //Back
+                                          backBodyColor[parts] = "red";
+                                          backPartHowHard?[parts]?[0] =
+                                              ((backHowHardDuble * 300000))
+                                                  .toDouble();
+                                          backPartHowHard?[parts]?[1] = now;
+                                        }
+                                      }
                                     }
-                                  }
-                                }
-                                sharedPreferencesManager.saveMap(
-                                    'partHowHard', frontPartHowHard!);
-                                //back
+                                    sharedPreferencesManager.saveMap(
+                                        'partHowHard', frontPartHowHard!);
+                                    //back
 
-                                sharedPreferencesManager.saveMap(
-                                    'backPartHowHard', backPartHowHard!);
-                                primeriChoosen.clear();
-                                Navigator.pop(context);
+                                    sharedPreferencesManager.saveMap(
+                                        'backPartHowHard', backPartHowHard!);
+                                    primeriChoosen.clear();
+                                    Navigator.pop(context);
 
-                                setState(() {
-                                  backMakeIt();
-                                  makeIt();
-                                });
-                              },
-                            )
-                          ],
+                                    setState(() {
+                                      backMakeIt();
+                                      makeIt();
+                                    });
+                                  },
+                                )
+                              ],
+                            );
+                          },
                         );
                       },
-                    );
-                  },
-                  icon: const Icon(Icons.next_plan),
-                  label: const Text('Next'),
+                      icon: const Icon(Icons.next_plan),
+                      label: const Text('Next'),
+                    )
+                  ],
                 )
               ],
-            )
-          ],
-        ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -706,210 +822,134 @@ class _FrontBodyState extends State<FrontBody> {
                               child: const Text("End Of Recovery"),
                             ),
                             TextButton(
-                                onPressed: () {
-                                  _searchVideos(primeriChoosen[0]);
-                                  double videoHeight = 150;
-                                  showAdaptiveDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return StatefulBuilder(builder:
-                                          (BuildContext context,
-                                              void Function(void Function())
-                                                  setState) {
-                                        return AlertDialog.adaptive(
-                                          content: Column(
-                                            children: [
-                                              24.heightBox,
-                                              ExpansionPanelList(
-                                                expandedHeaderPadding:
-                                                    const EdgeInsets.all(10),
-                                                expansionCallback:
-                                                    (panelIndex, isExpanded) {
-                                                  setState(() {
-                                                    // mm = !mm;
-                                                    isExpandedList[panelIndex] =
-                                                        isExpanded;
-                                                    print(isExpandedList);
-
-                                                    //         _isExpandedList =
-                                                    //     List.generate(
-                                                    //   _isExpandedList.length,
-                                                    //   (index) =>
-                                                    //       index == panelIndex
-                                                    //           ? !isExpanded
-                                                    //           : false,
-                                                    // );
-                                                  });
-                                                },
-                                                children: [
-                                                  ExpansionPanel(
+                              onPressed: () {
+                                _searchVideos("Gym exersice for $partName");
+                                showAdaptiveDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return StatefulBuilder(builder:
+                                        (BuildContext context,
+                                            void Function(void Function())
+                                                setState) {
+                                      return AlertDialog.adaptive(
+                                        content: Column(
+                                          children: [
+                                            24.heightBox,
+                                            ExpansionPanelList(
+                                              expandedHeaderPadding:
+                                                  const EdgeInsets.all(10),
+                                              expansionCallback:
+                                                  (panelIndex, isExpanded) {
+                                                setState(() {
+                                                  // mm = !mm;
+                                                  isExpandedList[panelIndex] =
+                                                      isExpanded;
+                                                  print(isExpandedList);
+                                                });
+                                              },
+                                              children: [
+                                                ExpansionPanel(
+                                                  isExpanded: isExpandedList[0],
+                                                  headerBuilder:
+                                                      (context, isExpanded) {
+                                                    return const Padding(
+                                                      padding:
+                                                          EdgeInsets.all(16.0),
+                                                      child:
+                                                          Text("Gym Exercises"),
+                                                    );
+                                                  },
+                                                  body: SizedBox(
+                                                    width: 200,
+                                                    height: 300,
+                                                    child: FutureBuilder<
+                                                        List<String>>(
+                                                      future: _videoIds,
+                                                      builder:
+                                                          (context, snapshot) {
+                                                        print(snapshot.data);
+                                                        if (snapshot
+                                                                .connectionState ==
+                                                            ConnectionState
+                                                                .waiting) {
+                                                          return const Center(
+                                                              child:
+                                                                  CircularProgressIndicator());
+                                                        } else if (snapshot
+                                                            .hasError) {
+                                                          return Center(
+                                                              child: Text(snapshot
+                                                                  .error
+                                                                  .toString()));
+                                                        } else if (!snapshot
+                                                                .hasData ||
+                                                            snapshot.data!
+                                                                .isEmpty) {
+                                                          return const Center(
+                                                              child: Text(
+                                                                  "No Videos Found"));
+                                                        } else {
+                                                          return ListView
+                                                              .builder(
+                                                            itemCount: snapshot
+                                                                .data!.length,
+                                                            itemBuilder:
+                                                                (context,
+                                                                    index) {
+                                                              return YoutubrVideoPlayer(
+                                                                  videoId: snapshot
+                                                                          .data![
+                                                                      index]);
+                                                            },
+                                                          );
+                                                        }
+                                                      },
+                                                    ),
+                                                  ),
+                                                  canTapOnHeader: true,
+                                                ),
+                                                ExpansionPanel(
                                                     isExpanded:
-                                                        isExpandedList[0],
+                                                        isExpandedList[1],
                                                     headerBuilder:
                                                         (context, isExpanded) {
                                                       return const Padding(
                                                         padding: EdgeInsets.all(
                                                             16.0),
-                                                        child: Text(
-                                                            "Gym Exercises"),
+                                                        child: Text("Mobiliti"),
                                                       );
                                                     },
-                                                    body: SizedBox(
-                                                      width: 200,
-                                                      height: 300,
-                                                      child: FutureBuilder<
-                                                          List<String>>(
-                                                        future: _videoIds,
-                                                        builder: (context,
-                                                            snapshot) {
-                                                          print(snapshot.data);
-                                                          if (snapshot
-                                                                  .connectionState ==
-                                                              ConnectionState
-                                                                  .waiting) {
-                                                            return const Center(
-                                                                child:
-                                                                    CircularProgressIndicator());
-                                                          } else if (snapshot
-                                                              .hasError) {
-                                                            return Center(
-                                                                child: Text(snapshot
-                                                                    .error
-                                                                    .toString()));
-                                                          } else if (!snapshot
-                                                                  .hasData ||
-                                                              snapshot.data!
-                                                                  .isEmpty) {
-                                                            return const Center(
-                                                                child: Text(
-                                                                    "No Videos Found"));
-                                                          } else {
-                                                            return ListView
-                                                                .builder(
-                                                              itemCount:
-                                                                  snapshot.data!
-                                                                      .length,
-                                                              itemBuilder:
-                                                                  (context,
-                                                                      index) {
-                                                                return YoutubrVideoPlayer(
-                                                                    videoId: snapshot
-                                                                            .data![
-                                                                        index]);
-                                                              },
-                                                            );
-                                                          }
-                                                        },
-                                                      ),
-
-                                                      // child: ListView.builder(
-                                                      //   physics:
-                                                      //       const BouncingScrollPhysics(),
-                                                      //   itemCount: VideoParts
-                                                      //       .videoGymParts[
-                                                      //           partName]
-                                                      //       .length,
-                                                      //   itemBuilder:
-                                                      //       (context, index) {
-                                                      //     YoutubePlayerController
-                                                      //         controler =
-                                                      //         YoutubePlayerController(
-                                                      //       flags:
-                                                      //           const YoutubePlayerFlags(
-                                                      //         disableDragSeek:
-                                                      //             false,
-                                                      //         controlsVisibleAtStart:
-                                                      //             true,
-                                                      //         hideControls:
-                                                      //             false,
-                                                      //         showLiveFullscreenButton:
-                                                      //             true,
-                                                      //         useHybridComposition:
-                                                      //             true,
-                                                      //         autoPlay: false,
-                                                      //       ),
-                                                      //       initialVideoId: VideoParts
-                                                      //               .videoGymParts[
-                                                      //           partName][index],
-                                                      //     );
-                                                      //     return Padding(
-                                                      //       padding:
-                                                      //           const EdgeInsets
-                                                      //               .all(8.0),
-                                                      //       child:
-                                                      //           GestureDetector(
-                                                      //         onTap: () {
-                                                      //           setState(
-                                                      //             () {
-                                                      //               controler
-                                                      //                   .fitHeight(
-                                                      //                       Size.infinite);
-                                                      //               videoHeight =
-                                                      //                   300;
-                                                      //             },
-                                                      //           );
-                                                      //         },
-                                                      //         child: SizedBox(
-                                                      //           width: double
-                                                      //               .infinity,
-                                                      //           height:
-                                                      //               videoHeight,
-                                                      //           child: YoutubePlayer(
-                                                      //               controller:
-                                                      //                   controler),
-                                                      //         ),
-                                                      //       ),
-                                                      //     );
-                                                      //   },
-                                                      // ),
-                                                    ),
-                                                    canTapOnHeader: true,
-                                                  ),
-                                                  ExpansionPanel(
-                                                      isExpanded:
-                                                          isExpandedList[1],
-                                                      headerBuilder: (context,
-                                                          isExpanded) {
-                                                        return const Padding(
-                                                          padding:
-                                                              EdgeInsets.all(
-                                                                  16.0),
-                                                          child:
-                                                              Text("Mobiliti"),
-                                                        );
-                                                      },
-                                                      body:
-                                                          const Text("video")),
-                                                  ExpansionPanel(
-                                                      isExpanded:
-                                                          isExpandedList[2],
-                                                      headerBuilder: (context,
-                                                          isExpanded) {
-                                                        return const Padding(
-                                                          padding:
-                                                              EdgeInsets.all(
-                                                                  16.0),
-                                                          child: Text(
-                                                              "Body Weight"),
-                                                        );
-                                                      },
-                                                      body: const Text("video"))
-                                                ],
-                                              )
-                                            ],
-                                          ),
-                                          backgroundColor: AppColors.bgInterval,
-                                        );
-                                      });
-                                    },
-                                  );
-                                },
-                                child: const Row(
-                                  children: [
-                                    Icon(Icons.video_collection),
-                                    Text("watch exercises")
-                                  ],
-                                ))
+                                                    body: const Text("video")),
+                                                ExpansionPanel(
+                                                    isExpanded:
+                                                        isExpandedList[2],
+                                                    headerBuilder:
+                                                        (context, isExpanded) {
+                                                      return const Padding(
+                                                        padding: EdgeInsets.all(
+                                                            16.0),
+                                                        child:
+                                                            Text("Body Weight"),
+                                                      );
+                                                    },
+                                                    body: const Text("video"))
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                        backgroundColor: AppColors.bgInterval,
+                                      );
+                                    });
+                                  },
+                                );
+                              },
+                              child: const Row(
+                                children: [
+                                  Icon(Icons.video_collection),
+                                  Text("watch exercises")
+                                ],
+                              ),
+                            ),
                           ],
                         )
                       ],
@@ -977,42 +1017,171 @@ class _FrontBodyState extends State<FrontBody> {
                         Row(
                           children: [
                             TextButton(
-                                onPressed: () {
-                                  showAdaptiveDialog(
-                                    context: context,
-                                    builder: (context) {
+                              onPressed: () {
+                                showAdaptiveDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog.adaptive(
+                                      title: const Text("Are you sure?"),
+                                      content: Row(
+                                        children: [
+                                          TextButton(
+                                              onPressed: () {
+                                                backPartHowHard?[partName][0] =
+                                                    0;
+                                                backPartHowHard?[partName][1] =
+                                                    0;
+                                                sharedPreferencesManager
+                                                    .saveMap('backPartHowHard',
+                                                        backPartHowHard!);
+                                                backMakeIt();
+                                                setState(() {});
+                                                Navigator.pop(context);
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text("yes")),
+                                          TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text("Cancel")),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                              child: const Text("End Of Recovery"),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                _searchVideos("Gym exersice for $partName");
+                                showAdaptiveDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return StatefulBuilder(builder:
+                                        (BuildContext context,
+                                            void Function(void Function())
+                                                setState) {
                                       return AlertDialog.adaptive(
-                                        title: const Text("Are you sure?"),
-                                        content: Row(
+                                        content: Column(
                                           children: [
-                                            TextButton(
-                                                onPressed: () {
-                                                  backPartHowHard?[partName]
-                                                      [0] = 0;
-                                                  backPartHowHard?[partName]
-                                                      [1] = 0;
-                                                  sharedPreferencesManager
-                                                      .saveMap(
-                                                          'backPartHowHard',
-                                                          backPartHowHard!);
-                                                  backMakeIt();
-                                                  setState(() {});
-                                                  Navigator.pop(context);
-                                                  Navigator.pop(context);
-                                                },
-                                                child: const Text("yes")),
-                                            TextButton(
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                child: const Text("Cancel")),
+                                            24.heightBox,
+                                            ExpansionPanelList(
+                                              expandedHeaderPadding:
+                                                  const EdgeInsets.all(10),
+                                              expansionCallback:
+                                                  (panelIndex, isExpanded) {
+                                                setState(() {
+                                                  // mm = !mm;
+                                                  isExpandedList[panelIndex] =
+                                                      isExpanded;
+                                                  print(isExpandedList);
+                                                });
+                                              },
+                                              children: [
+                                                ExpansionPanel(
+                                                  isExpanded: isExpandedList[0],
+                                                  headerBuilder:
+                                                      (context, isExpanded) {
+                                                    return const Padding(
+                                                      padding:
+                                                          EdgeInsets.all(16.0),
+                                                      child:
+                                                          Text("Gym Exercises"),
+                                                    );
+                                                  },
+                                                  body: SizedBox(
+                                                    width: 200,
+                                                    height: 300,
+                                                    child: FutureBuilder<
+                                                        List<String>>(
+                                                      future: _videoIds,
+                                                      builder:
+                                                          (context, snapshot) {
+                                                        print(snapshot.data);
+                                                        if (snapshot
+                                                                .connectionState ==
+                                                            ConnectionState
+                                                                .waiting) {
+                                                          return const Center(
+                                                              child:
+                                                                  CircularProgressIndicator());
+                                                        } else if (snapshot
+                                                            .hasError) {
+                                                          return Center(
+                                                              child: Text(snapshot
+                                                                  .error
+                                                                  .toString()));
+                                                        } else if (!snapshot
+                                                                .hasData ||
+                                                            snapshot.data!
+                                                                .isEmpty) {
+                                                          return const Center(
+                                                              child: Text(
+                                                                  "No Videos Found"));
+                                                        } else {
+                                                          return ListView
+                                                              .builder(
+                                                            itemCount: snapshot
+                                                                .data!.length,
+                                                            itemBuilder:
+                                                                (context,
+                                                                    index) {
+                                                              return YoutubrVideoPlayer(
+                                                                  videoId: snapshot
+                                                                          .data![
+                                                                      index]);
+                                                            },
+                                                          );
+                                                        }
+                                                      },
+                                                    ),
+                                                  ),
+                                                  canTapOnHeader: true,
+                                                ),
+                                                ExpansionPanel(
+                                                    isExpanded:
+                                                        isExpandedList[1],
+                                                    headerBuilder:
+                                                        (context, isExpanded) {
+                                                      return const Padding(
+                                                        padding: EdgeInsets.all(
+                                                            16.0),
+                                                        child: Text("Mobiliti"),
+                                                      );
+                                                    },
+                                                    body: const Text("video")),
+                                                ExpansionPanel(
+                                                    isExpanded:
+                                                        isExpandedList[2],
+                                                    headerBuilder:
+                                                        (context, isExpanded) {
+                                                      return const Padding(
+                                                        padding: EdgeInsets.all(
+                                                            16.0),
+                                                        child:
+                                                            Text("Body Weight"),
+                                                      );
+                                                    },
+                                                    body: const Text("video"))
+                                              ],
+                                            )
                                           ],
                                         ),
+                                        backgroundColor: AppColors.bgInterval,
                                       );
-                                    },
-                                  );
-                                },
-                                child: const Text("End Of Recovery"))
+                                    });
+                                  },
+                                );
+                              },
+                              child: const Row(
+                                children: [
+                                  Icon(Icons.video_collection),
+                                  Text("watch exercises")
+                                ],
+                              ),
+                            ),
                           ],
                         )
                       ],
@@ -1039,31 +1208,6 @@ class _FrontBodyState extends State<FrontBody> {
       print(primeriChoosen);
     });
   }
-
-  // Widget buildBackBodyPart(String partName, double left, double top,
-  //     double width, double height, Function() onTap, double angle) {
-  //   return Center(
-  //     child: Positioned(
-  //       left: left,
-  //       top: top,
-  //       child: Container(
-  //         width: width,
-  //         height: height,
-  //         decoration: const BoxDecoration(
-  //           color: Colors.blue,
-  //           borderRadius: BorderRadius.only(
-  //             topLeft: Radius.circular(10),
-  //             topRight: Radius.circular(10),
-  //           ),
-  //         ),
-  //         transform: Matrix4.rotationZ(math.pi / angle), // Rotate 45 degrees
-  //         child: GestureDetector(
-  //           onDoubleTap: onTap,
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
 
   Widget buildBodyPart(String partName, double left, double top, double width,
       double height, Function() onTap, double? angle) {

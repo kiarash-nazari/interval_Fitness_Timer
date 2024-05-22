@@ -1,3 +1,5 @@
+import 'dart:isolate';
+
 import 'package:dio/dio.dart';
 
 class YoutubeService {
@@ -9,7 +11,7 @@ class YoutubeService {
   ));
 
   Future<List<String>> fetchVideoIds(String query) async {
-    try {
+    var videosId = Isolate.run(() async {
       final respone = await _dio.get('/search', queryParameters: {
         'part': 'snippet',
         'maxResults': 10,
@@ -18,10 +20,14 @@ class YoutubeService {
       });
       final data = respone.data;
       final List<dynamic> items = data['items'];
-      // print(data);
-      return items.map((item) => item['id']['videoId'] as String).toList();
-    } catch (e) {
-      throw Exception('Failed to load videos: $e');
-    }
+
+      return items
+          .map((item) => item['id']['videoId'] == null
+              ? ""
+              : item['id']['videoId'] as String)
+          .toList();
+    });
+
+    return videosId;
   }
 }
