@@ -139,8 +139,13 @@ class _FrontBodyState extends State<FrontBody> {
   Future<List<String>>? _videoIds;
 
   void _searchVideos(String part) {
+    // Use a regular expression to remove the prefixes "left" or "right"
+    String cleanPart =
+        part.replaceAll(RegExp(r'^(left|right)(First|Second|Third)?'), '');
+    String finalSerachPrompt = "Gym exersice for $cleanPart";
+    print("JOOOOOOOOOOOOOOMBOOOO $finalSerachPrompt");
     setState(() {
-      _videoIds = _youtubeService.fetchVideoIds(part);
+      _videoIds = _youtubeService.fetchVideoIds(finalSerachPrompt);
     });
   }
 
@@ -483,7 +488,7 @@ class _FrontBodyState extends State<FrontBody> {
               top: 70,
               child: IconButton(
                 onPressed: () {
-                  _searchVideos("Gym exersice for ${primeriChoosen.first}");
+                  _searchVideos(primeriChoosen.first);
                   showAdaptiveDialog(
                     context: context,
                     builder: (context) {
@@ -497,7 +502,6 @@ class _FrontBodyState extends State<FrontBody> {
                                 expandedHeaderPadding: const EdgeInsets.all(10),
                                 expansionCallback: (panelIndex, isExpanded) {
                                   setState(() {
-                                    // mm = !mm;
                                     isExpandedList[panelIndex] = isExpanded;
                                     print(isExpandedList);
                                   });
@@ -823,7 +827,7 @@ class _FrontBodyState extends State<FrontBody> {
                             ),
                             TextButton(
                               onPressed: () {
-                                _searchVideos("Gym exersice for $partName");
+                                _searchVideos(partName);
                                 showAdaptiveDialog(
                                   context: context,
                                   builder: (context) {
@@ -1055,7 +1059,7 @@ class _FrontBodyState extends State<FrontBody> {
                             ),
                             TextButton(
                               onPressed: () {
-                                _searchVideos("Gym exersice for $partName");
+                                _searchVideos(partName);
                                 showAdaptiveDialog(
                                   context: context,
                                   builder: (context) {
