@@ -149,6 +149,28 @@ class _FrontBodyState extends State<FrontBody> {
     });
   }
 
+  void _searchMobilityVideos(String part) {
+    // Use a regular expression to remove the prefixes "left" or "right"
+    String cleanPart =
+        part.replaceAll(RegExp(r'^(left|right)(First|Second|Third)?'), '');
+    String finalSerachPrompt = "mobility  exersice for $cleanPart";
+    print("JOOOOOOOOOOOOOOMBOOOO $finalSerachPrompt");
+    setState(() {
+      _videoIds = _youtubeService.fetchVideoIds(finalSerachPrompt);
+    });
+  }
+
+  void _searchBodyWeightVideos(String part) {
+    // Use a regular expression to remove the prefixes "left" or "right"
+    String cleanPart =
+        part.replaceAll(RegExp(r'^(left|right)(First|Second|Third)?'), '');
+    String finalSerachPrompt = "body weight exersice for $cleanPart";
+    print("JOOOOOOOOOOOOOOMBOOOO $finalSerachPrompt");
+    setState(() {
+      _videoIds = _youtubeService.fetchVideoIds(finalSerachPrompt);
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -158,7 +180,7 @@ class _FrontBodyState extends State<FrontBody> {
 
   Map<String, List<double>> frontPartPositions = {
     'leftLatissimus': [170, 90, 2.1],
-    'leftKool': [150, 8, 0],
+    'leftTrapezius': [150, 8, 0],
     'leftShoulder': [195, 33, 0],
     'leftBiceps': [200, 80, 0],
     'leftForearm': [200, 125, 0],
@@ -166,13 +188,13 @@ class _FrontBodyState extends State<FrontBody> {
     'leftFirstAb': [145, 87, 0],
     'leftSecondAb': [145, 110, 0],
     'leftThirdAb': [147, 133, 0],
-    'leftSexAb': [157, 150, 2.7],
-    'leftQuadFirst': [180, 167, .2],
-    'leftQuadSecond': [170, 170, 0],
-    'leftQuadThird': [159, 172, -.2],
-    'leftFrontCraft': [175, 240, 0],
+    'leftExternal Obliques': [157, 150, 2.7],
+    'leftFirstQuad': [180, 167, .2],
+    'leftSecondQuad': [170, 170, 0],
+    'leftThirdQuad': [159, 172, -.2],
+    'leftTibialis Anterior': [175, 240, 0],
     'rightLatissimus': [75, 90, -2.1],
-    'rightKool': [85, 8, 0],
+    'rightTrapezius': [85, 8, 0],
     'rightShoulder': [47, 33, 0],
     'rightBiceps': [53, 80, 0],
     'rightForearm': [53, 125, 0],
@@ -180,16 +202,16 @@ class _FrontBodyState extends State<FrontBody> {
     'rightFirstAb': [103, 87, 0],
     'rightSecondAb': [105, 110, 0],
     'rightThirdAb': [107, 133, 0],
-    'rightSexAb': [92, 153, .3],
-    'rightQuadFirst': [96, 167, -.2],
-    'rightQuadSecond': [108, 167, 0],
-    'rightQuadThird': [118, 169, .2],
-    'rightFrontCraft': [98, 240, 0],
+    'rightExternal Obliques': [92, 153, .3],
+    'rightFirstQuad': [96, 167, -.2],
+    'rightSecondQuad': [108, 167, 0],
+    'rightThirdQuad': [118, 169, .2],
+    'rightTibialis Anterior': [98, 240, 0],
   };
 
   Map<String, dynamic>? frontPartHowHard = {
     "leftLatissimus": [0, 0],
-    "leftKool": [0, 0],
+    "leftTrapezius": [0, 0],
     "leftShoulder": [0, 0],
     "leftBiceps": [0, 0],
     "leftForearm": [0, 0],
@@ -197,13 +219,13 @@ class _FrontBodyState extends State<FrontBody> {
     "leftFirstAb": [0, 0],
     "leftSecondAb": [0, 0],
     "leftThirdAb": [0, 0],
-    "leftSexAb": [0, 0],
-    "leftQuadFirst": [0, 0],
-    "leftQuadSecond": [0, 0],
-    "leftQuadThird": [0, 0],
-    "leftFrontCraft": [0, 0],
+    "leftExternal Obliques": [0, 0],
+    "leftFirstQuad": [0, 0],
+    "leftSecondQuad": [0, 0],
+    "leftThirdQuad": [0, 0],
+    "leftTibialis Anterior": [0, 0],
     "rightLatissimus": [0, 0],
-    "rightKool": [0, 0],
+    "rightTrapezius": [0, 0],
     "rightShoulder": [0, 0],
     "rightBiceps": [0, 0],
     "rightForearm": [0, 0],
@@ -211,16 +233,16 @@ class _FrontBodyState extends State<FrontBody> {
     "rightFirstAb": [0, 0],
     "rightSecondAb": [0, 0],
     "rightThirdAb": [0, 0],
-    "rightSexAb": [0, 0],
-    "rightQuadFirst": [0, 0],
-    "rightQuadSecond": [0, 0],
-    "rightQuadThird": [0, 0],
-    "rightFrontCraft": [0, 0]
+    "rightExternal Obliques": [0, 0],
+    "rightFirstQuad": [0, 0],
+    "rightSecondQuad": [0, 0],
+    "rightThirdQuad": [0, 0],
+    "rightTibialis Anterior": [0, 0]
   };
 
   Map<String, String> frontBodyColor = {
     "leftLatissimus": "glass",
-    'leftKool': 'glass',
+    'leftTrapezius': 'glass',
     'leftShoulder': 'glass',
     'leftBiceps': 'glass',
     'leftForearm': 'glass',
@@ -228,13 +250,13 @@ class _FrontBodyState extends State<FrontBody> {
     'leftFirstAb': 'glass',
     'leftSecondAb': 'glass',
     'leftThirdAb': 'glass',
-    'leftSexAb': 'glass',
-    'leftQuadFirst': 'glass',
-    'leftQuadSecond': 'glass',
-    'leftQuadThird': 'glass',
-    'leftFrontCraft': 'glass',
+    'leftExternal Obliques': 'glass',
+    'leftFirstQuad': 'glass',
+    'leftSecondQuad': 'glass',
+    'leftThirdQuad': 'glass',
+    'leftTibialis Anterior': 'glass',
     "rightLatissimus": "glass",
-    'rightKool': 'glass',
+    'rightTrapezius': 'glass',
     'rightShoulder': 'glass',
     'rightBiceps': 'glass',
     'rightForearm': 'glass',
@@ -242,16 +264,16 @@ class _FrontBodyState extends State<FrontBody> {
     'rightFirstAb': 'glass',
     'rightSecondAb': 'glass',
     'rightThirdAb': 'glass',
-    'rightSexAb': 'glass',
-    'rightQuadFirst': 'glass',
-    'rightQuadSecond': 'glass',
-    'rightQuadThird': 'glass',
-    'rightFrontCraft': 'glass',
+    'rightExternal Obliques': 'glass',
+    'rightFirstQuad': 'glass',
+    'rightSecondQuad': 'glass',
+    'rightThirdQuad': 'glass',
+    'rightTibialis Anterior': 'glass',
   };
 
   Map<String, List<double>> frontPartSizes = {
     'leftLatissimus': [40, 10],
-    'leftKool': [50, 25],
+    'leftTrapezius': [50, 25],
     'leftShoulder': [40, 40],
     'leftBiceps': [30, 35],
     'leftForearm': [30, 45],
@@ -259,13 +281,13 @@ class _FrontBodyState extends State<FrontBody> {
     'leftFirstAb': [33, 18],
     'leftSecondAb': [33, 18],
     'leftThirdAb': [27, 18],
-    'leftSexAb': [37, 10],
-    'leftQuadFirst': [7, 70],
-    'leftQuadSecond': [6, 50],
-    'leftQuadThird': [6, 60],
-    'leftFrontCraft': [13, 50],
+    'leftExternal Obliques': [37, 10],
+    'leftFirstQuad': [7, 70],
+    'leftSecondQuad': [6, 50],
+    'leftThirdQuad': [6, 60],
+    'leftTibialis Anterior': [13, 50],
     'rightLatissimus': [40, 10],
-    'rightKool': [50, 25],
+    'rightTrapezius': [50, 25],
     'rightShoulder': [40, 40],
     'rightBiceps': [30, 35],
     'rightForearm': [30, 45],
@@ -273,11 +295,11 @@ class _FrontBodyState extends State<FrontBody> {
     'rightFirstAb': [33, 18],
     'rightSecondAb': [33, 18],
     'rightThirdAb': [27, 18],
-    'rightSexAb': [37, 10],
-    'rightQuadFirst': [7, 70],
-    'rightQuadSecond': [6, 50],
-    'rightQuadThird': [6, 60],
-    'rightFrontCraft': [13, 50],
+    'rightExternal Obliques': [37, 10],
+    'rightFirstQuad': [7, 70],
+    'rightSecondQuad': [6, 50],
+    'rightThirdQuad': [6, 60],
+    'rightTibialis Anterior': [13, 50],
   };
 
 //Back side
@@ -289,12 +311,12 @@ class _FrontBodyState extends State<FrontBody> {
     'leftSemitendinosus': 'glass',
     'leftBicepsFemoris': 'glass',
     'leftAdductor': 'glass',
-    'rightBackKool': 'glass',
-    'leftBackKool': 'glass',
+    'rightBackTrapezius': 'glass',
+    'leftBackTrapezius': 'glass',
     'rightTrapezius': 'glass',
     'leftTrapezius': 'glass',
-    'rightMiddleHead': 'glass',
-    'leftMiddleHead': 'glass',
+    'rightBack Shoulder': 'glass',
+    'leftBack Shoulder': 'glass',
     'rightPosteriorHead': 'glass',
     'leftPosteriorHead': 'glass',
     'rightTeres': 'glass',
@@ -307,8 +329,8 @@ class _FrontBodyState extends State<FrontBody> {
     'leftLateralHead': 'glass',
     'rightMedialHead': 'glass',
     'leftMedialHead': 'glass',
-    'rightAssist': 'glass',
-    'leftAssist': 'glass',
+    'rightBrachioradialis': 'glass',
+    'leftBrachioradialis': 'glass',
     'leftErectorSpinae': 'glass',
     'rightErectorSpinae': 'glass',
     'rightGluteusMedius': 'glass',
@@ -332,12 +354,12 @@ class _FrontBodyState extends State<FrontBody> {
     'leftSemitendinosus': [133, 204, 1.93],
     'leftBicepsFemoris': [120, 204, 1.93],
     'leftAdductor': [141, 204, 1.9],
-    'rightBackKool': [200, 26.5, 1],
-    'leftBackKool': [135, 26.5, 1],
+    'rightBackTrapezius': [200, 26.5, 1],
+    'leftBackTrapezius': [135, 26.5, 1],
     'rightTrapezius': [155, 73, -1.5],
     'leftTrapezius': [146, 47, 1.5],
-    'rightMiddleHead': [240, 55, .8],
-    'leftMiddleHead': [75, 29, 1.3],
+    'rightBack Shoulder': [240, 55, .8],
+    'leftBack Shoulder': [75, 29, 1.3],
     'rightPosteriorHead': [225, 55, -1.13],
     'leftPosteriorHead': [90, 42, 1.13],
     'rightTeres': [215, 73, -1.2],
@@ -350,8 +372,8 @@ class _FrontBodyState extends State<FrontBody> {
     'leftLateralHead': [44, 87, -1.02],
     'rightMedialHead': [239, 111, -1.15],
     'leftMedialHead': [69, 102, 1.15],
-    'rightAssist': [250, 170, 1],
-    'leftAssist': [64, 170, 1],
+    'rightBrachioradialis': [250, 170, 1],
+    'leftBrachioradialis': [64, 170, 1],
     'leftErectorSpinae': [144, 100, 2],
     'rightErectorSpinae': [177, 98, 2],
     'rightGluteusMedius': [193, 165, -1.1],
@@ -375,12 +397,12 @@ class _FrontBodyState extends State<FrontBody> {
     'leftSemitendinosus': [0, 0],
     'leftBicepsFemoris': [0, 0],
     'leftAdductor': [0, 0],
-    'rightBackKool': [0, 0],
-    'leftBackKool': [0, 0],
+    'rightBackTrapezius': [0, 0],
+    'leftBackTrapezius': [0, 0],
     'rightTrapezius': [0, 0],
     'leftTrapezius': [0, 0],
-    'rightMiddleHead': [0, 0],
-    'leftMiddleHead': [0, 0],
+    'rightBack Shoulder': [0, 0],
+    'leftBack Shoulder': [0, 0],
     'rightPosteriorHead': [0, 0],
     'leftPosteriorHead': [0, 0],
     'rightTeres': [0, 0],
@@ -393,8 +415,8 @@ class _FrontBodyState extends State<FrontBody> {
     'leftLateralHead': [0, 0],
     'rightMedialHead': [0, 0],
     'leftMedialHead': [0, 0],
-    'rightAssist': [0, 0],
-    'leftAssist': [0, 0],
+    'rightBrachioradialis': [0, 0],
+    'leftBrachioradialis': [0, 0],
     'leftErectorSpinae': [0, 0],
     'rightErectorSpinae': [0, 0],
     'rightGluteusMedius': [0, 0],
@@ -418,12 +440,12 @@ class _FrontBodyState extends State<FrontBody> {
     'rightAdductor': [43, 6, 0, 30, 30, 100],
     'leftSemitendinosus': [43, 10, 0, 0, 10, 0],
     'rightSemitendinosus': [43, 10, 0, 10, 0, 0],
-    'leftBackKool': [50, 25, 0, 0, 30, 0],
-    'rightBackKool': [50, 25, 0, 0, 0, 30],
+    'leftBackTrapezius': [50, 25, 0, 0, 30, 0],
+    'rightBackTrapezius': [50, 25, 0, 0, 0, 30],
     'leftTrapezius': [30, 50, 30, 30, 40, 40],
     'rightTrapezius': [30, 50, 30, 30, 40, 40],
-    'leftMiddleHead': [40, 20, 0, 0, 30, 30],
-    'rightMiddleHead': [40, 20, 0, 0, 30, 30],
+    'leftBack Shoulder': [40, 20, 0, 0, 30, 30],
+    'rightBack Shoulder': [40, 20, 0, 0, 30, 30],
     'leftPosteriorHead': [33, 17, 10, 30, 50, 30],
     'rightPosteriorHead': [33, 17, 50, 30, 40, 30],
     'leftTeres': [33, 18, 30, 50, 30, 50],
@@ -436,8 +458,8 @@ class _FrontBodyState extends State<FrontBody> {
     'rightLateralHead': [10, 32, 30, 30, 30, 30],
     'leftMedialHead': [25, 13, 30, 30, 30, 30],
     'rightMedialHead': [25, 13, 30, 30, 30, 30],
-    'leftAssist': [23, 60, 30, 30, 30, 0],
-    'rightAssist': [23, 60, 30, 30, 0, 30],
+    'leftBrachioradialis': [23, 60, 30, 30, 30, 0],
+    'rightBrachioradialis': [23, 60, 30, 30, 0, 30],
     'leftErectorSpinae': [50, 30, 0, 0, 30, 30],
     'rightErectorSpinae': [50, 30, 30, 30, 0, 0],
     'leftGluteusMedius': [35, 18, 30, 30, 30, 30],
@@ -488,7 +510,6 @@ class _FrontBodyState extends State<FrontBody> {
               top: 70,
               child: IconButton(
                 onPressed: () {
-                  _searchVideos(primeriChoosen.first);
                   showAdaptiveDialog(
                     context: context,
                     builder: (context) {
@@ -503,6 +524,22 @@ class _FrontBodyState extends State<FrontBody> {
                                 expansionCallback: (panelIndex, isExpanded) {
                                   setState(() {
                                     isExpandedList[panelIndex] = isExpanded;
+                                    if (isExpandedList[0] == true) {
+                                      _searchVideos(primeriChoosen.first);
+                                    } else if (isExpandedList[1] == true) {
+                                      _searchMobilityVideos(
+                                          primeriChoosen.first);
+                                    } else if (isExpandedList[2]) {
+                                      _searchBodyWeightVideos(
+                                          primeriChoosen.first);
+                                    }
+                                    // switch (isExpandedList[panelIndex]) {
+                                    //   case true:
+                                    //     _searchVideos(primeriChoosen.first);
+
+                                    //     break;
+                                    //   default:
+                                    // }
                                     print(isExpandedList);
                                   });
                                 },
@@ -515,39 +552,7 @@ class _FrontBodyState extends State<FrontBody> {
                                         child: Text("Gym Exercises"),
                                       );
                                     },
-                                    body: SizedBox(
-                                      width: 200,
-                                      height: 300,
-                                      child: FutureBuilder<List<String>>(
-                                        future: _videoIds,
-                                        builder: (context, snapshot) {
-                                          print(snapshot.data);
-                                          if (snapshot.connectionState ==
-                                              ConnectionState.waiting) {
-                                            return const Center(
-                                                child:
-                                                    CircularProgressIndicator());
-                                          } else if (snapshot.hasError) {
-                                            return Center(
-                                                child: Text(
-                                                    snapshot.error.toString()));
-                                          } else if (!snapshot.hasData ||
-                                              snapshot.data!.isEmpty) {
-                                            return const Center(
-                                                child: Text("No Videos Found"));
-                                          } else {
-                                            return ListView.builder(
-                                              itemCount: snapshot.data!.length,
-                                              itemBuilder: (context, index) {
-                                                return YoutubrVideoPlayer(
-                                                    videoId:
-                                                        snapshot.data![index]);
-                                              },
-                                            );
-                                          }
-                                        },
-                                      ),
-                                    ),
+                                    body: videosInExpantionPanel(),
                                     canTapOnHeader: true,
                                   ),
                                   ExpansionPanel(
@@ -555,10 +560,10 @@ class _FrontBodyState extends State<FrontBody> {
                                       headerBuilder: (context, isExpanded) {
                                         return const Padding(
                                           padding: EdgeInsets.all(16.0),
-                                          child: Text("Mobiliti"),
+                                          child: Text("Mobility"),
                                         );
                                       },
-                                      body: const Text("video")),
+                                      body: videosInExpantionPanel()),
                                   ExpansionPanel(
                                       isExpanded: isExpandedList[2],
                                       headerBuilder: (context, isExpanded) {
@@ -567,7 +572,7 @@ class _FrontBodyState extends State<FrontBody> {
                                           child: Text("Body Weight"),
                                         );
                                       },
-                                      body: const Text("video"))
+                                      body: videosInExpantionPanel())
                                 ],
                               )
                             ],
@@ -756,6 +761,33 @@ class _FrontBodyState extends State<FrontBody> {
     );
   }
 
+  SizedBox videosInExpantionPanel() {
+    return SizedBox(
+      width: 200,
+      height: 300,
+      child: FutureBuilder<List<String>>(
+        future: _videoIds,
+        builder: (context, snapshot) {
+          print(snapshot.data);
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text(snapshot.error.toString()));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(child: Text("No Videos Found"));
+          } else {
+            return ListView.builder(
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, index) {
+                return YoutubrVideoPlayer(videoId: snapshot.data![index]);
+              },
+            );
+          }
+        },
+      ),
+    );
+  }
+
   void togglePart(String partName) {
     setState(() {
       if (frontBodyColor[partName] != "glass" &&
@@ -920,7 +952,7 @@ class _FrontBodyState extends State<FrontBody> {
                                                       return const Padding(
                                                         padding: EdgeInsets.all(
                                                             16.0),
-                                                        child: Text("Mobiliti"),
+                                                        child: Text("Mobility"),
                                                       );
                                                     },
                                                     body: const Text("video")),
@@ -1152,7 +1184,7 @@ class _FrontBodyState extends State<FrontBody> {
                                                       return const Padding(
                                                         padding: EdgeInsets.all(
                                                             16.0),
-                                                        child: Text("Mobiliti"),
+                                                        child: Text("Mobility"),
                                                       );
                                                     },
                                                     body: const Text("video")),
@@ -1215,12 +1247,12 @@ class _FrontBodyState extends State<FrontBody> {
 
   Widget buildBodyPart(String partName, double left, double top, double width,
       double height, Function() onTap, double? angle) {
-    if (partName == "leftSexAb" ||
-        partName == "rightSexAb" ||
-        partName == "leftQuadThird" ||
-        partName == "rightQuadThird" ||
-        partName == "leftQuadFirst" ||
-        partName == "rightQuadFirst" ||
+    if (partName == "leftExternal Obliques" ||
+        partName == "rightExternal Obliques" ||
+        partName == "leftThirdQuad" ||
+        partName == "rightThirdQuad" ||
+        partName == "leftFirstQuad" ||
+        partName == "rightFirstQuad" ||
         partName == "leftLatissimus" ||
         partName == "rightLatissimus") {
       return Positioned(
