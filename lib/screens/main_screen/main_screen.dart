@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interval_timer/res/colors.dart';
+import 'package:interval_timer/screens/body/front_body.dart';
 import 'package:interval_timer/screens/interval_screen/interval_screen.dart';
 import 'package:interval_timer/screens/main_screen/cubit/main_cubit.dart';
 import 'package:interval_timer/screens/train_screen/train_screen.dart';
@@ -40,11 +41,12 @@ class MainWindow extends StatelessWidget {
                       activitiController: _activitiController,
                       restController: _restController,
                     ),
-                    TrainScreen(
-                      repsController: _repsController,
-                      activitiController: _activitiController,
-                      restController: _restController,
-                    ),
+                    const FrontBody(),
+                    // TrainScreen(
+                    //   repsController: _repsController,
+                    //   activitiController: _activitiController,
+                    //   restController: _restController,
+                    // ),
                     const VipScreen()
                   ],
                 );
@@ -94,10 +96,13 @@ class MainWindow extends StatelessWidget {
                                       BlocProvider.of<MainCubit>(context)
                                           .changeIndex(1);
                                     },
-                                    icon: Icon(MdiIcons.dumbbell),
-                                    color: indexOfStack == 1
-                                        ? AppColors.mainRed
-                                        : Colors.white.withAlpha(70),
+                                    icon: Image.asset(
+                                      scale: 3,
+                                      "assets/png/arm.png",
+                                      color: indexOfStack == 1
+                                          ? AppColors.mainRed
+                                          : null,
+                                    ),
                                   ),
                                 ],
                               ),

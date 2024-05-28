@@ -481,6 +481,7 @@ class _FrontBodyState extends State<FrontBody> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {

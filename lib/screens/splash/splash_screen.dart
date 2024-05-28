@@ -12,11 +12,6 @@ class SplashScreen extends StatelessWidget {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => MainWindow()));
     });
-    return Scaffold(
-        body: Center(
-      child: ProgressBar(
-        colors: const ProgressBarColors(backgroundColor: AppColors.mainblue),
-      ),
-    ));
+    return const Scaffold(body: Center(child: CircularProgressIndicator()));
   }
 }

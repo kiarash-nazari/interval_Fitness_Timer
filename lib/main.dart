@@ -28,7 +28,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return RepositoryProvider(
       create: (context) => MusicDataRepository(InternalMusicDataSrc()),
-      child: const MaterialApp(home: FrontBody()),
+      child: const MaterialApp(home: SplashScreen()),
     );
   }
 }
