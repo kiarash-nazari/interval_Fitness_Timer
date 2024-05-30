@@ -34,8 +34,8 @@ class PlayerController extends StatefulWidget {
 class PlayerControllerState extends State<PlayerController> {
   bool _isLongPressed = false;
   double _progress = 0.0;
-  late Timer _longPressTimer;
-  late Timer _stopTimer;
+  late Timer _longPressTimer = Timer(Duration.zero, () {});
+  late Timer? _stopTimer = Timer(Duration.zero, () {});
   bool oneTimePress = true;
   bool slideActive = false;
 
@@ -68,8 +68,8 @@ class PlayerControllerState extends State<PlayerController> {
   }
 
   void stopLongPressTimer() {
-    if (_stopTimer.isActive) {
-      _stopTimer.cancel();
+    if (_stopTimer!.isActive) {
+      _stopTimer?.cancel();
     }
     if (_longPressTimer.isActive) {
       _longPressTimer.cancel();
