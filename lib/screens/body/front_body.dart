@@ -481,26 +481,32 @@ class _FrontBodyState extends State<FrontBody> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            context.read<BodyComposeCubit>().toggleBody();
-            front = !front;
+      // floatingActionButtonLocation:
+      //     FloatingActionButtonLocation.miniCenterFloat,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 90),
+        child: FloatingActionButton(
+          onPressed: () {
+            setState(() {
+              context.read<BodyComposeCubit>().toggleBody();
+              front = !front;
 
-            print(front);
-          });
-        },
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: front == true
-              ? const Text("back body")
-              : const Text("front body"),
+              print(front);
+            });
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: front == true
+                ? const Text("Back body")
+                : const Text("Front body"),
+          ),
         ),
       ),
       backgroundColor: const Color.fromARGB(255, 80, 5, 218),
       appBar: AppBar(
-        title: const Text('Front Body'),
+        automaticallyImplyLeading: false,
+        title:
+            front == true ? const Text("Front body") : const Text("Back body"),
       ),
       body: Stack(
         children: [
