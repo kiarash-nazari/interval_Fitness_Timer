@@ -10,6 +10,7 @@ class AppColors {
   static const Color suffixTextColor = Color.fromARGB(200, 255, 255, 255);
   static const Color mainRed = Color(0xFFDA1F05);
   static Color bgCircularPercent = Colors.grey.shade700;
+  static Color bgBodyParts = const Color.fromARGB(255, 80, 5, 218);
 
   static const List<Color> grActiviti = [
     Color(0xFFFFC11F),
