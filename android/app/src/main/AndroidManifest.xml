@@ -8,7 +8,7 @@
 
     <application
         android:requestLegacyExternalStorage="true"
-        android:label="interval_timer"
+        android:label="lux_fit_pro"
         android:name="${applicationName}"
         android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
