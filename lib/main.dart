@@ -4,8 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interval_timer/screens/body/cubit/body_compose_cubit.dart';
 import 'package:interval_timer/screens/splash/splash_screen.dart';
 import 'package:interval_timer/utils/shared_perfrences_manager.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<void> main() async {
+  await dotenv.load(fileName: ".env");
   WidgetsFlutterBinding.ensureInitialized();
   await SharedPreferencesManager.instance.init();
   WidgetsFlutterBinding.ensureInitialized();

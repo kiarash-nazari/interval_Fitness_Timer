@@ -1,9 +1,10 @@
 import 'dart:isolate';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class YoutubeService {
-  final String apiKey = "AIzaSyDrBM11s4nQZ8SXjfSQx0xmjXPE7W-qIuo";
+  final String apiKey = dotenv.env['YOUTUBEAPI']!;
   final Dio _dio = Dio(BaseOptions(
     baseUrl: 'https://www.googleapis.com/youtube/v3',
     connectTimeout: const Duration(seconds: 5),
