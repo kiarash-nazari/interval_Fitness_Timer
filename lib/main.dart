@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:interval_timer/data/repo/remix_music_data_rep.dart';
-import 'package:interval_timer/data/res/remix_music_data_src.dart';
 import 'package:interval_timer/screens/body/cubit/body_compose_cubit.dart';
 import 'package:interval_timer/screens/splash/splash_screen.dart';
 import 'package:interval_timer/utils/shared_perfrences_manager.dart';
@@ -24,9 +22,6 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider(
-      create: (context) => MusicDataRepository(InternalMusicDataSrc()),
-      child: const MaterialApp(home: SplashScreen()),
-    );
+    return const MaterialApp(home: SplashScreen());
   }
 }

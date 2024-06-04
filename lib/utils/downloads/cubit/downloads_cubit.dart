@@ -3,8 +3,6 @@ import 'package:bloc/bloc.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:equatable/equatable.dart';
 import 'package:dio/dio.dart';
-import 'package:interval_timer/data/repo/remix_music_data_rep.dart';
-import 'package:interval_timer/data/res/remix_music_data_src.dart';
 import 'package:interval_timer/utils/shared_perfrences_manager.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -16,9 +14,6 @@ class DownloadsCubit extends Cubit<DownloadsState> {
   }
   SharedPreferencesManager sharedPreferencesManager =
       SharedPreferencesManager();
-
-  final MusicDataRepository internalMusicDataRep =
-      MusicDataRepository(InternalMusicDataSrc());
 
   List<bool> whoDownloading = [false, false, false, false, false];
   List<double> percentageList = [0, 0, 0, 0, 0];
