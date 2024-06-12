@@ -6,12 +6,12 @@ class YoutubeService {
   final String apiKey = "AIzaSyDrBM11s4nQZ8SXjfSQx0xmjXPE7W-qIuo";
   final Dio _dio = Dio(BaseOptions(
     baseUrl: 'https://www.googleapis.com/youtube/v3',
-    connectTimeout: const Duration(seconds: 5),
-    receiveTimeout: const Duration(seconds: 3),
+    connectTimeout: const Duration(seconds: 10),
+    receiveTimeout: const Duration(seconds: 6),
   ));
 
   Future<List<String>> fetchVideoIds(String query) async {
-    var videosId = Isolate.run(() async {
+    Future<List<String>> videosId = Isolate.run(() async {
       final respone = await _dio.get('/search', queryParameters: {
         'part': 'snippet',
         'maxResults': 10,
@@ -19,7 +19,10 @@ class YoutubeService {
         'key': apiKey,
       });
       final data = respone.data;
-      final List<dynamic> items = data['items'];
+      List<dynamic> items = [];
+      items.clear();
+
+      items = data['items'];
 
       // print(items);
       return items

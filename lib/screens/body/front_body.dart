@@ -12,7 +12,6 @@ import 'package:interval_timer/screens/body/widgets/youtube_button.dart';
 import 'package:interval_timer/utils/format_time.dart';
 import 'package:interval_timer/utils/shared_perfrences_manager.dart';
 import 'package:interval_timer/utils/youtube/youtube_service.dart';
-import 'package:interval_timer/widgets/clikable_progresbar.dart';
 import 'package:interval_timer/widgets/youtube_video_player.dart';
 
 class FrontBody extends StatefulWidget {
@@ -304,8 +303,11 @@ class _FrontBodyState extends State<FrontBody> {
                                 showAdaptiveDialog(
                                   context: context,
                                   builder: (context) {
-                                    return ShowVideoBox(
-                                        primeriChoosen: partName);
+                                    print(partName);
+                                    return SingleChildScrollView(
+                                      child: ShowVideoBox(
+                                          primeriChoosen: partName),
+                                    );
                                   },
                                 );
                               },

@@ -76,6 +76,8 @@ class _ShowVideoBoxState extends State<ShowVideoBox> {
               ExpansionPanel(
                 isExpanded: isExpandedList[0],
                 headerBuilder: (context, isExpanded) {
+                  isExpandedList[1] = false;
+                  isExpandedList[2] = false;
                   return const Padding(
                     padding: EdgeInsets.all(16.0),
                     child: Text("Gym Exercises"),
@@ -87,6 +89,8 @@ class _ShowVideoBoxState extends State<ShowVideoBox> {
               ExpansionPanel(
                   isExpanded: isExpandedList[1],
                   headerBuilder: (context, isExpanded) {
+                    isExpandedList[0] = false;
+                    isExpandedList[2] = false;
                     return const Padding(
                       padding: EdgeInsets.all(16.0),
                       child: Text("Mobility"),
@@ -96,6 +100,8 @@ class _ShowVideoBoxState extends State<ShowVideoBox> {
               ExpansionPanel(
                   isExpanded: isExpandedList[2],
                   headerBuilder: (context, isExpanded) {
+                    isExpandedList[1] = false;
+                    isExpandedList[0] = false;
                     return const Padding(
                       padding: EdgeInsets.all(16.0),
                       child: Text("Body Weight"),

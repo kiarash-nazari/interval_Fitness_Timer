@@ -31,6 +31,7 @@ class YouTubeButton extends StatelessWidget {
             showAdaptiveDialog(
               context: context,
               builder: (context) {
+                print(primeriChoosen.first);
                 return ShowVideoBox(
                   primeriChoosen: primeriChoosen.first,
                 );
