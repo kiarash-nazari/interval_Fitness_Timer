@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interval_timer/screens/body/cubit/body_compose_cubit.dart';
+import 'package:interval_timer/screens/gym_program/interface/program_interface.dart';
 import 'package:interval_timer/screens/splash/splash_screen.dart';
 import 'package:interval_timer/utils/shared_perfrences_manager.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -13,8 +14,10 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-  runApp(BlocProvider(
-    create: (context) => BodyComposeCubit(),
+  runApp(MultiBlocProvider(
+    providers: [
+      BlocProvider(create: (context) => BodyComposeCubit()),
+    ],
     child: const MainApp(),
   ));
 }
@@ -24,6 +27,6 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(home: SplashScreen());
+    return const MaterialApp(home: ProgramInterface());
   }
 }

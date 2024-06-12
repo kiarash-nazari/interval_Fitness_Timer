@@ -20,6 +20,7 @@ class AppColors {
     Color(0xFFA10100),
     Color.fromARGB(255, 243, 24, 4),
   ];
+
   static const List<Color> grMuclesTrain = [
     Color(0xFF00CCFF),
     Color(0xFF3366FF),
@@ -62,5 +63,22 @@ class AppColors {
     Colors.black,
     Colors.black,
     Colors.black,
+  ];
+// Levels cards
+  static const List<Color> grBeginnerLevel = [
+    Color(0xFF3366FF),
+    Color(0xFF00CCFF),
+  ];
+  static const List<Color> grMidLevel = [
+    Color.fromARGB(255, 51, 255, 112),
+    Color.fromARGB(255, 187, 255, 0),
+  ];
+  static const List<Color> grProLevel = [
+    Color(0xFFA10100),
+    Color.fromARGB(255, 243, 24, 4),
+    Color(0xFFDA1F05),
+    Color(0xFFFE650D),
+    Color(0xFFF33C04),
+    Color(0xFFFFC11F),
   ];
 }
