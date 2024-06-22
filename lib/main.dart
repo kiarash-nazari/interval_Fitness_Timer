@@ -1,3 +1,4 @@
+import 'package:dart_openai/dart_openai.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,6 +15,9 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  OpenAI.apiKey = dotenv.env['OPENAIAPIKEY']!;
+  OpenAI.requestsTimeOut = const Duration(seconds: 50);
+  // OpenAI.organization = "org-JsEGrKJ9wB4w1F9mRtwvoEDX";
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider(create: (context) => BodyComposeCubit()),

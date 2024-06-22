@@ -15,3 +15,23 @@ final class MoveThePosition extends CubitProgramState {
   @override
   List<Object> get props => [isMoved];
 }
+
+final class TraningResponseFromGpt extends CubitProgramState {
+  final TrainingProgram program;
+  const TraningResponseFromGpt({required this.program});
+  @override
+  List<Object> get props => [program];
+}
+
+final class CubitProgramError extends CubitProgramState {
+  final String message;
+  const CubitProgramError({required this.message});
+  @override
+  List<Object> get props => [message];
+}
+
+final class Loading extends CubitProgramState {
+  const Loading();
+  @override
+  List<Object> get props => [];
+}
