@@ -1,10 +1,12 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dart_openai/dart_openai.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interval_timer/res/colors.dart';
+import 'package:interval_timer/res/gifs_url.dart';
 import 'package:interval_timer/screens/gym_program/cubit/cubit_program_cubit.dart';
 import 'package:interval_timer/screens/gym_program/models/training_program.dart';
 import 'package:interval_timer/screens/gym_program/services/chatgpt_service.dart';
@@ -259,15 +261,22 @@ class GymProgramScreen extends StatelessWidget {
                   itemBuilder: (context, exerciseIndex) {
                     Exercise exercise = day.exercises[exerciseIndex];
                     return ExpansionTile(
-                      title: Text(exercise.name),
-                      subtitle: Text('Max Sets: ${exercise.maxSets}'),
-                      children: exercise.sets.map((setDetail) {
-                        return ListTile(
-                          title: Text(setDetail.mySet),
-                          subtitle: Text('Reps: ${setDetail.reps}'),
-                        );
-                      }).toList(),
-                    );
+                        onExpansionChanged: (value) {
+                          print(GifsUrl.gifs[exercise.name] ?? "");
+                        },
+                        title: Text(exercise.name),
+                        subtitle: Text('Max Sets: ${exercise.maxSets}'),
+                        children: [
+                          Image.network(GifsUrl.gifs[exercise.name] ?? ""),
+                          Column(
+                            children: exercise.sets.map((setDetail) {
+                              return ListTile(
+                                title: Text(setDetail.mySet),
+                                subtitle: Text('Reps: ${setDetail.reps}'),
+                              );
+                            }).toList(),
+                          )
+                        ]);
                   },
                 ),
               ],
