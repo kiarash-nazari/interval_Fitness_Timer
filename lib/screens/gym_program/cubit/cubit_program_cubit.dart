@@ -4,6 +4,7 @@ import 'package:dart_openai/dart_openai.dart';
 import 'package:equatable/equatable.dart';
 import 'dart:async';
 import 'package:interval_timer/screens/gym_program/models/training_program.dart';
+import 'package:interval_timer/utils/shared_perfrences_manager.dart';
 
 part 'cubit_program_state.dart';
 
@@ -13,7 +14,7 @@ class CubitProgram extends Cubit<CubitProgramState> {
       emit(CubitProgramInitial());
     });
   }
-
+  Map<String, dynamic>? jsonMap;
   bool isMoved = false;
   int retryCount = 0;
   final int maxRetries =
@@ -127,16 +128,16 @@ and in this case, you have to very very be careful to don't miss any parameters 
       if (completion.choices.isNotEmpty &&
           completion.choices[0].message.content != null) {
         final jsonString = completion.choices[0].message.content![0].text!;
-        final jsonMap = jsonDecode(jsonString) as Map<String, dynamic>;
+        jsonMap = jsonDecode(jsonString) as Map<String, dynamic>;
 
-        if (jsonMap['program'] == null) {
+        if (jsonMap?['program'] == null) {
           print(jsonMap);
           throw Exception("Invalid JSON structure: 'program' key is missing");
         }
 
         print(jsonMap);
 
-        final program = TrainingProgram.fromJson(jsonMap);
+        final program = TrainingProgram.fromJson(jsonMap!);
         print("Program name: ${program.name}");
 
         emit(MoveThePosition(isMoved: isMoved));
@@ -151,11 +152,18 @@ and in this case, you have to very very be careful to don't miss any parameters 
       if (retryCount < maxRetries) {
         retryCount++;
         await Future.delayed(
-            Duration(seconds: 2)); // Adding delay between retries
+            const Duration(seconds: 2)); // Adding delay between retries
         await togglePosition(); // Retry the request
       } else {
         emit(CubitProgramError(message: e.toString()));
       }
     }
+  }
+
+  saveBeginer() async {
+    SharedPreferencesManager().saveMap("beginerProgram", jsonMap!);
+    await Future.delayed(const Duration(seconds: 2));
+
+    print(SharedPreferencesManager().getMap("beginerProgram"));
   }
 }

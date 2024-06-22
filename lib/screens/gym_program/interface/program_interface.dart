@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dart_openai/dart_openai.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interval_timer/res/colors.dart';
 import 'package:interval_timer/screens/gym_program/cubit/cubit_program_cubit.dart';
@@ -231,46 +232,89 @@ class GymProgramScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: program.days.length,
-      itemBuilder: (context, index) {
-        TrainingDay day = program.days[index];
-        return Card(
-          margin: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  day.day,
-                  style: const TextStyle(
-                      fontSize: 18.0, fontWeight: FontWeight.bold),
+    var programCubit = BlocProvider.of<CubitProgram>(context);
+
+    return Stack(children: [
+      ListView.builder(
+        itemCount: program.days.length,
+        itemBuilder: (context, index) {
+          TrainingDay day = program.days[index];
+          return Card(
+            margin: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    day.day,
+                    style: const TextStyle(
+                        fontSize: 18.0, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: day.exercises.length,
+                  itemBuilder: (context, exerciseIndex) {
+                    Exercise exercise = day.exercises[exerciseIndex];
+                    return ExpansionTile(
+                      title: Text(exercise.name),
+                      subtitle: Text('Max Sets: ${exercise.maxSets}'),
+                      children: exercise.sets.map((setDetail) {
+                        return ListTile(
+                          title: Text(setDetail.mySet),
+                          subtitle: Text('Reps: ${setDetail.reps}'),
+                        );
+                      }).toList(),
+                    );
+                  },
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+      Positioned(
+          bottom: 40,
+          left: 8,
+          right: 8,
+          child: Container(
+            height: 50,
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                colors: AppColors
+                    .grBeginnerLevel, // Replace with your desired colors
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            child: TextButton.icon(
+              style: ButtonStyle(
+                shape: MaterialStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+                overlayColor: MaterialStateColor.resolveWith(
+                  (states) => AppColors.mainblue,
                 ),
               ),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: day.exercises.length,
-                itemBuilder: (context, exerciseIndex) {
-                  Exercise exercise = day.exercises[exerciseIndex];
-                  return ExpansionTile(
-                    title: Text(exercise.name),
-                    subtitle: Text('Max Sets: ${exercise.maxSets}'),
-                    children: exercise.sets.map((setDetail) {
-                      return ListTile(
-                        title: Text(setDetail.mySet),
-                        subtitle: Text('Reps: ${setDetail.reps}'),
-                      );
-                    }).toList(),
-                  );
-                },
+              onPressed: () {
+                programCubit.saveBeginer();
+              },
+              icon: const Icon(
+                Icons.arrow_forward_ios,
+                color: Colors.black,
               ),
-            ],
-          ),
-        );
-      },
-    );
+              label: const Text(
+                "Save and Continue",
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+          ))
+    ]);
   }
 }
 
