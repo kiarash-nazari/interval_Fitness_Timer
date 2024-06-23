@@ -241,46 +241,55 @@ class GymProgramScreen extends StatelessWidget {
         itemCount: program.days.length,
         itemBuilder: (context, index) {
           TrainingDay day = program.days[index];
-          return Card(
-            margin: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    day.day,
-                    style: const TextStyle(
-                        fontSize: 18.0, fontWeight: FontWeight.bold),
-                  ),
+          return Column(
+            children: [
+              Card(
+                margin: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        day.day,
+                        style: const TextStyle(
+                            fontSize: 18.0, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: day.exercises.length,
+                      itemBuilder: (context, exerciseIndex) {
+                        Exercise exercise = day.exercises[exerciseIndex];
+                        return ExpansionTile(
+                            onExpansionChanged: (value) {
+                              print(GifsUrl.gifs[exercise.name] ?? "");
+                            },
+                            title: Text(exercise.name),
+                            subtitle: Text('Max Sets: ${exercise.maxSets}'),
+                            children: [
+                              Image.network(GifsUrl.gifs[exercise.name] ?? ""),
+                              Column(
+                                children: exercise.sets.map((setDetail) {
+                                  return ListTile(
+                                    title: Text(setDetail.mySet),
+                                    subtitle: Text('Reps: ${setDetail.reps}'),
+                                  );
+                                }).toList(),
+                              )
+                            ]);
+                      },
+                    ),
+                  ],
                 ),
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: day.exercises.length,
-                  itemBuilder: (context, exerciseIndex) {
-                    Exercise exercise = day.exercises[exerciseIndex];
-                    return ExpansionTile(
-                        onExpansionChanged: (value) {
-                          print(GifsUrl.gifs[exercise.name] ?? "");
-                        },
-                        title: Text(exercise.name),
-                        subtitle: Text('Max Sets: ${exercise.maxSets}'),
-                        children: [
-                          Image.network(GifsUrl.gifs[exercise.name] ?? ""),
-                          Column(
-                            children: exercise.sets.map((setDetail) {
-                              return ListTile(
-                                title: Text(setDetail.mySet),
-                                subtitle: Text('Reps: ${setDetail.reps}'),
-                              );
-                            }).toList(),
-                          )
-                        ]);
-                  },
-                ),
-              ],
-            ),
+              ),
+              program.days.length == index + 1
+                  ? const SizedBox(
+                      height: 100,
+                    )
+                  : const SizedBox()
+            ],
           );
         },
       ),
