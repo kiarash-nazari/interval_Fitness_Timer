@@ -1,40 +1,5 @@
-import 'dart:convert';
-import 'package:bloc/bloc.dart';
-import 'package:dart_openai/dart_openai.dart';
-import 'package:equatable/equatable.dart';
-import 'dart:async';
-import 'package:interval_timer/screens/gym_program/models/training_program.dart';
-import 'package:interval_timer/utils/shared_perfrences_manager.dart';
-
-part 'cubit_program_state.dart';
-
-class CubitProgram extends Cubit<CubitProgramState> {
-  CubitProgram() : super(CubitProgramInitial()) {
-    Timer(const Duration(seconds: 1), () {
-      emit(CubitProgramInitial());
-    });
-  }
-
-  Map<String, dynamic>? jsonMap;
-  bool isMoved = false;
-  int retryCount = 0;
-  final int maxRetries =
-      3; // Limit the number of retries to prevent infinite loops
-
-  Future<void> togglePosition() async {
-    try {
-      emit(const Loading());
-      final completion =
-          await OpenAI.instance.chat.create(model: "gpt-3.5-turbo", messages: [
-        OpenAIChatCompletionChoiceMessageModel(content: [
-          OpenAIChatCompletionChoiceMessageContentItemModel.text(
-              "You are a Pro Gym trainer.")
-        ], role: OpenAIChatMessageRole.system),
-        OpenAIChatCompletionChoiceMessageModel(
-            role: OpenAIChatMessageRole.user,
-            content: [
-              OpenAIChatCompletionChoiceMessageContentItemModel.text(
-                  """you are a Pro coach.
+class Prompts{
+  static const String beginer ="""you are a Pro coach.
 
 I need a Gym beginner Program my training experience is 2 weeks in a row.
 
@@ -124,49 +89,5 @@ and in this case, you have to very very be careful to don't miss any parameters 
 5. At the end and very important, don't write me any extra description, like You're absolutely right! ..., I understood ... or any other description. I want only a pure JSON Nothing else, no confirmation, no descriptions, etc., just a JSON. even don't answer me polite things like thank you and ... .
 6. Don't give me a program with less day trainings our less exervises and I want at least 4 exercises each day except cardio and rest days.
 Remember again give me the exact name of the same exercises name in the list don't cut for example in "Standard Plank" don't cut the Standard word or don't add any word be cause one time you cuted Conventional Deadlift to Deadlift, don't cut Barbell or even Dumbbell.
-""")
-            ])
-      ]);
-
-      if (completion.choices.isNotEmpty &&
-          completion.choices[0].message.content != null) {
-        final jsonString = completion.choices[0].message.content![0].text!;
-        jsonMap = jsonDecode(jsonString) as Map<String, dynamic>;
-
-        if (jsonMap?['program'] == null) {
-          print(jsonMap);
-          throw Exception("Invalid JSON structure: 'program' key is missing");
-        }
-
-        print(jsonMap);
-
-        final program = TrainingProgram.fromJson(jsonMap!);
-        print("Program name: ${program.name}");
-
-        emit(MoveThePosition(isMoved: isMoved));
-        emit(TraningResponseFromGpt(program: program));
-        isMoved = !isMoved;
-        retryCount = 0; // Reset retry count on success
-      } else {
-        throw Exception("Invalid response from OpenAI API");
-      }
-    } catch (e) {
-      print("Error: $e");
-      if (retryCount < maxRetries) {
-        retryCount++;
-        await Future.delayed(
-            const Duration(seconds: 2)); // Adding delay between retries
-        await togglePosition(); // Retry the request
-      } else {
-        emit(CubitProgramError(message: e.toString()));
-      }
-    }
-  }
-
-  saveBeginer() async {
-    SharedPreferencesManager().saveMap("beginerProgram", jsonMap!);
-    await Future.delayed(const Duration(seconds: 2));
-
-    print(SharedPreferencesManager().getMap("beginerProgram"));
-  }
+""";
 }

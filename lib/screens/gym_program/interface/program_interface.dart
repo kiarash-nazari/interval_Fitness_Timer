@@ -1,16 +1,13 @@
-import 'dart:convert';
-
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dart_openai/dart_openai.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:interval_timer/locator.dart';
 import 'package:interval_timer/res/colors.dart';
-import 'package:interval_timer/res/gifs_url.dart';
-import 'package:interval_timer/screens/gym_program/cubit/cubit_program_cubit.dart';
-import 'package:interval_timer/screens/gym_program/models/training_program.dart';
-import 'package:interval_timer/screens/gym_program/services/chatgpt_service.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:interval_timer/screens/gym_program/domain/entities/beginer_program_entite.dart';
+import 'package:interval_timer/screens/gym_program/interface/cubit/beginer_program_status.dart';
+import 'package:interval_timer/screens/gym_program/interface/cubit/cubit_program_cubit.dart';
+
+import 'package:interval_timer/screens/my_programs/cubit/cubit_my_program_cubit.dart';
+import 'package:interval_timer/widgets/gym_program.dart';
 
 class ProgramInterface extends StatefulWidget {
   const ProgramInterface({super.key});
@@ -22,25 +19,24 @@ class ProgramInterface extends StatefulWidget {
 class _ProgramInterfaceState extends State<ProgramInterface> {
   bool _isMoved = false;
 
-  final TextEditingController _controller = TextEditingController();
-  final ChatGPTService _chatGPTService = ChatGPTService();
-  String _response = '';
+  // final ChatGPTService _chatGPTService = ChatGPTService();
+  // String _response = '';
 
-  void _sendMessage() async {
-    final message = _controller.text;
-    if (message.isEmpty) return;
+  // void _sendMessage() async {
+  //   final message = _controller.text;
+  //   if (message.isEmpty) return;
 
-    try {
-      final response = await _chatGPTService.sendMessage(message);
-      setState(() {
-        _response = json.encode(response);
-      });
-    } catch (e) {
-      setState(() {
-        _response = 'Error: $e';
-      });
-    }
-  }
+  //   try {
+  //     final response = await _chatGPTService.sendMessage(message);
+  //     setState(() {
+  //       _response = json.encode(response);
+  //     });
+  //   } catch (e) {
+  //     setState(() {
+  //       _response = 'Error: $e';
+  //     });
+  //   }
+  // }
 
   void _togglePosition() {
     setState(() {
@@ -52,8 +48,15 @@ class _ProgramInterfaceState extends State<ProgramInterface> {
   Widget build(BuildContext context) {
     var size = MediaQuery.sizeOf(context);
 
-    return BlocProvider(
-      create: (context) => CubitProgram(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => locator<CubitProgram>(),
+        ),
+        BlocProvider(
+          create: (context) => CubitMyProgramCubit(),
+        )
+      ],
       child: Scaffold(
         body: Stack(
           children: [
@@ -61,8 +64,12 @@ class _ProgramInterfaceState extends State<ProgramInterface> {
             Center(
               child: BlocBuilder<CubitProgram, CubitProgramState>(
                 builder: (context, state) {
-                  if (state is TraningResponseFromGpt) {
-                    return GymProgramScreen(program: state.program);
+                  if (state.beginerProgramStatus is BeginerProgramComplited) {
+                    final BeginerProgramComplited beginerProgramComplited =
+                        state.beginerProgramStatus as BeginerProgramComplited;
+                    final BeginerProgramEntity beginerProgramEntity =
+                        beginerProgramComplited.beginerProgramEntity;
+                    return GymProgram(program: beginerProgramEntity);
                   }
                   return Container(
                     height: 400,
@@ -105,7 +112,7 @@ class _ProgramInterfaceState extends State<ProgramInterface> {
                             imageAdress: "assets/png/mid-levels.png",
                             gradientColor: AppColors.grMidLevel,
                             onTap: () {
-                              programCubit.togglePosition();
+                              programCubit.loadBeginer();
                             },
                           ),
                           AnimateLevel(
@@ -118,7 +125,7 @@ class _ProgramInterfaceState extends State<ProgramInterface> {
                       ),
                     ),
                   ),
-                  if (state is Loading)
+                  if (state.beginerProgramStatus is BeginerProgramLoading)
                     const Center(
                         child: CircularProgressIndicator(
                       backgroundColor: AppColors.mainblue,
@@ -226,117 +233,6 @@ class AnimateLevelState extends State<AnimateLevel> {
     );
   }
 }
-
-class GymProgramScreen extends StatelessWidget {
-  final TrainingProgram program;
-
-  const GymProgramScreen({super.key, required this.program});
-
-  @override
-  Widget build(BuildContext context) {
-    var programCubit = BlocProvider.of<CubitProgram>(context);
-
-    return Stack(children: [
-      ListView.builder(
-        itemCount: program.days.length,
-        itemBuilder: (context, index) {
-          TrainingDay day = program.days[index];
-          return Column(
-            children: [
-              Card(
-                margin: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        day.day,
-                        style: const TextStyle(
-                            fontSize: 18.0, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: day.exercises.length,
-                      itemBuilder: (context, exerciseIndex) {
-                        Exercise exercise = day.exercises[exerciseIndex];
-                        return ExpansionTile(
-                            onExpansionChanged: (value) {
-                              print(GifsUrl.gifs[exercise.name] ?? "");
-                            },
-                            title: Text(exercise.name),
-                            subtitle: Text('Max Sets: ${exercise.maxSets}'),
-                            children: [
-                              Image.network(GifsUrl.gifs[exercise.name] ?? ""),
-                              Column(
-                                children: exercise.sets.map((setDetail) {
-                                  return ListTile(
-                                    title: Text(setDetail.mySet),
-                                    subtitle: Text('Reps: ${setDetail.reps}'),
-                                  );
-                                }).toList(),
-                              )
-                            ]);
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              program.days.length == index + 1
-                  ? const SizedBox(
-                      height: 100,
-                    )
-                  : const SizedBox()
-            ],
-          );
-        },
-      ),
-      Positioned(
-          bottom: 40,
-          left: 8,
-          right: 8,
-          child: Container(
-            height: 50,
-            decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: AppColors
-                    .grBeginnerLevel, // Replace with your desired colors
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            child: TextButton.icon(
-              style: ButtonStyle(
-                shape: MaterialStateProperty.all(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                ),
-                overlayColor: MaterialStateColor.resolveWith(
-                  (states) => AppColors.mainblue,
-                ),
-              ),
-              onPressed: () {
-                programCubit.saveBeginer();
-              },
-              icon: const Icon(
-                Icons.arrow_forward_ios,
-                color: Colors.black,
-              ),
-              label: const Text(
-                "Save and Continue",
-                style: TextStyle(color: Colors.black),
-              ),
-            ),
-          ))
-    ]);
-  }
-}
-
-
 
 
 

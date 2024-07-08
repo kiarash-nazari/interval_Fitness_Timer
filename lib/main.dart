@@ -2,13 +2,16 @@ import 'package:dart_openai/dart_openai.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:interval_timer/locator.dart';
 import 'package:interval_timer/screens/body/cubit/body_compose_cubit.dart';
 import 'package:interval_timer/screens/gym_program/interface/program_interface.dart';
+import 'package:interval_timer/screens/my_programs/my_progrmas.dart';
 import 'package:interval_timer/screens/splash/splash_screen.dart';
 import 'package:interval_timer/utils/shared_perfrences_manager.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<void> main() async {
+  await setUp();
   await dotenv.load(fileName: ".env");
   WidgetsFlutterBinding.ensureInitialized();
   await SharedPreferencesManager.instance.init();
@@ -31,6 +34,14 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(home: ProgramInterface());
+    return MaterialApp(
+      initialRoute: "/",
+      routes: {
+        "/": (BuildContext context) => const SplashScreen(),
+        "/programScreen": (BuildContext context) => const ProgramInterface(),
+        "/myProgrmaScreen": (BuildContext context) => const MyPrograms(),
+      },
+      // home: const ProgramInterface()
+    );
   }
 }
