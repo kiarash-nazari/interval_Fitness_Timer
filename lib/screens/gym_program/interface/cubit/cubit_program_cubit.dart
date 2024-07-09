@@ -24,7 +24,7 @@ class CubitProgram extends Cubit<CubitProgramState> {
     DataState dataState = await getBeginerProgramUseCase(Prompts.beginer);
 
     if (dataState is DataSucsess) {
-      print("jjjjjjjjjjjjjjjjjjjjjjadid sahih");
+      // print("jjjjjjjjjjjjjjjjjjjjjjadid sahih");
 
       emit(state.copyWith(
           newBeginerProgramStatus: MoveThePosition(isMoved: isMoved)));
@@ -36,7 +36,10 @@ class CubitProgram extends Cubit<CubitProgramState> {
     if (dataState is DataFailed) {
       print("jjjjjjjjjjjjjjjjjjjjjjadid false");
       print(dataState.error);
-
+      if (dataState.error ==
+          "ClientException with SocketException: Failed host lookup: 'api.openai.com' (OS Error: No address associated with hostname, errno = 7), uri=https://api.openai.com/v1/chat/completions") {
+        return;
+      }
       emit(state.copyWith(
           newBeginerProgramStatus: BeginerProgramError(dataState.error)));
       loadBeginer();

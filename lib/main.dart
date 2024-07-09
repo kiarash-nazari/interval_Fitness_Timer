@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interval_timer/locator.dart';
 import 'package:interval_timer/screens/body/cubit/body_compose_cubit.dart';
 import 'package:interval_timer/screens/gym_program/interface/program_interface.dart';
-import 'package:interval_timer/screens/my_programs/my_progrmas.dart';
 import 'package:interval_timer/screens/splash/splash_screen.dart';
 import 'package:interval_timer/utils/shared_perfrences_manager.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -39,7 +38,6 @@ class MainApp extends StatelessWidget {
       routes: {
         "/": (BuildContext context) => const SplashScreen(),
         "/programScreen": (BuildContext context) => const ProgramInterface(),
-        "/myProgrmaScreen": (BuildContext context) => const MyPrograms(),
       },
       // home: const ProgramInterface()
     );

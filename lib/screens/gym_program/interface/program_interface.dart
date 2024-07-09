@@ -5,8 +5,6 @@ import 'package:interval_timer/res/colors.dart';
 import 'package:interval_timer/screens/gym_program/domain/entities/beginer_program_entite.dart';
 import 'package:interval_timer/screens/gym_program/interface/cubit/beginer_program_status.dart';
 import 'package:interval_timer/screens/gym_program/interface/cubit/cubit_program_cubit.dart';
-
-import 'package:interval_timer/screens/my_programs/cubit/cubit_my_program_cubit.dart';
 import 'package:interval_timer/widgets/gym_program.dart';
 
 class ProgramInterface extends StatefulWidget {
@@ -53,9 +51,6 @@ class _ProgramInterfaceState extends State<ProgramInterface> {
         BlocProvider(
           create: (context) => locator<CubitProgram>(),
         ),
-        BlocProvider(
-          create: (context) => CubitMyProgramCubit(),
-        )
       ],
       child: Scaffold(
         body: Stack(

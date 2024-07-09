@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interval_timer/res/colors.dart';
 import 'package:interval_timer/res/gifs_url.dart';
-import 'package:interval_timer/screens/gym_program/data/models/beginer_program_model.dart';
 import 'package:interval_timer/screens/gym_program/domain/entities/beginer_program_entite.dart';
 import 'package:interval_timer/screens/gym_program/interface/cubit/cubit_program_cubit.dart';
-import 'package:interval_timer/screens/gym_program/models/training_program.dart';
-import 'package:interval_timer/screens/my_programs/cubit/cubit_my_program_cubit.dart';
 
 class GymProgram extends StatelessWidget {
   final BeginerProgramEntity program;
@@ -16,7 +13,6 @@ class GymProgram extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var programCubit = BlocProvider.of<CubitProgram>(context);
-    var myProgramCubit = BlocProvider.of<CubitMyProgramCubit>(context);
 
     return Stack(children: [
       ListView.builder(

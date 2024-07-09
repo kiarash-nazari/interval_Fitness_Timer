@@ -5,6 +5,7 @@ import 'package:interval_timer/screens/gym_program/data/models/beginer_program_m
 import 'package:interval_timer/screens/gym_program/domain/entities/beginer_program_entite.dart';
 import 'package:interval_timer/screens/gym_program/domain/repository/gym_program_repository.dart';
 
+      // fetchBeginerProgram("");
 class GymProgramRepositoryimpl extends GymProgramRepository {
   GptApiCall gptApiCall;
   GymProgramRepositoryimpl(this.gptApiCall);
@@ -20,7 +21,6 @@ class GymProgramRepositoryimpl extends GymProgramRepository {
 
       return DataSucsess(beginerProgramEntity);
     } catch (e) {
-      // fetchBeginerProgram("");
       return DataFailed(e.toString());
     }
   }
