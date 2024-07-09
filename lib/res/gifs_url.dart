@@ -7,162 +7,160 @@ class GifsUrl {
   }
 
   static const Map<String, dynamic> gifs = {
-    "Back Squat":
+    "back squat":
         "https://luxafarin.com/wp-content/uploads/2024/06/back_squat.gif",
-    "Front Squat":
+    "front squat":
         "https://luxafarin.com/wp-content/uploads/2024/06/front_squats.gif",
-    "Overhead Squat":
+    "overhead squat":
         "https://luxafarin.com/wp-content/uploads/2024/06/overhead-squat.gif",
-    "Bulgarian Split Squat":
+    "bulgarian split squat":
         "https://luxafarin.com/wp-content/uploads/2024/06/bulgarian_split_squat.gif",
-    "Jump Squat":
+    "jump squat":
         "https://luxafarin.com/wp-content/uploads/2024/06/jump_squat.gif",
-    "Box Squat":
+    "box squat":
         "https://luxafarin.com/wp-content/uploads/2024/06/box_squat.gif",
-    "Conventional Deadlift":
+    "conventional deadlift":
         "https://luxafarin.com/wp-content/uploads/2024/06/conventional_deadlift.gif",
-    "Romanian Deadlift":
+    "romanian deadlift":
         "https://luxafarin.com/wp-content/uploads/2024/06/romanian_deadlift_dumbbell.gif",
-    "Sumo Deadlift":
+    "sumo deadlift":
         "https://luxafarin.com/wp-content/uploads/2024/06/sumo_deadlift.gif",
-    "Snatch-Grip Deadlift":
+    "snatch-grip deadlift":
         "https://luxafarin.com/wp-content/uploads/2024/06/snatch-grip_deadlift.gif",
-    "Trap Bar Deadlift":
+    "trap bar deadlift":
         "https://luxafarin.com/wp-content/uploads/2024/06/trap_bar_deadlift.gif",
-    "Barbell Bench Press":
+    "barbell bench press":
         "https://luxafarin.com/wp-content/uploads/2024/06/barbell_bench_press.gif",
-    "Incline Bench Press":
+    "incline bench press":
         "https://luxafarin.com/wp-content/uploads/2024/06/incline_bench_press.gif",
-    "Decline Bench Press":
+    "decline bench press":
         "https://luxafarin.com/wp-content/uploads/2024/06/decline_bench_press.gif",
-    "Close-Grip Bench Press":
+    "close-grip bench press":
         "https://luxafarin.com/wp-content/uploads/2024/06/close_grip_bench_press.gif",
-    "Barbell Overhead Press":
+    "barbell overhead press":
         "https://luxafarin.com/wp-content/uploads/2024/06/barbell_overhead_press.gif",
-    "Dumbbell Overhead Press":
+    "dumbbell overhead press":
         "https://luxafarin.com/wp-content/uploads/2024/06/dumbbell_overhead_press.gif",
-    "Seated Overhead Press":
+    "seated overhead press":
         "https://luxafarin.com/wp-content/uploads/2024/06/seated_overhead_press.gif",
-    "Push Press":
+    "push press":
         "https://luxafarin.com/wp-content/uploads/2024/06/push_press.gif",
-    "Overhand Pull-Up":
+    "overhand pull-up":
         "https://luxafarin.com/wp-content/uploads/2024/06/overhand_pull_up.gif",
-    "Underhand Pull-Up":
+    "underhand pull-up":
         "https://luxafarin.com/wp-content/uploads/2024/06/underhand_pull_up.gif",
-    "Close-Grip Pull-Up":
+    "close-grip pull-up":
         "https://luxafarin.com/wp-content/uploads/2024/06/close_grip_pull_up.gif",
-    "Barbell Row":
+    "barbell row":
         "https://luxafarin.com/wp-content/uploads/2024/06/barbell_row.gif",
-    "Bent-over Row":
+    "bent-over row":
         "https://luxafarin.com/wp-content/uploads/2024/06/bent_over_row.gif",
-    "T-Bar Row":
+    "t-bar row":
         "https://luxafarin.com/wp-content/uploads/2024/06/t-bar-rows.gif",
-    "Seated Cable Row":
+    "seated cable row":
         "https://luxafarin.com/wp-content/uploads/2024/06/seated_cable_row.gif",
-    "Pendlay Row": "", //// TO DO  ////
-    "Power Clean":
+    "pendlay row": "", //// TO DO ////
+    "power clean":
         "https://luxafarin.com/wp-content/uploads/2024/06/power_clean.gif",
-    "Hang Clean":
+    "hang clean":
         "https://luxafarin.com/wp-content/uploads/2024/06/hang_clean.gif",
-    "Snatch":
+    "snatch":
         "https://luxafarin.com/wp-content/uploads/2024/06/hang_snatch.gif",
-    "Hang Snatch":
+    "hang snatch":
         "https://luxafarin.com/wp-content/uploads/2024/06/power_snatch.gif",
-    "Standard Box Jumps":
+    "standard box jumps":
         "https://luxafarin.com/wp-content/uploads/2024/06/standard_box_jumps.gif",
-    "Lateral Box Jumps":
+    "lateral box jumps":
         "https://luxafarin.com/wp-content/uploads/2024/06/lateral_box_jumps.gif",
-    "Step-Up Box Jumps":
+    "step-up box jumps":
         "https://luxafarin.com/wp-content/uploads/2024/06/step_up_box_jumps.gif",
-    "Medicine Ball Throws Chest Pass":
+    "medicine ball throws chest pass":
         "https://luxafarin.com/wp-content/uploads/2024/06/medicine_ball_throws_chest_pass.gif",
-    "Medicine Ball Overhead Throw":
+    "medicine ball overhead throw":
         "https://luxafarin.com/wp-content/uploads/2024/06/medicine_ball_overhead_throw.gif",
-    "Medicine Ball Side Throws":
+    "medicine ball side throws":
         "https://luxafarin.com/wp-content/uploads/2024/06/medicine_ball_side_throws.gif",
-    "Goblet Squat":
+    "goblet squat":
         "https://luxafarin.com/wp-content/uploads/2024/06/goblet_quat.gif",
-    "Zercher Squat":
+    "zercher squat":
         "https://luxafarin.com/wp-content/uploads/2024/06/zercher_squat.gif",
-    "Dumbbell Bench Press": "",
-    "Incline Dumbbell Bench Press": "",
-    "Decline Dumbbell Bench Press":
+    "dumbbell bench press": "",
+    "incline dumbbell bench press": "",
+    "decline dumbbell bench press":
         "https://luxafarin.com/wp-content/uploads/2024/06/decline_bench_dumbbell_flys.gif",
-    "Arnold Press":
+    "arnold press":
         "https://luxafarin.com/wp-content/uploads/2024/06/arnold_press.gif",
-    "Assisted Pull-Ups":
+    "assisted pull-ups":
         "https://luxafarin.com/wp-content/uploads/2024/06/assisted_pull_ups.gif",
-    "Dumbbell Row":
+    "dumbbell row":
         "https://luxafarin.com/wp-content/uploads/2024/06/dumbbell_row.gif",
-    "Leg Press":
+    "leg press":
         "https://luxafarin.com/wp-content/uploads/2024/06/leg_press.gif",
-    "Leg Extensions":
+    "leg extensions":
         "https://luxafarin.com/wp-content/uploads/2024/06/leg_extensions.gif",
-    "Hamstring Curls":
+    "hamstring curls":
         "https://luxafarin.com/wp-content/uploads/2024/06/hamstring_curls.gif",
-    "Standing Calf Raises":
+    "standing calf raises":
         "https://luxafarin.com/wp-content/uploads/2024/06/calf_raises.gif",
-    "Glute Bridges":
+    "glute bridges":
         "https://luxafarin.com/wp-content/uploads/2024/06/glute_bridges.gif",
-    "Dumbbell Flys":
+    "dumbbell flys":
         "https://luxafarin.com/wp-content/uploads/2024/06/dumbbell_flys.gif",
-    "Decline Bench Dumbbell Flys":
+    "decline bench dumbbell flys":
         "https://luxafarin.com/wp-content/uploads/2024/06/common_cable_chest-Fly.gif",
-    "Common Cable Chest Flys":
+    "common cable chest flys":
         "https://luxafarin.com/wp-content/uploads/2024/06/high_to_low_cable_chest_flys.gif",
-    "High to Low Cable Chest Flys": "", //TO DO//
-    "Incline Cable Chest Flys":
+    "high to low cable chest flys": "", //TO DO//
+    "incline cable chest flys":
         "https://luxafarin.com/wp-content/uploads/2024/06/incline_cable_chest_flys.gif",
-    "Lateral Raises": "",
-    "Front Raises": "",
-    "Rear Delt Flys": "",
-    "Face Pulls": "",
-    "Lat Pulldowns": "",
-    "Pullover": "",
-    "Barbell Bicep Curl":
+    "lateral raises": "",
+    "front raises": "",
+    "rear delt flys": "",
+    "face pulls": "",
+    "lat pulldowns": "",
+    "pullover": "",
+    "barbell bicep curl":
         "https://luxafarin.com/wp-content/uploads/2024/06/barbell_bicep_curl.gif",
-    "Dumbbell Bicep Curl":
+    "dumbbell bicep curl":
         "https://luxafarin.com/wp-content/uploads/2024/06/dumbbell_bicep_curl.gif",
-    "Hammer Curl":
+    "hammer curl":
         "https://luxafarin.com/wp-content/uploads/2024/06/hammer_curl.gif",
-    "Concentration Curl":
+    "concentration curl":
         "https://luxafarin.com/wp-content/uploads/2024/06/concentration_curl.gif",
-    "Preacher Curl":
+    "preacher curl":
         "https://luxafarin.com/wp-content/uploads/2024/06/preacher_curl.gif",
-    "Cable Drag Curl":
+    "cable drag curl":
         "https://luxafarin.com/wp-content/uploads/2024/06/cable_drag_curl.gif",
-    "Overhead Triceps Extension":
+    "overhead triceps extension":
         "https://luxafarin.com/wp-content/uploads/2024/06/overhead_triceps_extension.gif",
-    "Cable Pushdowns":
+    "cable pushdowns":
         "https://luxafarin.com/wp-content/uploads/2024/06/cable_pushdowns.gif",
-    "Tricep Kickbacks":
+    "tricep kickbacks":
         "https://luxafarin.com/wp-content/uploads/2024/06/tricep_kickbacks.gif",
-    "Bodyweight Squats":
+    "bodyweight squats":
         "https://luxafarin.com/wp-content/uploads/2024/06/bodyweight_squats.gif",
-    "Wall Sit": "https://luxafarin.com/wp-content/uploads/2024/06/wall_sit.gif",
-    "Bodyweight Forward Lunges":
+    "wall sit": "https://luxafarin.com/wp-content/uploads/2024/06/wall_sit.gif",
+    "bodyweight forward lunges":
         "https://luxafarin.com/wp-content/uploads/2024/06/bodyweight_forward_lunges.gif",
-    "Bodyweight Backward Lunges":
+    "bodyweight backward lunges":
         "https://luxafarin.com/wp-content/uploads/2024/06/backward_lunges.gif",
-    "Bodyweight Side Lunges":
+    "bodyweight side lunges":
         "https://luxafarin.com/wp-content/uploads/2024/06/the_side_lunge.gif",
-    "Standard Push-Ups":
+    "standard push-ups":
         "https://luxafarin.com/wp-content/uploads/2024/06/standard_push_ups.gif",
-    "Wall Push-Ups":
+    "wall push-ups":
         "https://luxafarin.com/wp-content/uploads/2024/06/wall_push_ups.gif",
-    "Incline Push-Ups":
+    "incline push-ups":
         "https://luxafarin.com/wp-content/uploads/2024/06/incline_push_ups.gif",
-    "Knee Push-Ups":
+    "knee push-ups":
         "https://luxafarin.com/wp-content/uploads/2024/06/knee_push_ups.gif",
-    "Standard Plank":
+    "standard plank":
         "https://luxafarin.com/wp-content/uploads/2024/06/standard_plank.gif",
-    "Forearm Plank":
+    "forearm plank":
         "https://luxafarin.com/wp-content/uploads/2024/06/forearm_plank.gif",
-    "Side Plank":
+    "side plank":
         "https://luxafarin.com/wp-content/uploads/2024/06/side-plank.png",
-    "Standard Crunches":
+    "standard crunches":
         "https://luxafarin.com/wp-content/uploads/2024/06/standard_crunches.gif"
-
-    //سرشانه و چندتا شکم
   };
 }

@@ -46,13 +46,17 @@ class GymProgram extends StatelessWidget {
                         var exercise = day.exercises[exerciseIndex];
                         return ExpansionTile(
                             onExpansionChanged: (value) {
-                              print(GifsUrl.gifs[exercise.name] ?? "");
-                              print(exercise.name);
+                              print(GifsUrl.gifs[exercise.name.toLowerCase()] ??
+                                  "");
+                              print(GifsUrl.gifs.length);
+                              print(exercise.name.toLowerCase());
                             },
                             title: Text(exercise.name),
                             subtitle: Text('Max Sets: ${exercise.maxSets}'),
                             children: [
-                              Image.network(GifsUrl.gifs[exercise.name] ?? ""),
+                              Image.network(
+                                  GifsUrl.gifs[exercise.name.toLowerCase()] ??
+                                      ""),
                               Column(
                                 children: exercise.sets.map((setDetail) {
                                   return ListTile(

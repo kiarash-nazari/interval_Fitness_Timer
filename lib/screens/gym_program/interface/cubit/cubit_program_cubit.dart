@@ -35,6 +35,8 @@ class CubitProgram extends Cubit<CubitProgramState> {
 
     if (dataState is DataFailed) {
       print("jjjjjjjjjjjjjjjjjjjjjjadid false");
+      print(dataState.error);
+
       emit(state.copyWith(
           newBeginerProgramStatus: BeginerProgramError(dataState.error)));
       loadBeginer();

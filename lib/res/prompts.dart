@@ -1,5 +1,5 @@
-class Prompts{
-  static const String beginer ="""you are a Pro coach.
+class Prompts {
+  static const String beginer = """you are a Pro coach.
 
 I need a Gym beginner Program my training experience is 2 weeks in a row.
 
@@ -46,48 +46,99 @@ I wanna write me all 7 days program with rest days nothing less than 7 days.
 
 please give the program as a JSON like this, this JSON is only an example where you can change the number of trainings, sets, names, rest, frequency and ... : =>
 {
-"program":
-{
-"description": "warnings and description for beginers and how better to start and use your program", 
-"name": "Power Training Program or any suitable names",
-"frequency": "... workouts per week",
-"rest":" ... minutes between sets",
-days: [
-{
-"day": Day 1: Upper Body & Core, or ...,
-exercises: [
-{
-name: Bench Press,
-maxSets: 5,
-sets :[
-
-{"set 1": " Reps: 6"},
-{"set 2": " Reps: 4"},
-{"set 3": " Reps: 3"},
-{"set 4": " Reps: 2"},
-{"set 5": " Reps: 2"},
-
-]
-
-},
-"day": "Day ...: Aerobics and cardio",
-"exercises": [
-{
-"name": "Cardio",
-"maxSets": 1,
-"set 1": " minute",
-},"day": "Day ...: Rest",
-"exercises": [
-{
-"name": "Rest",
-"maxSets": ,
-"set 1": "",
-},
-}.
+  "program": {
+  "description": "warnings and description for beginers and how better to start and use your program", 
+  "name": "Power Training Program or any suitable names",
+  "frequency": "... workouts per week",
+  "rest":" ... minutes between sets",
+    "days": [
+      {
+        "day": "Day 1: Upper Body & Core, or ...,",
+        "exercises": [
+          {
+            "name": "...",
+            "maxSets": 3,
+            "sets": [
+              {"set1": "10"},
+              {"set2": "8"},
+              {"set3": "6"}
+            ]
+          },
+          {
+            "name": "Barbell Bench Press",
+            "maxSets": 5,
+            "sets": [
+              {"set1": "10"},
+              {"set2": "8"},
+              {"set3": "6"}
+              {"set3": "6"}
+              {"set3": "6"}
+            ]
+          }
+        ]
+      },
+      {
+        "day": "Day 2: Cardio & Core, or ...,",
+        "exercises": [
+          {
+            "name": "Aerobics And Cardio",
+            "maxSets": 1,
+            "sets": [
+              {"set1": "20 min"},
+            ]
+          },
+          {
+            "name": "Bodyweight Forward Lunges",
+            "maxSets": 5,
+            "sets": [
+              {"set1": "12"},
+              {"set2": "10"},
+              {"set3": "8"}
+              {"set3": "8"}
+              {"set3": "6"}
+            ]
+          },
+          {
+            "name": "Forearm Plank",
+            "maxSets": 3,
+            "sets": [
+              {"set1": "40 seconds"},
+              {"set2": "40 seconds"},
+              {"set3": "40 seconds"}
+            ]
+          }
+        ]
+      },
+      {
+        "day": "...",
+        "exercises": [
+          {
+            "name": "Deadlift",
+            "maxSets": 3,
+            "sets": [
+              {"set1": "10"},
+              {"set2": "8"},
+              {"set3": "6"}
+            ]
+          },
+          {
+            "name": "Dumbbell Row",
+            "maxSets": 3,
+            "sets": [
+              {"set1": "10"},
+              {"set2": "8"},
+              {"set3": "6"}
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
 
 and in this case, you have to very very be careful to don't miss any parameters or don't add any extra parameters, please please in choosing the name if you can double-check to not give me any name different from the names that I provided you in the above exercises list don't miss even one-word letter or space or - or _ or ....
 5. At the end and very important, don't write me any extra description, like You're absolutely right! ..., I understood ... or any other description. I want only a pure JSON Nothing else, no confirmation, no descriptions, etc., just a JSON. even don't answer me polite things like thank you and ... .
 6. Don't give me a program with less day trainings our less exervises and I want at least 4 exercises each day except cardio and rest days.
-Remember again give me the exact name of the same exercises name in the list don't cut for example in "Standard Plank" don't cut the Standard word or don't add any word be cause one time you cuted Conventional Deadlift to Deadlift, don't cut Barbell or even Dumbbell.
+Remember again give me the exact name of the same exercises name in the list don't cut for example in "Standard Plank" don't cut the Standard word or don't add any word be cause one time you cuted Conventional Deadlift to Deadlift, don't cut Barbell or even Dumbbell like some times you give me name: Overhead Press don't do this because when you cut Barbell or Dumbbell or Seated I can't find it give the all name like: Dumbbell Overhead Press .
 """;
 }
