@@ -1,13 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:interval_timer/res/data_state.dart';
-import 'package:interval_timer/res/prompts.dart';
 import 'package:interval_timer/screens/gym_program/domain/use_case/get_beginer_program_use_case.dart';
-
 import 'package:interval_timer/screens/gym_program/interface/cubit/beginer_program_status.dart';
 
 part 'cubit_program_state.dart';
 
 class CubitProgram extends Cubit<CubitProgramState> {
+  // final MyProgramsCubit myProgramsCubit;
   final GetBeginerProgramUseCase getBeginerProgramUseCase;
   bool isMoved = false;
 
@@ -16,15 +15,16 @@ class CubitProgram extends Cubit<CubitProgramState> {
     // ignore: unused_element
   }
 
-  Future<void> loadBeginer() async {
+  Future<void> loadBeginer({required String prompt}) async {
     emit(
       state.copyWith(newBeginerProgramStatus: BeginerProgramLoading()),
     );
 
-    DataState dataState = await getBeginerProgramUseCase(Prompts.beginer);
+    DataState dataState = await getBeginerProgramUseCase(prompt);
 
     if (dataState is DataSucsess) {
       // print("jjjjjjjjjjjjjjjjjjjjjjadid sahih");
+      // myProgramsCubit.saveProgramUsecase(dataState.data);
 
       emit(state.copyWith(
           newBeginerProgramStatus: MoveThePosition(isMoved: isMoved)));
@@ -34,15 +34,16 @@ class CubitProgram extends Cubit<CubitProgramState> {
     }
 
     if (dataState is DataFailed) {
-      print("jjjjjjjjjjjjjjjjjjjjjjadid false");
-      print(dataState.error);
+      // print("jjjjjjjjjjjjjjjjjjjjjjadid false");
+      // print(dataState.error);
       if (dataState.error ==
           "ClientException with SocketException: Failed host lookup: 'api.openai.com' (OS Error: No address associated with hostname, errno = 7), uri=https://api.openai.com/v1/chat/completions") {
+        emit(state.copyWith(newBeginerProgramStatus: BeginerConnectionError()));
         return;
       }
       emit(state.copyWith(
           newBeginerProgramStatus: BeginerProgramError(dataState.error)));
-      loadBeginer();
+      loadBeginer(prompt: prompt);
     }
   }
 }

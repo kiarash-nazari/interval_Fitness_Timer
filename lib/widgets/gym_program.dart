@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interval_timer/res/colors.dart';
 import 'package:interval_timer/res/gifs_url.dart';
 import 'package:interval_timer/screens/gym_program/domain/entities/beginer_program_entite.dart';
-import 'package:interval_timer/screens/gym_program/interface/cubit/cubit_program_cubit.dart';
 
 class GymProgram extends StatelessWidget {
   final BeginerProgramEntity program;
@@ -12,71 +10,73 @@ class GymProgram extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var programCubit = BlocProvider.of<CubitProgram>(context);
-
-    return Stack(children: [
-      ListView.builder(
-        itemCount: program.days?.length,
-        itemBuilder: (context, index) {
-          var day = program.days![index];
-          return Column(
-            children: [
-              Card(
-                margin: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        day.day,
-                        style: const TextStyle(
-                            fontSize: 18.0, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: day.exercises.length,
-                      itemBuilder: (context, exerciseIndex) {
-                        var exercise = day.exercises[exerciseIndex];
-                        return ExpansionTile(
-                            onExpansionChanged: (value) {
-                              print(GifsUrl.gifs[exercise.name.toLowerCase()] ??
-                                  "");
-                              print(GifsUrl.gifs.length);
-                              print(exercise.name.toLowerCase());
-                            },
-                            title: Text(exercise.name),
-                            subtitle: Text('Max Sets: ${exercise.maxSets}'),
-                            children: [
-                              Image.network(
+    return Stack(
+      children: [
+        SingleChildScrollView(
+          child: Column(
+            children: List.generate(program.days?.length ?? 0, (dayIndex) {
+              var day = program.days![dayIndex];
+              return Column(
+                children: [
+                  Card(
+                    margin: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            day.day,
+                            style: const TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Column(
+                          children: day.exercises.map((exercise) {
+                            return ExpansionTile(
+                              onExpansionChanged: (value) {
+                                print(
+                                    GifsUrl.gifs[exercise.name.toLowerCase()] ??
+                                        "");
+                                print(GifsUrl.gifs.length);
+                                print(exercise.name.toLowerCase());
+                              },
+                              title: Text(exercise.name),
+                              subtitle: Text('Max Sets: ${exercise.maxSets}'),
+                              children: [
+                                Image.network(
                                   GifsUrl.gifs[exercise.name.toLowerCase()] ??
-                                      ""),
-                              Column(
-                                children: exercise.sets.map((setDetail) {
-                                  return ListTile(
-                                    title: Text(setDetail.mySet),
-                                    subtitle: Text('Reps: ${setDetail.reps}'),
-                                  );
-                                }).toList(),
-                              )
-                            ]);
-                      },
+                                      "",
+                                ),
+                                Column(
+                                  children: exercise.sets.map((setDetail) {
+                                    return ListTile(
+                                      title: Text(setDetail.mySet),
+                                      subtitle: Text('Reps: ${setDetail.reps}'),
+                                    );
+                                  }).toList(),
+                                ),
+                              ],
+                            );
+                          }).toList(),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
-              program.days?.length == index + 1
-                  ? const SizedBox(
+                  ),
+                  if (program.days?.length == dayIndex + 1)
+                    const SizedBox(
                       height: 100,
                     )
-                  : const SizedBox()
-            ],
-          );
-        },
-      ),
-      Positioned(
+                  else
+                    const SizedBox(),
+                ],
+              );
+            }),
+          ),
+        ),
+        Positioned(
           bottom: 40,
           left: 8,
           right: 8,
@@ -84,8 +84,7 @@ class GymProgram extends StatelessWidget {
             height: 50,
             decoration: BoxDecoration(
               gradient: const LinearGradient(
-                colors: AppColors
-                    .grBeginnerLevel, // Replace with your desired colors
+                colors: AppColors.grBeginnerLevel,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
@@ -103,9 +102,7 @@ class GymProgram extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-                // programCubit.saveBeginer();
-                // myProgramCubit.sendProgramToUi();
-                Navigator.pushNamed(context, "/myProgrmaScreen");
+                Navigator.pushNamed(context, "/myProgramsScreen");
               },
               icon: const Icon(
                 Icons.arrow_forward_ios,
@@ -116,7 +113,9 @@ class GymProgram extends StatelessWidget {
                 style: TextStyle(color: Colors.black),
               ),
             ),
-          ))
-    ]);
+          ),
+        ),
+      ],
+    );
   }
 }

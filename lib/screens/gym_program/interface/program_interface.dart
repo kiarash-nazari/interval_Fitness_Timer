@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interval_timer/locator.dart';
 import 'package:interval_timer/res/colors.dart';
+import 'package:interval_timer/res/prompts.dart';
 import 'package:interval_timer/screens/gym_program/domain/entities/beginer_program_entite.dart';
 import 'package:interval_timer/screens/gym_program/interface/cubit/beginer_program_status.dart';
 import 'package:interval_timer/screens/gym_program/interface/cubit/cubit_program_cubit.dart';
@@ -100,14 +101,16 @@ class _ProgramInterfaceState extends State<ProgramInterface> {
                             level: "0 - 3 Months in a row",
                             imageAdress: "assets/png/Beginers-levels.png",
                             gradientColor: AppColors.grBeginnerLevel,
-                            onTap: _togglePosition,
+                            onTap: () {
+                              programCubit.loadBeginer(prompt: Prompts.beginer);
+                            },
                           ),
                           AnimateLevel(
                             level: "3 - 6 Months in a row",
                             imageAdress: "assets/png/mid-levels.png",
                             gradientColor: AppColors.grMidLevel,
                             onTap: () {
-                              programCubit.loadBeginer();
+                              _togglePosition();
                             },
                           ),
                           AnimateLevel(
