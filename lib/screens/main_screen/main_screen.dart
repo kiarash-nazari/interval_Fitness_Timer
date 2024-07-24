@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:interval_timer/res/colors.dart';
 import 'package:interval_timer/screens/body/front_body.dart';
+import 'package:interval_timer/screens/gym_program/interface/program_interface.dart';
 import 'package:interval_timer/screens/interval_screen/interval_screen.dart';
 import 'package:interval_timer/screens/main_screen/cubit/main_cubit.dart';
 import 'package:interval_timer/screens/train_screen/train_screen.dart';
@@ -47,7 +49,9 @@ class MainWindow extends StatelessWidget {
                     //   activitiController: _activitiController,
                     //   restController: _restController,
                     // ),
-                    const VipScreen()
+                    const VipScreen(),
+
+                    const ProgramInterface()
                   ],
                 );
               },
@@ -102,6 +106,19 @@ class MainWindow extends StatelessWidget {
                                       color: indexOfStack == 1
                                           ? AppColors.mainRed
                                           : null,
+                                    ),
+                                  ),
+                                  IconButton(
+                                    padding: const EdgeInsets.all(15),
+                                    onPressed: () {
+                                      BlocProvider.of<MainCubit>(context)
+                                          .changeIndex(3);
+                                    },
+                                    icon: SvgPicture.asset(
+                                      "assets/svg/chatgpt.svg", // Path to your SVG file
+                                      color: indexOfStack == 3 ? null : null,
+                                      width: 24, // Adjust size as needed
+                                      height: 24, // Adjust size as needed
                                     ),
                                   ),
                                 ],

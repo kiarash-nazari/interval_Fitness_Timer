@@ -77,7 +77,7 @@ class GymProgram extends StatelessWidget {
           ),
         ),
         Positioned(
-          bottom: 40,
+          bottom: 80,
           left: 8,
           right: 8,
           child: Container(
