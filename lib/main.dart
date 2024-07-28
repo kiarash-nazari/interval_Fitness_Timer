@@ -7,8 +7,10 @@ import 'package:interval_timer/firebase_options.dart';
 import 'package:interval_timer/locator.dart';
 import 'package:interval_timer/screens/body/cubit/body_compose_cubit.dart';
 import 'package:interval_timer/screens/gym_program/interface/program_interface.dart';
-import 'package:interval_timer/screens/my_program/interface/bloc/cubit/my_programs_cubit.dart';
+import 'package:interval_timer/screens/my_program/interface/block/cubit/my_programs_cubit.dart';
 import 'package:interval_timer/screens/my_program/interface/screen/my_programs_screen.dart';
+import 'package:interval_timer/screens/register/interface/bloc/cubit/registe_cubit.dart';
+import 'package:interval_timer/screens/register/interface/screen/register_screen.dart';
 import 'package:interval_timer/screens/splash/splash_screen.dart';
 import 'package:interval_timer/utils/shared_perfrences_manager.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -30,6 +32,7 @@ Future<void> main() async {
     providers: [
       BlocProvider(create: (context) => BodyComposeCubit()),
       BlocProvider(create: (context) => locator<MyProgramsCubit>()),
+      BlocProvider(create: (context) => locator<RegisterCubit>()),
     ],
     child: const MainApp(),
   ));
@@ -43,6 +46,7 @@ class MainApp extends StatelessWidget {
       initialRoute: "/",
       routes: {
         "/": (BuildContext context) => const SplashScreen(),
+        "/registerScreen": (BuildContext context) => const RegisterScreen(),
         "/programScreen": (BuildContext context) => const ProgramInterface(),
         "/myProgramsScreen": (BuildContext context) => const MyProgramsScreen(),
       },

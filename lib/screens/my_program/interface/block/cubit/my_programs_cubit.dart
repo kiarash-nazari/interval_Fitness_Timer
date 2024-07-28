@@ -3,8 +3,9 @@ import 'package:equatable/equatable.dart';
 import 'package:interval_timer/res/data_state.dart';
 import 'package:interval_timer/screens/my_program/domain/use_case/get_programs_usecase.dart';
 import 'package:interval_timer/screens/my_program/domain/use_case/save_program_usecase.dart';
-import 'package:interval_timer/screens/my_program/interface/bloc/cubit/get_programs_status.dart';
-import 'package:interval_timer/screens/my_program/interface/bloc/cubit/save_program_status.dart';
+import 'package:interval_timer/screens/my_program/interface/block/cubit/get_programs_status.dart';
+import 'package:interval_timer/screens/my_program/interface/block/cubit/save_program_status.dart';
+
 
 part 'my_programs_state.dart';
 

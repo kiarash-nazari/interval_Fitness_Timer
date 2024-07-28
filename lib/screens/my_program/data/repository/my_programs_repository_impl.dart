@@ -4,7 +4,7 @@ import 'package:interval_timer/res/data_state.dart';
 import 'package:interval_timer/screens/gym_program/data/models/beginer_program_model.dart';
 import 'package:interval_timer/screens/gym_program/domain/entities/beginer_program_entite.dart';
 import 'package:interval_timer/screens/my_program/data/source/local/programs_dao.dart';
-import 'package:interval_timer/screens/my_program/domain/entites/my_programs_entity.dart';
+import 'package:interval_timer/screens/my_program/domain/entiti/my_programs_Entity.dart';
 import 'package:interval_timer/screens/my_program/domain/repository/my_programs_repository.dart';
 
 class MyProgramsRepositoryImpl extends MyProgramsRepository {

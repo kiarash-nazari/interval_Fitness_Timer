@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:interval_timer/screens/gym_program/domain/entities/beginer_program_entite.dart';
-import 'package:interval_timer/screens/my_program/domain/entites/my_programs_entity.dart';
 
 abstract class GetProgramsStatus extends Equatable {}
 

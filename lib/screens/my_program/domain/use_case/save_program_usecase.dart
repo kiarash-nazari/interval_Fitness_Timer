@@ -1,6 +1,6 @@
 import 'package:interval_timer/res/data_state.dart';
 import 'package:interval_timer/res/use_case.dart';
-import 'package:interval_timer/screens/my_program/domain/entites/my_programs_entity.dart';
+import 'package:interval_timer/screens/my_program/domain/entiti/my_programs_Entity.dart';
 import 'package:interval_timer/screens/my_program/domain/repository/my_programs_repository.dart';
 
 class SaveProgramUsecase implements UseCase<DataState<MyProgramsEntity>,String>{

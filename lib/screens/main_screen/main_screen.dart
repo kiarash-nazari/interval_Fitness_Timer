@@ -6,7 +6,6 @@ import 'package:interval_timer/screens/body/front_body.dart';
 import 'package:interval_timer/screens/gym_program/interface/program_interface.dart';
 import 'package:interval_timer/screens/interval_screen/interval_screen.dart';
 import 'package:interval_timer/screens/main_screen/cubit/main_cubit.dart';
-import 'package:interval_timer/screens/train_screen/train_screen.dart';
 import 'package:interval_timer/screens/vip_screen/vip_screen.dart';
 import 'package:interval_timer/widgets/glassmorphism.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';

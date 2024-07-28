@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:interval_timer/screens/my_program/domain/entites/my_programs_entity.dart';
+import 'package:interval_timer/screens/my_program/domain/entiti/my_programs_Entity.dart';
 
 abstract class SaveProgramStatus extends Equatable{
 }
