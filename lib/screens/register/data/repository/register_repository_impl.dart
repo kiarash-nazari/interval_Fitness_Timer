@@ -6,15 +6,30 @@ import 'package:interval_timer/screens/register/domain/repository/register_repos
 
 class RegisterRepositoryImpl extends RegisterRepository {
   RegisterCall registerCall;
+  RegisterEntity? registerEntity; 
   RegisterRepositoryImpl(this.registerCall);
   @override
   Future<DataState<RegisterEntity>> doRegister(User? user) async {
     try {
       User? theUser = await registerCall.registerByGoogle(user);
-      RegisterEntity registerEntity = RegisterEntity(theUser);
-      return DataSucsess(registerEntity);
+      registerEntity = RegisterEntity(theUser);
+      return DataSucsess(registerEntity!);
     } catch (e) {
       return DataFailed(e.toString());
     }
+  }
+
+  @override
+  @override
+  void signOut() {
+    registerCall.signOut();
+  }
+
+  @override
+  Future<RegisterEntity?> checkRegister(User? user) async {
+    User? theUser =  user;
+          registerEntity = RegisterEntity(theUser);
+
+    return registerEntity;
   }
 }

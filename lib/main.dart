@@ -7,6 +7,7 @@ import 'package:interval_timer/firebase_options.dart';
 import 'package:interval_timer/locator.dart';
 import 'package:interval_timer/screens/body/cubit/body_compose_cubit.dart';
 import 'package:interval_timer/screens/gym_program/interface/program_interface.dart';
+import 'package:interval_timer/screens/main_screen/main_screen.dart';
 import 'package:interval_timer/screens/my_program/interface/block/cubit/my_programs_cubit.dart';
 import 'package:interval_timer/screens/my_program/interface/screen/my_programs_screen.dart';
 import 'package:interval_timer/screens/register/interface/bloc/cubit/registe_cubit.dart';
@@ -49,6 +50,7 @@ class MainApp extends StatelessWidget {
         "/registerScreen": (BuildContext context) => const RegisterScreen(),
         "/programScreen": (BuildContext context) => const ProgramInterface(),
         "/myProgramsScreen": (BuildContext context) => const MyProgramsScreen(),
+        "/mainWindow": (BuildContext context) => MainWindow(),
       },
       // home: const ProgramInterface()
     );

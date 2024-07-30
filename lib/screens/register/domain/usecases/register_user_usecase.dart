@@ -4,7 +4,7 @@ import 'package:interval_timer/res/use_case.dart';
 import 'package:interval_timer/screens/register/domain/entites/register_entity.dart';
 import 'package:interval_timer/screens/register/domain/repository/register_repository.dart';
 
-class RegisterUserUsecase extends UseCase<DataState<RegisterEntity>,User?>{
+class RegisterUserUsecase extends UseCase<DataState<RegisterEntity>, User?> {
   RegisterRepository registerRepository;
   RegisterUserUsecase(this.registerRepository);
   @override
@@ -12,4 +12,10 @@ class RegisterUserUsecase extends UseCase<DataState<RegisterEntity>,User?>{
     return registerRepository.doRegister(prompt);
   }
 
+  Future<RegisterEntity?> checkRegister(User? user){
+   return registerRepository.checkRegister(user);
+  }
+  void signOut() {
+    registerRepository.signOut();
+  }
 }

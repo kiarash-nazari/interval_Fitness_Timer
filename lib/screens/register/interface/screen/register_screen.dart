@@ -11,43 +11,72 @@ class RegisterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Scaffold(
-      body: BlocConsumer<RegisterCubit, RegisteCubitState>(
-        listener: (context, state) {
-          // TODO: implement listener
-        },
-        builder: (context, state) {
-          var registerCubit = BlocProvider.of<RegisterCubit>(context);
+      child: Scaffold(
+        body: BlocConsumer<RegisterCubit, RegisteCubitState>(
+          listenWhen: (previous, current) {
+            print("sssssssssssssssssssss");
+            return previous.registerStatus != current.registerStatus;
+            // if (previous.registerStatus == current.registerStatus) {
+            //   print(
+            //       "MOOOOOOOOOOSSSSSSSSSSSSSSSSSAAAAAAAAAAAAVVVVVVVVVIIIIIIIIIII");
+            //   return true;
+            // }
+            // if (previous.registerStatus != current.registerStatus) {
+            //   print(
+            //       "NNNNNNNOtMOOOOOOOOOOSSSSSSSSSSSSSSSSSAAAAAAAAAAAAVVVVVVVVVIIIIIIIIIII");
+            //   return true;
+            // }
+            // return true;
+          },
+          listener: (context, state) {
+            print("some thing");
+            if (state.registerStatus is Registered) {
+              Navigator.pushNamed(context, '/mainWindow');
+            } else if (state.registerStatus is RegisterError) {
+              // Handle error state if needed
+              final errorState = state.registerStatus as RegisterError;
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(errorState.messageError ?? 'Unknown error')));
+            }
+          },
+          builder: (context, state) {
+            var registerCubit = BlocProvider.of<RegisterCubit>(context);
 
-          if (state.registerStatus is RegisterLoading) {
+            if (state.registerStatus is RegisterLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            //  else if (state.registerStatus is Registered) {
+            //   return const Center(
+            //     child: Text("Registered"),
+            //   );
+            // }
+            else if (state.registerStatus is NotRegister) {
+              return Center(
+                child: SignInButton(
+                  Buttons.google,
+                  onPressed: () {
+                    registerCubit.logInByGoogle();
+                  },
+                ),
+              );
+            } else if (state.registerStatus is RegisterComplited) {
+              final registerComplited =
+                  state.registerStatus as RegisterComplited;
+              final registerEntity = registerComplited.registerEntity;
+              return Center(child: Text(registerEntity.user?.email ?? ""));
+            } else if (state.registerStatus is RegisterError) {
+              return const Center(
+                child: Text("Registration failed"),
+              );
+            }
             return const Center(
-              child: CircularProgressIndicator(),
+              child: Text("No data"),
             );
-          }
-          if (state.registerStatus is Registered) {
-            final Registered registered = state.registerStatus as Registered;
-            final RegisterEntity registerEntity = registered.registerEntity;
-            return Center(
-              child: Text(registerEntity.user?.email ?? ""),
-            );
-          }
-          if (state.registerStatus is NotRegister) {
-            return Center(
-              child: SignInButton(Buttons.google, onPressed: () {
-                registerCubit.logInByGoogle();
-              }),
-            );
-          }
-          if (state.registerStatus is RegisterComplited) {
-            final RegisterComplited registerComplited =
-                state.registerStatus as RegisterComplited;
-            final RegisterEntity registerEntity =
-                registerComplited.registerEntity;
-            return Center(child: Text((registerEntity.user?.email ?? "")));
-          }
-          return const SizedBox();
-        },
+          },
+        ),
       ),
-    ));
+    );
   }
 }

@@ -4,4 +4,6 @@ import 'package:interval_timer/screens/register/domain/entites/register_entity.d
 
 abstract class RegisterRepository{
   Future<DataState<RegisterEntity>> doRegister(User? user);
+  void signOut();
+  Future<RegisterEntity?> checkRegister(User? user);
 }
