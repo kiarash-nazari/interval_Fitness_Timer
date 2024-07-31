@@ -12,6 +12,7 @@ import 'package:interval_timer/screens/my_program/interface/block/cubit/my_progr
 import 'package:interval_timer/screens/my_program/interface/screen/my_programs_screen.dart';
 import 'package:interval_timer/screens/register/interface/bloc/cubit/registe_cubit.dart';
 import 'package:interval_timer/screens/register/interface/screen/register_screen.dart';
+import 'package:interval_timer/screens/register/interface/widgets/signup_screen.dart';
 import 'package:interval_timer/screens/splash/splash_screen.dart';
 import 'package:interval_timer/utils/shared_perfrences_manager.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -46,8 +47,8 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       initialRoute: "/",
       routes: {
-        "/": (BuildContext context) => const SplashScreen(),
-        "/registerScreen": (BuildContext context) => const RegisterScreen(),
+        "/": (BuildContext context) => RegisterScreen(),
+        "/registerScreen": (BuildContext context) => RegisterScreen(),
         "/programScreen": (BuildContext context) => const ProgramInterface(),
         "/myProgramsScreen": (BuildContext context) => const MyProgramsScreen(),
         "/mainWindow": (BuildContext context) => MainWindow(),

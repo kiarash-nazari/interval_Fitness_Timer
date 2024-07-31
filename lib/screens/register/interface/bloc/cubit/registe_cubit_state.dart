@@ -2,10 +2,13 @@ part of 'registe_cubit.dart';
 
 class RegisteCubitState {
   RegisterStatus registerStatus;
-  RegisteCubitState({required this.registerStatus});
+  SignupStatus signupStatus;
+  RegisteCubitState({required this.registerStatus, required this.signupStatus});
 
-  RegisteCubitState copyWith({RegisterStatus? newRegisterStatus}) {
+  RegisteCubitState copyWith(
+      {RegisterStatus? newRegisterStatus, SignupStatus? newSignUpStatus}) {
     return RegisteCubitState(
-        registerStatus: newRegisterStatus ?? registerStatus);
+        registerStatus: newRegisterStatus ?? registerStatus,
+        signupStatus: newSignUpStatus ?? signupStatus);
   }
 }

@@ -1,55 +1,52 @@
 import 'package:equatable/equatable.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:interval_timer/screens/register/domain/entites/register_entity.dart';
 
-abstract class RegisterStatus extends Equatable {}
+abstract class SignupStatus extends Equatable {}
 
-class RegisterInitail extends RegisterStatus {
+class SignUpInitail extends SignupStatus {
   @override
   // TODO: implement props
   List<Object?> get props => [];
 }
 
-class RegisterLoading extends RegisterStatus {
+class SignUpRouted extends SignupStatus {
   @override
   // TODO: implement props
   List<Object?> get props => [];
 }
 
-class Registered extends RegisterStatus {
+class SignUpLoading extends SignupStatus {
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+}
+
+class SignUped extends SignupStatus {
   final RegisterEntity registerEntity;
-  Registered(this.registerEntity);
+  SignUped(this.registerEntity);
   @override
   // TODO: implement props
   List<Object?> get props => [registerEntity];
 }
 
-class RegisterComplited extends RegisterStatus {
+class SignUpComplited extends SignupStatus {
   final RegisterEntity registerEntity;
-  RegisterComplited(this.registerEntity);
+  SignUpComplited(this.registerEntity);
   @override
   // TODO: implement props
   List<Object?> get props => [registerEntity];
 }
 
-class NotRegister extends RegisterStatus {
+class NotSignUp extends SignupStatus {
   @override
   // TODO: implement props
   List<Object?> get props => [];
 }
 
-class RegisterError extends RegisterStatus {
+class SignUpError extends SignupStatus {
   final String? messageError;
-  RegisterError(this.messageError);
+  SignUpError(this.messageError);
   @override
   // TODO: implement props
   List<Object?> get props => [messageError];
-}
-
-class RoutToSignUpRegister extends RegisterStatus {
-  final int hook;
-  RoutToSignUpRegister({required this.hook});
-  @override
-  // TODO: implement props
-  List<Object?> get props => [hook];
 }
