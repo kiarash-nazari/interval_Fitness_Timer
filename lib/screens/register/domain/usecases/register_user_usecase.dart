@@ -12,10 +12,14 @@ class RegisterUserUsecase extends UseCase<DataState<RegisterEntity>, User?> {
     return registerRepository.doRegister(prompt);
   }
 
-  Future<RegisterEntity?> checkRegister(User? user){
-   return registerRepository.checkRegister(user);
+  Future<RegisterEntity?> checkRegister(User? user) {
+    return registerRepository.checkRegister(user);
   }
+
   void signOut() {
     registerRepository.signOut();
+  }
+  Future<DataState<User?>> logInByEmail({required String email,required String password}){
+    return registerRepository.logInByEmail(email: email, password: password);
   }
 }

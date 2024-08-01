@@ -4,6 +4,14 @@ class RegisterCall {
   final GoogleAuthProvider _googleAoutProvider = GoogleAuthProvider();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  Future<User?> registerByEmail(
+      {required String email, required String password}) async {
+    var userCredential = await _auth.signInWithEmailAndPassword(
+        email: email, password: password);
+    User? user = userCredential.user;
+    return user;
+  }
+
   Future<User?> registerByGoogle(User? user) async {
     await _auth.signInWithProvider(_googleAoutProvider);
     _auth.authStateChanges().listen((event) {
@@ -11,6 +19,13 @@ class RegisterCall {
       if (user == null) {}
     });
     return user;
+  }
+
+  Future<UserCredential?> creatUserByEmailUsecase(
+      String email, String password) async {
+    UserCredential? userCredential = await _auth.createUserWithEmailAndPassword(
+        email: email, password: password);
+    return userCredential;
   }
 
   Future<User?> checkRegister(User? user) async {

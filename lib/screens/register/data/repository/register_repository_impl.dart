@@ -6,8 +6,10 @@ import 'package:interval_timer/screens/register/domain/repository/register_repos
 
 class RegisterRepositoryImpl extends RegisterRepository {
   RegisterCall registerCall;
-  RegisterEntity? registerEntity; 
+  RegisterEntity? registerEntity;
   RegisterRepositoryImpl(this.registerCall);
+
+  //Register By google
   @override
   Future<DataState<RegisterEntity>> doRegister(User? user) async {
     try {
@@ -19,17 +21,43 @@ class RegisterRepositoryImpl extends RegisterRepository {
     }
   }
 
-  @override
+//Sign Out
   @override
   void signOut() {
     registerCall.signOut();
   }
 
+//check if regestred
   @override
   Future<RegisterEntity?> checkRegister(User? user) async {
-    User? theUser =  user;
-          registerEntity = RegisterEntity(theUser);
+    User? theUser = user;
+    registerEntity = RegisterEntity(theUser);
 
     return registerEntity;
+  }
+
+  //create user by email
+  @override
+  Future<DataState<UserCredential?>> createUserWithEmailAndPassword(
+      {required String email, required String password}) async {
+    try {
+      UserCredential? userCredential =
+          await registerCall.creatUserByEmailUsecase(email, password);
+      return DataSucsess(userCredential);
+    } on FirebaseException catch (e) {
+      return DataFailed(e.code);
+    }
+  }
+
+  @override
+  Future<DataState<User?>> logInByEmail(
+      {required String email, required String password}) async {
+    try {
+      User? theUser =
+          await registerCall.registerByEmail(email: email, password: password);
+      return DataSucsess(theUser);
+    } on FirebaseException catch (e) {
+      return DataFailed(e.code);
+    }
   }
 }

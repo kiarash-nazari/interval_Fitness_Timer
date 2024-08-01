@@ -14,6 +14,7 @@ import 'package:interval_timer/screens/my_program/interface/block/cubit/my_progr
 import 'package:interval_timer/screens/register/data/data_source/remote/register_call.dart';
 import 'package:interval_timer/screens/register/data/repository/register_repository_impl.dart';
 import 'package:interval_timer/screens/register/domain/repository/register_repository.dart';
+import 'package:interval_timer/screens/register/domain/usecases/creat_user_by_email_usecase.dart';
 import 'package:interval_timer/screens/register/domain/usecases/register_user_usecase.dart';
 import 'package:interval_timer/screens/register/interface/bloc/cubit/registe_cubit.dart';
 
@@ -46,10 +47,11 @@ Future<void> setUp() async {
   locator.registerSingleton<GetBeginerProgramUseCase>(
       GetBeginerProgramUseCase(locator()));
   locator.registerSingleton<GetProgramsUsecase>(GetProgramsUsecase(locator()));
+  locator.registerSingleton<CreatUserByEmailUsecase>(CreatUserByEmailUsecase(locator()));
 
   // Register Cubits
   locator.registerSingleton<MyProgramsCubit>(
       MyProgramsCubit(locator(), locator()));
   locator.registerSingleton<CubitProgram>(CubitProgram(locator()));
-  locator.registerSingleton<RegisterCubit>(RegisterCubit(locator()));
+  locator.registerSingleton<RegisterCubit>(RegisterCubit(locator(),locator()));
 }

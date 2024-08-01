@@ -7,16 +7,12 @@ import 'package:interval_timer/screens/register/interface/bloc/cubit/signup_stat
 import 'package:interval_timer/screens/register/interface/bloc/cubit/status.dart';
 import 'package:interval_timer/screens/register/interface/widgets/sign_in.dart';
 import 'package:interval_timer/screens/register/interface/widgets/signup_screen.dart';
-import 'package:interval_timer/screens/register/interface/widgets/register_button.dart';
-import 'package:interval_timer/screens/register/interface/widgets/register_text_field.dart';
-import 'package:sign_in_button/sign_in_button.dart';
+
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({super.key});
   final PageController pageController = PageController();
-  final TextEditingController usernameTextControler = TextEditingController();
-  final TextEditingController passwordTextControler = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +20,12 @@ class RegisterScreen extends StatelessWidget {
       child: Scaffold(
         body: BlocConsumer<RegisterCubit, RegisteCubitState>(
           listenWhen: (previous, current) {
-            return previous.registerStatus != current.registerStatus ||
-                previous.signupStatus != current.signupStatus;
+            return previous.registerStatus != current.registerStatus;
           },
           listener: (context, state) {
             var registerCubit = BlocProvider.of<RegisterCubit>(context);
 
-            if (state.signupStatus is SignUpRouted) {
+            if (state.registerStatus is RoutToSignUpRegister) {
               pageController.animateToPage(2,
                   duration: const Duration(milliseconds: 500),
                   curve: Curves.easeInCirc);
@@ -45,6 +40,20 @@ class RegisterScreen extends StatelessWidget {
                   content: Text("Hmmm You canceled registration")));
               registerCubit.initialRegister();
             }
+
+            if (state.signupStatus is SignUpError) {
+              final erroState = state.signupStatus as SignUpError;
+              String? errorText = erroState.messageError;
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(content: Text(errorText ?? "")));
+            }
+          },
+          buildWhen: (previous, current) {
+            if (current.registerStatus is RoutToSignUpRegister) {
+              return false;
+            }
+
+            return previous.registerStatus != current.registerStatus;
           },
           builder: (context, state) {
             var registerCubit = BlocProvider.of<RegisterCubit>(context);

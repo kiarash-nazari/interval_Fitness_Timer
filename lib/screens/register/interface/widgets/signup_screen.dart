@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interval_timer/screens/register/interface/bloc/cubit/registe_cubit.dart';
 
 import 'package:interval_timer/screens/register/interface/widgets/register_button.dart';
@@ -17,44 +18,68 @@ class SignupScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          RegisterTextField(
-              textEditingController: emailTextEditingController,
-              scure: false,
-              hint: "Email"),
-          const SizedBox(
-            height: 12,
+    var registerCubit = BlocProvider.of<RegisterCubit>(context);
+    return BlocConsumer<RegisterCubit, RegisteCubitState>(
+      listenWhen: (previous, current) {
+        return previous.signupStatus != current.signupStatus;
+      },
+      listener: (context, state) {
+        // TODO: implement listener
+      },
+      buildWhen: (previous, current) {
+        return previous.signupStatus != current.signupStatus;
+      },
+      builder: (context, state) {
+        return Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                RegisterTextField(
+                    textEditingController: emailTextEditingController,
+                    scure: false,
+                    hint: "Email"),
+                const SizedBox(
+                  height: 12,
+                ),
+                RegisterTextField(
+                    textEditingController: passwordTextEditingController,
+                    scure: false,
+                    hint: "Password"),
+                const SizedBox(
+                  height: 12,
+                ),
+                RegisterTextField(
+                    textEditingController: confirmPasswordTextEditingController,
+                    scure: false,
+                    hint: "Confirm Password"),
+                const SizedBox(
+                  height: 12,
+                ),
+                RegisterButton(
+                    buttontext: "SignUp",
+                    onTap: () {
+                      registerCubit.creatUserByEmail(
+                          email: emailTextEditingController.text,
+                          password: passwordTextEditingController.text,
+                          confPassword:
+                              confirmPasswordTextEditingController.text);
+                    }),
+                const SizedBox(
+                  height: 24,
+                ),
+                SignInButton(
+                  text: "Sign up with Google",
+                  Buttons.googleDark,
+                  onPressed: () {
+                    registerCubit.logInByGoogle();
+                  },
+                ),
+              ],
+            ),
           ),
-          RegisterTextField(
-              textEditingController: passwordTextEditingController,
-              scure: false,
-              hint: "Password"),
-          const SizedBox(
-            height: 12,
-          ),
-          RegisterTextField(
-              textEditingController: confirmPasswordTextEditingController,
-              scure: false,
-              hint: "Confirm Password"),
-          const SizedBox(
-            height: 12,
-          ),
-          RegisterButton(buttontext: "SignUp", onTap: () {}),
-          const SizedBox(
-            height: 24,
-          ),
-          SignInButton(
-            text: "Sign up with Google",
-            Buttons.googleDark,
-            onPressed: () {
-              registerCubit.logInByGoogle();
-            },
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

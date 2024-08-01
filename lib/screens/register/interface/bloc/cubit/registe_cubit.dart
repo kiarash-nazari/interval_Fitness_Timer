@@ -6,6 +6,7 @@ import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:interval_timer/res/data_state.dart';
 import 'package:interval_timer/screens/register/domain/entites/register_entity.dart';
+import 'package:interval_timer/screens/register/domain/usecases/creat_user_by_email_usecase.dart';
 import 'package:interval_timer/screens/register/domain/usecases/register_user_usecase.dart';
 import 'package:interval_timer/screens/register/interface/bloc/cubit/signup_status.dart';
 import 'package:interval_timer/screens/register/interface/bloc/cubit/status.dart';
@@ -16,7 +17,8 @@ class RegisterCubit extends Cubit<RegisteCubitState> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   User? user;
   RegisterUserUsecase registerUserUsecase;
-  RegisterCubit(this.registerUserUsecase)
+  CreatUserByEmailUsecase creatUserByEmailUsecase;
+  RegisterCubit(this.registerUserUsecase, this.creatUserByEmailUsecase)
       : super(RegisteCubitState(
             registerStatus: RegisterInitail(), signupStatus: SignUpInitail())) {
     _auth.authStateChanges().listen((onData) async {
@@ -33,6 +35,17 @@ class RegisterCubit extends Cubit<RegisteCubitState> {
         registred(registerEntity);
       }
     });
+  }
+  void creatUserByEmail(
+      {required String email,
+      required String password,
+      required String confPassword}) {
+    if (confPassword == password) {
+      creatUserByEmailUsecase.call(email, password);
+    } else {
+      emit(state.copyWith(
+          newSignUpStatus: SignUpError("Passwords Are Not same")));
+    }
   }
 
   Future<void> registred(RegisterEntity registerEntity) async {
@@ -57,14 +70,27 @@ class RegisterCubit extends Cubit<RegisteCubitState> {
     }
   }
 
+  Future<void> logInByEmail(
+      {required String email, required String password}) async {
+    emit(state.copyWith(newRegisterStatus: RegisterLoading()));
+    DataState dataState = await registerUserUsecase.logInByEmail(
+        email: email, password: password);
+    if (dataState is DataSucsess) {
+      emit(
+          state.copyWith(newRegisterStatus: RegisterComplited(dataState.data)));
+    } else if (dataState is DataFailed) {
+      emit(state.copyWith(newRegisterStatus: RegisterError(dataState.error)));
+    }
+  }
+
   Future<void> signOut() async {
     registerUserUsecase.signOut();
     emit(state.copyWith(newRegisterStatus: NotRegister()));
   }
 
   void routToSignup() {
-    emit(state.copyWith(newSignUpStatus: SignUpRouted()));
-    emit(state.copyWith(newSignUpStatus: SignUpInitail()));
+    emit(state.copyWith(newRegisterStatus: RoutToSignUpRegister(hook: 2)));
+    emit(state.copyWith(newRegisterStatus: NotRegister()));
   }
 
   void initialRegister() {

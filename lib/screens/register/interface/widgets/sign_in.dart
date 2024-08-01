@@ -36,7 +36,13 @@ class SIgnInScreen extends StatelessWidget {
           const SizedBox(
             height: 12,
           ),
-          RegisterButton(buttontext: "LogIn", onTap: () {}),
+          RegisterButton(
+              buttontext: "LogIn",
+              onTap: () {
+                registerCubit.logInByEmail(
+                    email: usernameTextControler.text,
+                    password: passwordTextControler.text);
+              }),
           const SizedBox(
             height: 12,
           ),
