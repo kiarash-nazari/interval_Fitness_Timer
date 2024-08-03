@@ -39,8 +39,8 @@ class _FrontBodyState extends State<FrontBody> {
   var backPartSizes = BodyPartsPosition.backPartSizes;
 
   double howHard = 0;
-  bool front = true;
-  bool mm = true;
+  bool front = false;
+  // bool mm = true;
   List<bool> isExpandedList = [false, false, false];
 
   late Map<String, dynamic> spartHowHard;

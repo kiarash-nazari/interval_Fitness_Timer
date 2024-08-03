@@ -17,7 +17,7 @@ class MainWindow extends StatelessWidget {
   final TextEditingController _repsController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    int indexOfStack = 0;
+    int indexOfStack = 3;
     var size = MediaQuery.sizeOf(context);
     return Scaffold(
         body: BlocProvider(
@@ -35,7 +35,7 @@ class MainWindow extends StatelessWidget {
               },
               builder: (context, state) {
                 return IndexedStack(
-                  index: state is NavIndex ? state.index : 0,
+                  index: state is NavIndex ? state.index : 3,
                   children: [
                     IntervalScreen(
                       repsController: _repsController,
@@ -49,8 +49,7 @@ class MainWindow extends StatelessWidget {
                     //   restController: _restController,
                     // ),
                     const VipScreen(),
-
-                    const ProgramInterface()
+                    const ProgramInterface(),
                   ],
                 );
               },
@@ -86,12 +85,14 @@ class MainWindow extends StatelessWidget {
                                     padding: const EdgeInsets.all(15),
                                     onPressed: () {
                                       BlocProvider.of<MainCubit>(context)
-                                          .changeIndex(0);
+                                          .changeIndex(3);
                                     },
-                                    icon: Icon(MdiIcons.runFast),
-                                    color: indexOfStack == 0
-                                        ? AppColors.mainblue
-                                        : Colors.white,
+                                    icon: SvgPicture.asset(
+                                      "assets/svg/chatgpt.svg", // Path to your SVG file
+                                      color: indexOfStack == 3 ? null : null,
+                                      width: 24, // Adjust size as needed
+                                      height: 24, // Adjust size as needed
+                                    ),
                                   ),
                                   IconButton(
                                     padding: const EdgeInsets.all(15),
@@ -111,14 +112,12 @@ class MainWindow extends StatelessWidget {
                                     padding: const EdgeInsets.all(15),
                                     onPressed: () {
                                       BlocProvider.of<MainCubit>(context)
-                                          .changeIndex(3);
+                                          .changeIndex(0);
                                     },
-                                    icon: SvgPicture.asset(
-                                      "assets/svg/chatgpt.svg", // Path to your SVG file
-                                      color: indexOfStack == 3 ? null : null,
-                                      width: 24, // Adjust size as needed
-                                      height: 24, // Adjust size as needed
-                                    ),
+                                    icon: Icon(MdiIcons.runFast),
+                                    color: indexOfStack == 0
+                                        ? AppColors.mainblue
+                                        : Colors.white,
                                   ),
                                 ],
                               ),

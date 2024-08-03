@@ -32,7 +32,7 @@ class BodyComposeCubit extends Cubit<BodyComposeState> {
     countDownTimer?.cancel();
   }
 
-  bool fornt = true;
+  bool fornt = false;
   void toggleBody() {
     fornt = !fornt;
     print("ffffffffffff $fornt");

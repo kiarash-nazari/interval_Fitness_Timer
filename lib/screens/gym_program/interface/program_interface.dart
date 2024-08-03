@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:interval_timer/components/extentions.dart';
 import 'package:interval_timer/locator.dart';
 import 'package:interval_timer/res/colors.dart';
 import 'package:interval_timer/res/prompts.dart';
 import 'package:interval_timer/screens/gym_program/domain/entities/beginer_program_entite.dart';
 import 'package:interval_timer/screens/gym_program/interface/cubit/beginer_program_status.dart';
 import 'package:interval_timer/screens/gym_program/interface/cubit/cubit_program_cubit.dart';
+import 'package:interval_timer/screens/register/interface/widgets/register_button.dart';
 import 'package:interval_timer/widgets/gym_program.dart';
 
 class ProgramInterface extends StatefulWidget {
@@ -94,31 +96,44 @@ class _ProgramInterfaceState extends State<ProgramInterface> {
                       width: double.infinity,
                       height: double.infinity,
                       color: Colors.white,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          AnimateLevel(
-                            level: "0 - 3 Months in a row",
-                            imageAdress: "assets/png/Beginers-levels.png",
-                            gradientColor: AppColors.grBeginnerLevel,
-                            onTap: () {
-                              programCubit.loadBeginer(prompt: Prompts.beginer);
-                            },
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              AnimateLevel(
+                                level: "0 - 3 Months in a row",
+                                imageAdress: "assets/png/Beginers-levels.png",
+                                gradientColor: AppColors.grBeginnerLevel,
+                                onTap: () {
+                                  programCubit.loadBeginer(
+                                      prompt: Prompts.beginer);
+                                },
+                              ),
+                              AnimateLevel(
+                                level: "3 - 6 Months in a row",
+                                imageAdress: "assets/png/mid-levels.png",
+                                gradientColor: AppColors.grMidLevel,
+                                onTap: () {
+                                  _togglePosition();
+                                },
+                              ),
+                              AnimateLevel(
+                                level: "More than 6 Months in a row",
+                                imageAdress: "assets/png/pro-level.png",
+                                gradientColor: AppColors.grProLevel,
+                                onTap: _togglePosition,
+                              ),
+                            ],
                           ),
-                          AnimateLevel(
-                            level: "3 - 6 Months in a row",
-                            imageAdress: "assets/png/mid-levels.png",
-                            gradientColor: AppColors.grMidLevel,
-                            onTap: () {
-                              _togglePosition();
-                            },
-                          ),
-                          AnimateLevel(
-                            level: "More than 6 Months in a row",
-                            imageAdress: "assets/png/pro-level.png",
-                            gradientColor: AppColors.grProLevel,
-                            onTap: _togglePosition,
-                          ),
+                          48.heightBox,
+                          RegisterButton(
+                              buttontext: "My Programs",
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, "/myProgramsScreen");
+                              }),
                         ],
                       ),
                     ),
