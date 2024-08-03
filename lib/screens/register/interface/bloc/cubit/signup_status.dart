@@ -30,11 +30,11 @@ class SignUped extends SignupStatus {
 }
 
 class SignUpComplited extends SignupStatus {
-  final RegisterEntity registerEntity;
-  SignUpComplited(this.registerEntity);
+  // final RegisterEntity registerEntity;
+  // SignUpComplited(this.registerEntity);
   @override
   // TODO: implement props
-  List<Object?> get props => [registerEntity];
+  List<Object?> get props => [];
 }
 
 class NotSignUp extends SignupStatus {

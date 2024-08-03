@@ -45,6 +45,7 @@ class RegisterRepositoryImpl extends RegisterRepository {
           await registerCall.creatUserByEmailUsecase(email, password);
       return DataSucsess(userCredential);
     } on FirebaseException catch (e) {
+      print("ssssssssssssssssssss${e.code}");
       return DataFailed(e.code);
     }
   }
@@ -56,6 +57,17 @@ class RegisterRepositoryImpl extends RegisterRepository {
       User? theUser =
           await registerCall.registerByEmail(email: email, password: password);
       return DataSucsess(theUser);
+    } on FirebaseException catch (e) {
+      return DataFailed(e.code);
+    }
+  }
+
+  @override
+  Future<DataState<void>> sendResetEmail({required String email}) async {
+    try {
+      var sendPasswordResetEmail = await registerCall.sendResetPassword(email);
+
+      return DataSucsess(sendPasswordResetEmail);
     } on FirebaseException catch (e) {
       return DataFailed(e.code);
     }

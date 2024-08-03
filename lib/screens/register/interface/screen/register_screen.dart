@@ -2,11 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:interval_timer/res/colors.dart';
 import 'package:interval_timer/screens/register/interface/bloc/cubit/registe_cubit.dart';
 import 'package:interval_timer/screens/register/interface/bloc/cubit/signup_status.dart';
 import 'package:interval_timer/screens/register/interface/bloc/cubit/status.dart';
 import 'package:interval_timer/screens/register/interface/widgets/sign_in.dart';
 import 'package:interval_timer/screens/register/interface/widgets/signup_screen.dart';
+import 'package:interval_timer/widgets/my_flush_bar.dart';
 
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -34,18 +36,37 @@ class RegisterScreen extends StatelessWidget {
                 state.registerStatus is RegisterComplited) {
               Navigator.pushNamed(context, '/mainWindow');
             } else if (state.registerStatus is RegisterError) {
+              final erroState = state.registerStatus as RegisterError;
+              String? errorText = erroState.messageError;
               // Handle error state if needed
               // final errorState = state.registerStatus as RegisterError;
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  content: Text("Hmmm You canceled registration")));
+              // ScaffoldMessenger.of(context)
+              //     .showSnackBar(SnackBar(content: Text(errorText ?? "")));
+              MyFlushBar().myFlushBar(errorText!).show(context);
               registerCubit.initialRegister();
             }
 
-            if (state.signupStatus is SignUpError) {
-              final erroState = state.signupStatus as SignUpError;
-              String? errorText = erroState.messageError;
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(SnackBar(content: Text(errorText ?? "")));
+            if (state.registerStatus is SendResetPasswordEmail) {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return Center(
+                    child: Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                        gradient: LinearGradient(colors: AppColors.grMidLevel),
+                      ),
+                      child: const Text(
+                        "Check Your Email We Sent A Link To Restart Your Password",
+                        softWrap: true,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  );
+                },
+              );
             }
           },
           buildWhen: (previous, current) {

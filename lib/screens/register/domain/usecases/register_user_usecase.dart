@@ -19,7 +19,13 @@ class RegisterUserUsecase extends UseCase<DataState<RegisterEntity>, User?> {
   void signOut() {
     registerRepository.signOut();
   }
-  Future<DataState<User?>> logInByEmail({required String email,required String password}){
+
+  Future<DataState<User?>> logInByEmail(
+      {required String email, required String password}) {
     return registerRepository.logInByEmail(email: email, password: password);
+  }
+
+  Future<DataState<void>> sendPasswordResetEmail({required String email}) {
+    return registerRepository.sendResetEmail(email: email);
   }
 }

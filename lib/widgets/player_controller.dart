@@ -6,8 +6,8 @@ import 'package:interval_timer/res/colors.dart';
 import 'package:interval_timer/screens/interval_screen/cubit/timers_cubit.dart';
 import 'package:interval_timer/utils/players/cubit/players_cubit.dart';
 import 'package:interval_timer/widgets/glassmorphism.dart';
+import 'package:interval_timer/widgets/my_flush_bar.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:another_flushbar/flushbar.dart';
 import 'package:slide_to_act/slide_to_act.dart';
 
 class PlayerController extends StatefulWidget {
@@ -128,24 +128,9 @@ class PlayerControllerState extends State<PlayerController> {
                           if (widget._activitiController.text.isEmpty ||
                               widget._restController.text.isEmpty ||
                               widget._repsController.text.isEmpty) {
-                            Flushbar(
-                              icon: Icon(MdiIcons.alert, color: Colors.white),
-                              margin: const EdgeInsets.all(10),
-                              borderRadius: BorderRadius.circular(10),
-                              blockBackgroundInteraction: false,
-                              forwardAnimationCurve: Curves.easeOutBack,
-                              reverseAnimationCurve: Curves.easeOutBack,
-                              messageText: const Text(
-                                'Please fill all fields',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              duration: const Duration(seconds: 3),
-                              backgroundGradient: const LinearGradient(
-                                  colors: AppColors.grRest),
-                            ).show(context);
+                            MyFlushBar()
+                                .myFlushBar("Please Fill All The Fields")
+                                .show(context);
                           } else {
                             if (oneTimePress) {
                               oneTimePress = false;

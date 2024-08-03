@@ -53,3 +53,9 @@ class RoutToSignUpRegister extends RegisterStatus {
   // TODO: implement props
   List<Object?> get props => [hook];
 }
+
+class SendResetPasswordEmail extends RegisterStatus {
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+}

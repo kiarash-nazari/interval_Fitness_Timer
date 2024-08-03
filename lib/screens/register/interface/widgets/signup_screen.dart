@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interval_timer/screens/register/interface/bloc/cubit/registe_cubit.dart';
+import 'package:interval_timer/screens/register/interface/bloc/cubit/signup_status.dart';
 
 import 'package:interval_timer/screens/register/interface/widgets/register_button.dart';
 import 'package:interval_timer/screens/register/interface/widgets/register_text_field.dart';
+import 'package:interval_timer/widgets/my_flush_bar.dart';
+import 'package:interval_timer/widgets/player_controller.dart';
 import 'package:sign_in_button/sign_in_button.dart';
 
 class SignupScreen extends StatelessWidget {
@@ -24,15 +27,27 @@ class SignupScreen extends StatelessWidget {
         return previous.signupStatus != current.signupStatus;
       },
       listener: (context, state) {
-        // TODO: implement listener
+        if (state.signupStatus is SignUpError) {
+          final erroState = state.signupStatus as SignUpError;
+          String? errorText = erroState.messageError;
+          // ScaffoldMessenger.of(context)
+          //     .showSnackBar(SnackBar(content: Text(errorText ?? "")));
+          MyFlushBar().myFlushBar(errorText!).show(context);
+        }
       },
       buildWhen: (previous, current) {
         return previous.signupStatus != current.signupStatus;
       },
       builder: (context, state) {
-        return Center(
-          child: SingleChildScrollView(
+        if (state.signupStatus is SignUpLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        return SingleChildScrollView(
+          child: Center(
             child: Column(
+              mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 RegisterTextField(

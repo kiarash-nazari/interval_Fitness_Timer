@@ -36,12 +36,22 @@ class RegisterCubit extends Cubit<RegisteCubitState> {
       }
     });
   }
-  void creatUserByEmail(
+
+  Future<void> creatUserByEmail(
       {required String email,
       required String password,
-      required String confPassword}) {
-    if (confPassword == password) {
-      creatUserByEmailUsecase.call(email, password);
+      required String confPassword}) async {
+    if (email == "" || password == "" || confPassword == "") {
+      emit(state.copyWith(
+          newSignUpStatus: SignUpError("Pleas Fill All The Forms")));
+    } else if (confPassword == password) {
+      emit(state.copyWith(newSignUpStatus: SignUpLoading()));
+      DataState dataState = await creatUserByEmailUsecase.call(email, password);
+      if (dataState is DataSucsess) {
+        emit(state.copyWith(newSignUpStatus: SignUpComplited()));
+      } else if (dataState is DataFailed) {
+        emit(state.copyWith(newSignUpStatus: SignUpError(dataState.error)));
+      }
     } else {
       emit(state.copyWith(
           newSignUpStatus: SignUpError("Passwords Are Not same")));
@@ -72,14 +82,19 @@ class RegisterCubit extends Cubit<RegisteCubitState> {
 
   Future<void> logInByEmail(
       {required String email, required String password}) async {
-    emit(state.copyWith(newRegisterStatus: RegisterLoading()));
-    DataState dataState = await registerUserUsecase.logInByEmail(
-        email: email, password: password);
-    if (dataState is DataSucsess) {
-      emit(
-          state.copyWith(newRegisterStatus: RegisterComplited(dataState.data)));
-    } else if (dataState is DataFailed) {
-      emit(state.copyWith(newRegisterStatus: RegisterError(dataState.error)));
+    if (email == "" || password == "") {
+      emit(state.copyWith(
+          newRegisterStatus: RegisterError("Pleas Fill All The Forms")));
+    } else {
+      emit(state.copyWith(newRegisterStatus: RegisterLoading()));
+      DataState dataState = await registerUserUsecase.logInByEmail(
+          email: email, password: password);
+      if (dataState is DataSucsess) {
+        emit(state.copyWith(
+            newRegisterStatus: RegisterComplited(dataState.data)));
+      } else if (dataState is DataFailed) {
+        emit(state.copyWith(newRegisterStatus: RegisterError(dataState.error)));
+      }
     }
   }
 
@@ -95,6 +110,23 @@ class RegisterCubit extends Cubit<RegisteCubitState> {
 
   void initialRegister() {
     emit(state.copyWith(newRegisterStatus: NotRegister()));
+  }
+
+  Future<void> sendResetPasswordEmail({required String email}) async {
+    if (email == "") {
+      emit(state.copyWith(
+          newRegisterStatus: RegisterError("Pleas Write Your Email")));
+    } else {
+      emit(state.copyWith(newRegisterStatus: RegisterLoading()));
+      DataState dataState =
+          await registerUserUsecase.sendPasswordResetEmail(email: email);
+      if (dataState is DataSucsess) {
+        emit(state.copyWith(newRegisterStatus: SendResetPasswordEmail()));
+        emit(state.copyWith(newRegisterStatus: NotRegister()));
+      } else if (dataState is DataFailed) {
+        emit(state.copyWith(newRegisterStatus: RegisterError(dataState.error)));
+      }
+    }
   }
 }
 

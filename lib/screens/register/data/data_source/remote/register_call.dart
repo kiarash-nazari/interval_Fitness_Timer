@@ -4,6 +4,12 @@ class RegisterCall {
   final GoogleAuthProvider _googleAoutProvider = GoogleAuthProvider();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  Future<void> sendResetPassword(String email)async{
+    var reset =await _auth.sendPasswordResetEmail(email: email);
+ return reset;
+  }
+
+
   Future<User?> registerByEmail(
       {required String email, required String password}) async {
     var userCredential = await _auth.signInWithEmailAndPassword(

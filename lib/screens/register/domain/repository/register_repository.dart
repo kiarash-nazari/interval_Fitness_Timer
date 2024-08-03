@@ -11,4 +11,7 @@ abstract class RegisterRepository {
 
   Future<DataState<User?>> logInByEmail(
       {required String email, required String password});
+
+
+      Future<DataState<void>> sendResetEmail({required String email});
 }
