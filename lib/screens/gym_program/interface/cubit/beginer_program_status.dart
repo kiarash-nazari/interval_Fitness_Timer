@@ -47,3 +47,10 @@ class MoveThePosition extends BeginerProgramStatus {
   @override
   List<Object> get props => [isMoved];
 }
+
+class MySteper extends BeginerProgramStatus {
+  final int currentStep;
+  MySteper({required this.currentStep});
+  @override
+  List<Object> get props => [currentStep];
+}

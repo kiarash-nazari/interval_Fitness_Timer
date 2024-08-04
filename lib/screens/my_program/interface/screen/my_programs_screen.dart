@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:interval_timer/res/colors.dart';
 import 'package:interval_timer/screens/gym_program/domain/entities/beginer_program_entite.dart';
 
 import 'package:interval_timer/screens/my_program/interface/block/cubit/get_programs_status.dart';
@@ -15,6 +16,16 @@ class MyProgramsScreen extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.vertical(bottom: Radius.circular(12)),
+              gradient: LinearGradient(
+                colors: AppColors.grBeginnerLevel,
+              ),
+            ),
+          ),
+        ),
         body: BlocBuilder<MyProgramsCubit, MyProgramsState>(
           buildWhen: (previous, current) {
             return previous.getProgramsStatus != current.getProgramsStatus;

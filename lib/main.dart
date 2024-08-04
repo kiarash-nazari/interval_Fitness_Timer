@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interval_timer/firebase_options.dart';
 import 'package:interval_timer/locator.dart';
 import 'package:interval_timer/screens/body/cubit/body_compose_cubit.dart';
+import 'package:interval_timer/screens/gym_program/interface/cubit/cubit_program_cubit.dart';
 import 'package:interval_timer/screens/gym_program/interface/program_interface.dart';
 import 'package:interval_timer/screens/main_screen/main_screen.dart';
 import 'package:interval_timer/screens/my_program/interface/block/cubit/my_programs_cubit.dart';
@@ -32,6 +33,9 @@ Future<void> main() async {
   OpenAI.requestsTimeOut = const Duration(seconds: 50);
   runApp(MultiBlocProvider(
     providers: [
+      BlocProvider(
+        create: (context) => locator<CubitProgram>(),
+      ),
       BlocProvider(create: (context) => BodyComposeCubit()),
       BlocProvider(create: (context) => locator<MyProgramsCubit>()),
       BlocProvider(create: (context) => locator<RegisterCubit>()),

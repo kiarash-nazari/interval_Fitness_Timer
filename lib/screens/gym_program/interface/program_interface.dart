@@ -7,6 +7,7 @@ import 'package:interval_timer/res/prompts.dart';
 import 'package:interval_timer/screens/gym_program/domain/entities/beginer_program_entite.dart';
 import 'package:interval_timer/screens/gym_program/interface/cubit/beginer_program_status.dart';
 import 'package:interval_timer/screens/gym_program/interface/cubit/cubit_program_cubit.dart';
+import 'package:interval_timer/screens/gym_program/interface/widgets/my_steper.dart';
 import 'package:interval_timer/screens/register/interface/widgets/register_button.dart';
 import 'package:interval_timer/widgets/gym_program.dart';
 
@@ -19,6 +20,7 @@ class ProgramInterface extends StatefulWidget {
 
 class _ProgramInterfaceState extends State<ProgramInterface> {
   bool _isMoved = false;
+  int currentStep = 0;
 
   // final ChatGPTService _chatGPTService = ChatGPTService();
   // String _response = '';
@@ -49,105 +51,104 @@ class _ProgramInterfaceState extends State<ProgramInterface> {
   Widget build(BuildContext context) {
     var size = MediaQuery.sizeOf(context);
 
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => locator<CubitProgram>(),
-        ),
-      ],
-      child: Scaffold(
-        body: Stack(
-          children: [
-            // Widgets and data behind the animated container
-            Center(
-              child: BlocBuilder<CubitProgram, CubitProgramState>(
-                builder: (context, state) {
-                  if (state.beginerProgramStatus is BeginerProgramComplited) {
-                    final BeginerProgramComplited beginerProgramComplited =
-                        state.beginerProgramStatus as BeginerProgramComplited;
-                    final BeginerProgramEntity beginerProgramEntity =
-                        beginerProgramComplited.beginerProgramEntity;
-                    return GymProgram(program: beginerProgramEntity);
-                  }
-                  return Container(
-                    height: 400,
-                    width: 400,
-                    color: Colors.red,
-                  );
-                },
-              ),
-            ),
-            BlocBuilder<CubitProgram, CubitProgramState>(
+    return Scaffold(
+      body: Stack(
+        children: [
+          // Widgets and data behind the animated container
+          Center(
+            child: BlocBuilder<CubitProgram, CubitProgramState>(
               builder: (context, state) {
-                var programCubit = BlocProvider.of<CubitProgram>(context);
-                return Stack(children: [
-                  AnimatedPositioned(
-                    top: BlocProvider.of<CubitProgram>(context).isMoved
-                        ? -size.height
-                        : 0,
-                    left: 0,
-                    right: 0,
-                    bottom: BlocProvider.of<CubitProgram>(context).isMoved
-                        ? size.height
-                        : 0,
-                    duration: const Duration(
-                        milliseconds: 500), // Adjust the duration as needed
-                    child: Container(
-                      width: double.infinity,
-                      height: double.infinity,
-                      color: Colors.white,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              AnimateLevel(
-                                level: "0 - 3 Months in a row",
-                                imageAdress: "assets/png/Beginers-levels.png",
-                                gradientColor: AppColors.grBeginnerLevel,
-                                onTap: () {
-                                  programCubit.loadBeginer(
-                                      prompt: Prompts.beginer);
-                                },
-                              ),
-                              AnimateLevel(
-                                level: "3 - 6 Months in a row",
-                                imageAdress: "assets/png/mid-levels.png",
-                                gradientColor: AppColors.grMidLevel,
-                                onTap: () {
-                                  _togglePosition();
-                                },
-                              ),
-                              AnimateLevel(
-                                level: "More than 6 Months in a row",
-                                imageAdress: "assets/png/pro-level.png",
-                                gradientColor: AppColors.grProLevel,
-                                onTap: _togglePosition,
-                              ),
-                            ],
-                          ),
-                          48.heightBox,
-                          RegisterButton(
-                              buttontext: "My Programs",
-                              onTap: () {
-                                Navigator.pushNamed(
-                                    context, "/myProgramsScreen");
-                              }),
-                        ],
-                      ),
-                    ),
-                  ),
-                  if (state.beginerProgramStatus is BeginerProgramLoading)
-                    const Center(
-                        child: CircularProgressIndicator(
-                      backgroundColor: AppColors.mainblue,
-                    )),
-                ]);
+                if (state.beginerProgramStatus is BeginerProgramComplited) {
+                  final BeginerProgramComplited beginerProgramComplited =
+                      state.beginerProgramStatus as BeginerProgramComplited;
+                  final BeginerProgramEntity beginerProgramEntity =
+                      beginerProgramComplited.beginerProgramEntity;
+                  return GymProgram(program: beginerProgramEntity);
+                }
+                return Container(
+                  height: 400,
+                  width: 400,
+                  color: Colors.red,
+                );
               },
             ),
-          ],
-        ),
+          ),
+          BlocConsumer<CubitProgram, CubitProgramState>(
+            listener: (context, state) {},
+            builder: (context, state) {
+              var programCubit = BlocProvider.of<CubitProgram>(context);
+              return Stack(children: [
+                AnimatedPositioned(
+                  top: BlocProvider.of<CubitProgram>(context).isMoved
+                      ? -size.height
+                      : 0,
+                  left: 0,
+                  right: 0,
+                  bottom: BlocProvider.of<CubitProgram>(context).isMoved
+                      ? size.height
+                      : 0,
+                  duration: const Duration(
+                      milliseconds: 500), // Adjust the duration as needed
+                  child: Container(
+                    width: double.infinity,
+                    height: double.infinity,
+                    color: Colors.white,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            AnimateLevel(
+                              level: "0 - 3 Months in a row",
+                              imageAdress: "assets/png/Beginers-levels.png",
+                              gradientColor: AppColors.grBeginnerLevel,
+                              onTap: () {
+                                // programCubit.loadBeginer(
+                                //     prompt: Prompts.beginer);
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return const MyOwnSteper();
+                                  },
+                                );
+                              },
+                            ),
+                            AnimateLevel(
+                              level: "3 - 6 Months in a row",
+                              imageAdress: "assets/png/mid-levels.png",
+                              gradientColor: AppColors.grMidLevel,
+                              onTap: () {
+                                _togglePosition();
+                              },
+                            ),
+                            AnimateLevel(
+                              level: "More than 6 Months in a row",
+                              imageAdress: "assets/png/pro-level.png",
+                              gradientColor: AppColors.grProLevel,
+                              onTap: _togglePosition,
+                            ),
+                          ],
+                        ),
+                        48.heightBox,
+                        RegisterButton(
+                            buttontext: "My Programs",
+                            onTap: () {
+                              Navigator.pushNamed(context, "/myProgramsScreen");
+                            }),
+                      ],
+                    ),
+                  ),
+                ),
+                if (state.beginerProgramStatus is BeginerProgramLoading)
+                  const Center(
+                      child: CircularProgressIndicator(
+                    backgroundColor: AppColors.mainblue,
+                  )),
+              ]);
+            },
+          ),
+        ],
       ),
     );
   }
