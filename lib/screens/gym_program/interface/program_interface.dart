@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:interval_timer/components/extentions.dart';
 import 'package:interval_timer/locator.dart';
 import 'package:interval_timer/res/colors.dart';
@@ -19,6 +20,11 @@ class ProgramInterface extends StatefulWidget {
 }
 
 class _ProgramInterfaceState extends State<ProgramInterface> {
+  final TextEditingController _ageController = TextEditingController();
+  final TextEditingController _heightController = TextEditingController();
+  final TextEditingController _weightController = TextEditingController();
+  final TextEditingController _bodyFatController = TextEditingController();
+  final TextEditingController _healthIssueController = TextEditingController();
   bool _isMoved = false;
   int currentStep = 0;
 
@@ -97,36 +103,62 @@ class _ProgramInterfaceState extends State<ProgramInterface> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
+                            // AnimateLevel(
+                            //   level: "0 - 3 Months in a row",
+                            //   imageAdress: "assets/png/diet.png",
+                            //   gradientColor: AppColors.grBeginnerLevel,
+                            //   onTap: () {
+                            //     // programCubit.loadBeginer(
+                            //     //     prompt: Prompts.beginer);
+                            //     showDialog(
+                            //       context: context,
+                            //       builder: (context) {
+                            //         return const SingleChildScrollView(
+                            //           child: MyOwnSteper(),
+                            //         );
+                            //       },
+                            //     );
+                            //   },
+                            // ),
+
                             AnimateLevel(
-                              level: "0 - 3 Months in a row",
-                              imageAdress: "assets/png/Beginers-levels.png",
-                              gradientColor: AppColors.grBeginnerLevel,
-                              onTap: () {
-                                // programCubit.loadBeginer(
-                                //     prompt: Prompts.beginer);
-                                showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return const MyOwnSteper();
-                                  },
-                                );
-                              },
-                            ),
+                                level: "Get a GYM plan",
+                                imgWidget: Image.asset(
+                                  height: size.height / 3,
+                                  width: size.width / 2.5,
+                                  "assets/png/pro-level.png",
+                                ),
+                                gradientColor: AppColors.grProLevel,
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return const SingleChildScrollView(
+                                        child: MyOwnSteper(),
+                                      );
+                                    },
+                                  );
+                                }),
                             AnimateLevel(
-                              level: "3 - 6 Months in a row",
-                              imageAdress: "assets/png/mid-levels.png",
+                              level: "Get a Diet plan",
+                              imgWidget: SizedBox(
+                                height: size.height / 3, // Increase height
+                                width: size.width / 2.5,
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 60, 0, 60),
+                                  child: SvgPicture.asset(
+                                    "assets/png/diet.svg",
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                              ),
                               gradientColor: AppColors.grMidLevel,
                               onTap: () {
                                 _togglePosition();
                               },
-                            ),
-                            AnimateLevel(
-                              level: "More than 6 Months in a row",
-                              imageAdress: "assets/png/pro-level.png",
-                              gradientColor: AppColors.grProLevel,
-                              onTap: _togglePosition,
                             ),
                           ],
                         ),
@@ -156,14 +188,14 @@ class _ProgramInterfaceState extends State<ProgramInterface> {
 
 class AnimateLevel extends StatefulWidget {
   final String level;
-  final String imageAdress;
   final List<Color> gradientColor;
   final VoidCallback onTap;
+  final Widget imgWidget;
 
   const AnimateLevel({
     super.key,
+    required this.imgWidget,
     required this.level,
-    required this.imageAdress,
     required this.gradientColor,
     required this.onTap,
   });
@@ -225,20 +257,16 @@ class AnimateLevelState extends State<AnimateLevel> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
+                10.heightBox,
                 SizedBox(
                   width: size.width * 0.3,
                   child: Text(
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                     widget.level,
                     textAlign: TextAlign.center,
                   ),
                 ),
-                SizedBox(
-                  width: size.width * 0.3,
-                  height: size.width * 0.5,
-                  child: Image.asset(
-                    widget.imageAdress,
-                  ),
-                ),
+                widget.imgWidget,
               ],
             ),
           ),

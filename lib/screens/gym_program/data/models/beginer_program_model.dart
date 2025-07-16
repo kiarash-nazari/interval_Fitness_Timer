@@ -2,11 +2,19 @@ import 'package:interval_timer/screens/gym_program/domain/entities/beginer_progr
 
 class BeginerProgramModel extends BeginerProgramEntity {
   BeginerProgramModel({
+    String? warning,
+    String? description,
     String? name,
     String? frequency,
     var rest,
     List<TrainingDay>? days,
-  }) : super(days: days, frequency: frequency, name: name, rest: rest);
+  }) : super(
+            days: days,
+            frequency: frequency,
+            name: name,
+            rest: rest,
+            description: description,
+            warning: warning);
 
   factory BeginerProgramModel.fromJson(Map<String, dynamic> json) {
     var program = json['program'];
@@ -23,6 +31,8 @@ class BeginerProgramModel extends BeginerProgramEntity {
         daysList.map((dayJson) => TrainingDay.fromJson(dayJson)).toList();
 
     return BeginerProgramModel(
+      warning: program['warning'],
+      description: program['description'],
       name: program['name'],
       frequency: program['frequency'],
       rest: program['rest'],

@@ -2,7 +2,7 @@
   "project_info": {
     "project_number": "761382146261",
     "project_id": "luxfitpro",
-    "storage_bucket": "luxfitpro.appspot.com"
+    "storage_bucket": "luxfitpro.firebasestorage.app"
   },
   "client": [
     {
@@ -12,7 +12,20 @@
           "package_name": "com.example.interval_timer"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "761382146261-u893n6pa6ecbae70ejhump443mgkhri7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.interval_timer",
+            "certificate_hash": "717e2d180f129d3d62914f23f09b7043f16a08b4"
+          }
+        },
+        {
+          "client_id": "761382146261-mmsnlj7fnhlsnm0gdnvs552qabaroofm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCAM4HxKaEvxf4DkMF6gRpdfkYWE2vBy78"
@@ -20,7 +33,63 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "761382146261-mmsnlj7fnhlsnm0gdnvs552qabaroofm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "761382146261-b5rblsuh7bdgsujckuigfkc4i3b5r46p.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.intervalTimer"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:761382146261:android:c143bc6743abf03fcc925c",
+        "android_client_info": {
+          "package_name": "com.luxafarin.interval_timer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "761382146261-hp254eerbrh4t23f1916ebprcenm2cvo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.luxafarin.interval_timer",
+            "certificate_hash": "717e2d180f129d3d62914f23f09b7043f16a08b4"
+          }
+        },
+        {
+          "client_id": "761382146261-mmsnlj7fnhlsnm0gdnvs552qabaroofm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCAM4HxKaEvxf4DkMF6gRpdfkYWE2vBy78"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "761382146261-mmsnlj7fnhlsnm0gdnvs552qabaroofm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "761382146261-b5rblsuh7bdgsujckuigfkc4i3b5r46p.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.intervalTimer"
+              }
+            }
+          ]
         }
       }
     }

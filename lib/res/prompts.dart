@@ -1,7 +1,22 @@
 class Prompts {
-  static const String beginer = """you are a Pro coach.
+  String beginer(
+      {experience = "I don't know",
+      age = "I don't know",
+      issue = "no health issue",
+      height = "I don't know",
+      bodyFat = "I don't know"}) {
+    return """you are a Pro coach.
 
-I need a Gym beginner Program my training experience is 2 weeks in a row.
+I need a Pro Gym Program.
+
+about me:
+[
+my experience: $experience
+my age: $age 
+My height:$height
+Health issue:$issue
+Body Fat in percentage:$bodyFat
+]
 
 list of training that you are allowed to use nothing else =>
 
@@ -14,7 +29,7 @@ Barbell Bench Press, Incline Bench Press, Decline Bench Press, Close-Grip Bench 
 Barbell Overhead Press, Dumbbell Overhead Press, Seated Overhead Press, Push Press.
 Overhand Pull-Up, Underhand Pull-Up, Close-Grip Pull-Up.
 Barbell Row, Bent-over Row, T-Bar Row, Seated Cable Row, Pendlay Row.
-Power Clean, Hang Clean. Snatch: Snatch, Hang Snatch.
+Snatch: Snatch, Hang Snatch.
 Standard Box Jumps, Lateral Box Jumps, Step-Up Box Jumps.
 Medicine Ball Throws Chest Pass, Medicine Ball Overhead Throw, Medicine Ball Side Throws.
 Goblet Squat, Front Squat, Back Squat, Bulgarian Split Squat, Jump Squat, Box Squat, Zercher
@@ -43,11 +58,13 @@ Bent-Over Row.
 
 Do not give a program with less exercise and sets.
 I wanna write me all 7 days program with rest days nothing less than 7 days.
+in description write a very good description why did you choose this system for me why did you order the exercises like this? what is the goal and purpose?...
 
 please give the program as a JSON like this, this JSON is only an example where you can change the number of trainings, sets, names, rest, frequency and ... : =>
 {
   "program": {
-  "description": "warnings and description for beginers and how better to start and use your program", 
+  "description": "A description of the program why did you choose this system for me why did you order the exercises like this? what is the goal and purpose?", 
+  "warning":"Caution and Warnings",
   "name": "Power Training Program or any suitable names",
   "frequency": "... workouts per week",
   "rest":" ... minutes between sets",
@@ -141,4 +158,7 @@ and in this case, you have to very very be careful to don't miss any parameters 
 6. Don't give me a program with less day trainings our less exervises and I want at least 4 exercises each day except cardio and rest days.
 Remember again give me the exact name of the same exercises name in the list don't cut for example in "Standard Plank" don't cut the Standard word or don't add any word be cause one time you cuted Conventional Deadlift to Deadlift, don't cut Barbell or even Dumbbell like some times you give me name: Overhead Press don't do this because when you cut Barbell or Dumbbell or Seated I can't find it give the all name like: Dumbbell Overhead Press .
 """;
+  }
 }
+
+// Power Clean, Hang Clean.
