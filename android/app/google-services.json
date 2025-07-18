@@ -1,26 +1,40 @@
 {
   "project_info": {
-    "project_number": "794074224655",
-    "project_id": "interval-music-timer",
-    "storage_bucket": "interval-music-timer.firebasestorage.app"
+    "project_number": "761382146261",
+    "project_id": "luxfitpro",
+    "storage_bucket": "luxfitpro.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:794074224655:android:6da4014c560064b90cab7a",
+        "mobilesdk_app_id": "1:761382146261:android:c143bc6743abf03fcc925c",
         "android_client_info": {
           "package_name": "com.luxafarin.interval_timer"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "761382146261-anpd87lleo38ui4lciksrt83cskhdhol.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.luxafarin.interval_timer",
+            "certificate_hash": "717e2d180f129d3d62914f23f09b7043f16a08b4"
+          }
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyC-OjQhdsWsThdYwGKl0pUPeCuTp-lrwx4"
+          "current_key": "AIzaSyCAM4HxKaEvxf4DkMF6gRpdfkYWE2vBy78"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "761382146261-ppcnjdq76t7gkoi73p019dmfsutoi50g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
