@@ -84,14 +84,23 @@ class MainWindow extends StatelessWidget {
                                   IconButton(
                                     padding: const EdgeInsets.all(15),
                                     onPressed: () {
-                                      BlocProvider.of<MainCubit>(context)
-                                          .changeIndex(3);
+                                      // BlocProvider.of<MainCubit>(context)
+                                      //     .changeIndex(3);
                                     },
-                                    icon: SvgPicture.asset(
-                                      "assets/svg/chatgpt.svg", // Path to your SVG file
-                                      color: indexOfStack == 3 ? null : null,
-                                      width: 24, // Adjust size as needed
-                                      height: 24, // Adjust size as needed
+                                    icon: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.lock,
+                                          color: Colors.white.withOpacity(.5),
+                                        ),
+                                        Text(
+                                          "در حال حاضر در دسترس نیست",
+                                          style: TextStyle(
+                                              color: Colors.white.withOpacity(.5),
+                                              fontSize: 8),
+                                        )
+                                      ],
                                     ),
                                   ),
                                   IconButton(
