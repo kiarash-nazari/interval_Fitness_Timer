@@ -13,24 +13,31 @@ import 'package:interval_timer/screens/my_program/interface/block/cubit/my_progr
 import 'package:interval_timer/screens/my_program/interface/screen/my_programs_screen.dart';
 import 'package:interval_timer/screens/register/interface/bloc/cubit/registe_cubit.dart';
 import 'package:interval_timer/screens/register/interface/screen/register_screen.dart';
-import 'package:interval_timer/screens/register/interface/widgets/signup_screen.dart';
-import 'package:interval_timer/screens/splash/splash_screen.dart';
 import 'package:interval_timer/utils/shared_perfrences_manager.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<void> main() async {
+  // این متد باید فقط یک بار در ابتدا فراخوانی شود
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
+  // مقداردهی اولیه فایربیس (کد شما در اینجا درست بود)
+  if (Firebase.apps.isEmpty) {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  }
+
+  // سایر مقداردهی‌های اولیه
   await setUp();
   await dotenv.load(fileName: ".env");
-  WidgetsFlutterBinding.ensureInitialized();
   await SharedPreferencesManager.instance.init();
-  WidgetsFlutterBinding.ensureInitialized();
+
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
   OpenAI.apiKey = dotenv.env['OPENAIAPIKEY']!;
   OpenAI.requestsTimeOut = const Duration(seconds: 50);
+
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider(
