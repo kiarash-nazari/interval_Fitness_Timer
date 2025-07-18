@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "794074224655",
+    "project_id": "interval-music-timer",
+    "storage_bucket": "interval-music-timer.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:794074224655:android:6da4014c560064b90cab7a",
+        "android_client_info": {
+          "package_name": "com.luxafarin.interval_timer"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-OjQhdsWsThdYwGKl0pUPeCuTp-lrwx4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
