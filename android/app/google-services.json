@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "761382146261-anpd87lleo38ui4lciksrt83cskhdhol.apps.googleusercontent.com",
+          "client_id": "761382146261-cbiuohifv974h0mmo421jaj89b032432.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.luxafarin.interval_timer",
-            "certificate_hash": "717e2d180f129d3d62914f23f09b7043f16a08b4"
+            "certificate_hash": "36754e933a1abfbc0729be74cd40bce06fc5f27a"
           }
         }
       ],
@@ -31,8 +31,11 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "761382146261-ppcnjdq76t7gkoi73p019dmfsutoi50g.apps.googleusercontent.com",
-              "client_type": 3
+              "client_id": "761382146261-42dec7kgu7j9ua3u9fgpl40fjas8m5dc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.intervalTimer"
+              }
             }
           ]
         }
