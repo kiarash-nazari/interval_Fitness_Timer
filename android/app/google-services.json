@@ -7,14 +7,14 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:258262761126:android:8de205e2d3800826bc7e67",
+        "mobilesdk_app_id": "1:258262761126:android:febc610d11c9a607bc7e67",
         "android_client_info": {
           "package_name": "com.luxafarin.interval_timer"
         }
       },
       "oauth_client": [
         {
-          "client_id": "258262761126-7vj5nfjioisffqvtpabrk8j0mtpbss37.apps.googleusercontent.com",
+          "client_id": "258262761126-1ma3nem5p4fbpilhbp3b8oa9fi30l8ot.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.luxafarin.interval_timer",
@@ -22,7 +22,7 @@
           }
         },
         {
-          "client_id": "258262761126-iltqqf0539m003jbm8lip9mtt5n9hn7r.apps.googleusercontent.com",
+          "client_id": "258262761126-q9kliq70uon85a9omchc5504epo2pe9k.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.luxafarin.interval_timer",
@@ -30,7 +30,7 @@
           }
         },
         {
-          "client_id": "258262761126-j7a36u1ih17g1o33vpdr02ov290c9ptv.apps.googleusercontent.com",
+          "client_id": "258262761126-sdur8su3b5kmo53k8hic6drfc26mtjmq.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.luxafarin.interval_timer",
@@ -38,20 +38,20 @@
           }
         },
         {
-          "client_id": "258262761126-r0di47ijv9jhrj0p5f41t8164afp6vn8.apps.googleusercontent.com",
+          "client_id": "258262761126-17k8brkn74eck916oah56umkmm6ni1cv.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB8qihg8krL58bDpDj1U09P5r1WdOpKkIc"
+          "current_key": "AIzaSyDRZMFc7H907uR8h4paJT94lnB2uDf4Lm4"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "258262761126-r0di47ijv9jhrj0p5f41t8164afp6vn8.apps.googleusercontent.com",
+              "client_id": "258262761126-17k8brkn74eck916oah56umkmm6ni1cv.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
