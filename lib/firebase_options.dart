@@ -47,29 +47,29 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyA0SMGf0EHku10F5k-yKqAh8Xyt4AjIHp0',
-    appId: '1:761382146261:web:ce504e6f9ef3d4decc925c',
-    messagingSenderId: '761382146261',
-    projectId: 'lux-fit-pro-final',
-    authDomain: 'lux-fit-pro-final.firebaseapp.com',
-    storageBucket: 'lux-fit-pro-final.appspot.com',
+    apiKey: 'AIzaSyAaDiR8q_b5UGcqM9ALrTqIR3uyFiIxu_c',
+    appId: '1:871481562118:web:ce504e6f9ef3d4decc925c',
+    messagingSenderId: '871481562118',
+    projectId: 'lux-fit-pro',
+    authDomain: 'lux-fit-pro.firebaseapp.com',
+    storageBucket: 'lux-fit-pro.appspot.com',
     measurementId: 'G-4Q9G32WGSD',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCAM4HxKaEvxf4DkMF6gRpdfkYWE2vBy78',
-    appId: '1:761382146261:android:bbccfea78cf79163cc925c',
-    messagingSenderId: '761382146261',
-    projectId: 'lux-fit-pro-final',
-    storageBucket: 'lux-fit-pro-final.appspot.com',
+    apiKey: 'AIzaSyAaDiR8q_b5UGcqM9ALrTqIR3uyFiIxu_c',
+    appId: '1:871481562118:android:02e9e81efd5844cb071f87',
+    messagingSenderId: '871481562118',
+    projectId: 'lux-fit-pro',
+    storageBucket: 'lux-fit-pro.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDR__ZabhWqeFSueyNcMbPPAC3bz17rTr8',
-    appId: '1:761382146261:ios:76a9d9f956d7d27bcc925c',
-    messagingSenderId: '761382146261',
-    projectId: 'lux-fit-pro-final',
-    storageBucket: 'lux-fit-pro-final.appspot.com',
+    apiKey: 'AIzaSyAaDiR8q_b5UGcqM9ALrTqIR3uyFiIxu_c',
+    appId: '1:871481562118:ios:76a9d9f956d7d27bcc925c',
+    messagingSenderId: '871481562118',
+    projectId: 'lux-fit-pro',
+    storageBucket: 'lux-fit-pro.appspot.com',
     iosBundleId: 'com.example.intervalTimer',
   );
 }

@@ -1,36 +1,20 @@
 {
   "project_info": {
-    "project_number": "258262761126",
-    "project_id": "lux-fit-pro-final",
-    "storage_bucket": "lux-fit-pro-final.firebasestorage.app"
+    "project_number": "871481562118",
+    "project_id": "lux-fit-pro",
+    "storage_bucket": "lux-fit-pro.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:258262761126:android:febc610d11c9a607bc7e67",
+        "mobilesdk_app_id": "1:871481562118:android:02e9e81efd5844cb071f87",
         "android_client_info": {
           "package_name": "com.luxafarin.interval_timer"
         }
       },
       "oauth_client": [
         {
-          "client_id": "258262761126-1ma3nem5p4fbpilhbp3b8oa9fi30l8ot.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.luxafarin.interval_timer",
-            "certificate_hash": "08785d43e114467bdf0444396a5ce0641a11d77c"
-          }
-        },
-        {
-          "client_id": "258262761126-q9kliq70uon85a9omchc5504epo2pe9k.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.luxafarin.interval_timer",
-            "certificate_hash": "717e2d180f129d3d62914f23f09b7043f16a08b4"
-          }
-        },
-        {
-          "client_id": "258262761126-sdur8su3b5kmo53k8hic6drfc26mtjmq.apps.googleusercontent.com",
+          "client_id": "871481562118-3984j6p50sghaeg1r4jiuoo2s49folta.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.luxafarin.interval_timer",
@@ -38,20 +22,36 @@
           }
         },
         {
-          "client_id": "258262761126-17k8brkn74eck916oah56umkmm6ni1cv.apps.googleusercontent.com",
+          "client_id": "871481562118-46ef0jierqtpfogslcod5v2o1inkgnvb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.luxafarin.interval_timer",
+            "certificate_hash": "08785d43e114467bdf0444396a5ce0641a11d77c"
+          }
+        },
+        {
+          "client_id": "871481562118-809k0a9rde0kntpjvt9f4g84bjasru1f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.luxafarin.interval_timer",
+            "certificate_hash": "717e2d180f129d3d62914f23f09b7043f16a08b4"
+          }
+        },
+        {
+          "client_id": "871481562118-upcj3eemqq3tf8gpsp4h95p89tsrnr1c.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDRZMFc7H907uR8h4paJT94lnB2uDf4Lm4"
+          "current_key": "AIzaSyAaDiR8q_b5UGcqM9ALrTqIR3uyFiIxu_c"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "258262761126-17k8brkn74eck916oah56umkmm6ni1cv.apps.googleusercontent.com",
+              "client_id": "871481562118-upcj3eemqq3tf8gpsp4h95p89tsrnr1c.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
