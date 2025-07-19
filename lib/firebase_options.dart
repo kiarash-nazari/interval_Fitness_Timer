@@ -50,9 +50,9 @@ class DefaultFirebaseOptions {
     apiKey: 'AIzaSyA0SMGf0EHku10F5k-yKqAh8Xyt4AjIHp0',
     appId: '1:761382146261:web:ce504e6f9ef3d4decc925c',
     messagingSenderId: '761382146261',
-    projectId: 'luxfitpro',
-    authDomain: 'luxfitpro.firebaseapp.com',
-    storageBucket: 'luxfitpro.appspot.com',
+    projectId: 'lux-fit-pro-final',
+    authDomain: 'lux-fit-pro-final.firebaseapp.com',
+    storageBucket: 'lux-fit-pro-final.appspot.com',
     measurementId: 'G-4Q9G32WGSD',
   );
 
@@ -60,16 +60,16 @@ class DefaultFirebaseOptions {
     apiKey: 'AIzaSyCAM4HxKaEvxf4DkMF6gRpdfkYWE2vBy78',
     appId: '1:761382146261:android:bbccfea78cf79163cc925c',
     messagingSenderId: '761382146261',
-    projectId: 'luxfitpro',
-    storageBucket: 'luxfitpro.appspot.com',
+    projectId: 'lux-fit-pro-final',
+    storageBucket: 'lux-fit-pro-final.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDR__ZabhWqeFSueyNcMbPPAC3bz17rTr8',
     appId: '1:761382146261:ios:76a9d9f956d7d27bcc925c',
     messagingSenderId: '761382146261',
-    projectId: 'luxfitpro',
-    storageBucket: 'luxfitpro.appspot.com',
+    projectId: 'lux-fit-pro-final',
+    storageBucket: 'lux-fit-pro-final.appspot.com',
     iosBundleId: 'com.example.intervalTimer',
   );
 }
